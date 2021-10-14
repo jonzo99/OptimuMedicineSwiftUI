@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D982A90A270FB1AB00ADE73E /* FreeFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D982A909270FB1AA00ADE73E /* FreeFlowView.swift */; };
 		D98B463F26FBEDEC0003D5EF /* OptimumSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98B463E26FBEDEC0003D5EF /* OptimumSwiftUIApp.swift */; };
 		D98B464126FBEDEC0003D5EF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98B464026FBEDEC0003D5EF /* ContentView.swift */; };
 		D98B464326FBEDEE0003D5EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D98B464226FBEDEE0003D5EF /* Assets.xcassets */; };
@@ -14,6 +15,11 @@
 		D98B465026FBEDEE0003D5EF /* OptimumSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98B464F26FBEDEE0003D5EF /* OptimumSwiftUITests.swift */; };
 		D98B465A26FBEDEE0003D5EF /* OptimumSwiftUIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98B465926FBEDEE0003D5EF /* OptimumSwiftUIUITests.swift */; };
 		D98B465C26FBEDEE0003D5EF /* OptimumSwiftUIUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98B465B26FBEDEE0003D5EF /* OptimumSwiftUIUITestsLaunchTests.swift */; };
+		D9CA608B2700057E00EC664C /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CA608A2700057E00EC664C /* SwiftUIView.swift */; };
+		D9CA608D27011AB500EC664C /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CA608C27011AB500EC664C /* LocalNotificationManager.swift */; };
+		D9CA609027011B9E00EC664C /* critalAlarm.wav in Resources */ = {isa = PBXBuildFile; fileRef = D9CA608E27011B9E00EC664C /* critalAlarm.wav */; };
+		D9CA609127011B9E00EC664C /* iphone_alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D9CA608F27011B9E00EC664C /* iphone_alarm.mp3 */; };
+		D9E8D777271244E200F9C0CE /* HamiltonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E8D776271244E200F9C0CE /* HamiltonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D982A909270FB1AA00ADE73E /* FreeFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeFlowView.swift; sourceTree = "<group>"; };
 		D98B463B26FBEDEC0003D5EF /* OptimumSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OptimumSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D98B463E26FBEDEC0003D5EF /* OptimumSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptimumSwiftUIApp.swift; sourceTree = "<group>"; };
 		D98B464026FBEDEC0003D5EF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -44,6 +51,11 @@
 		D98B465526FBEDEE0003D5EF /* OptimumSwiftUIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OptimumSwiftUIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D98B465926FBEDEE0003D5EF /* OptimumSwiftUIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptimumSwiftUIUITests.swift; sourceTree = "<group>"; };
 		D98B465B26FBEDEE0003D5EF /* OptimumSwiftUIUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptimumSwiftUIUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D9CA608A2700057E00EC664C /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
+		D9CA608C27011AB500EC664C /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
+		D9CA608E27011B9E00EC664C /* critalAlarm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = critalAlarm.wav; sourceTree = "<group>"; };
+		D9CA608F27011B9E00EC664C /* iphone_alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = iphone_alarm.mp3; sourceTree = "<group>"; };
+		D9E8D776271244E200F9C0CE /* HamiltonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HamiltonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,8 +106,14 @@
 		D98B463D26FBEDEC0003D5EF /* OptimumSwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				D9CA608E27011B9E00EC664C /* critalAlarm.wav */,
+				D9CA608F27011B9E00EC664C /* iphone_alarm.mp3 */,
 				D98B463E26FBEDEC0003D5EF /* OptimumSwiftUIApp.swift */,
 				D98B464026FBEDEC0003D5EF /* ContentView.swift */,
+				D982A909270FB1AA00ADE73E /* FreeFlowView.swift */,
+				D9E8D776271244E200F9C0CE /* HamiltonView.swift */,
+				D9CA608C27011AB500EC664C /* LocalNotificationManager.swift */,
+				D9CA608A2700057E00EC664C /* SwiftUIView.swift */,
 				D98B464226FBEDEE0003D5EF /* Assets.xcassets */,
 				D98B464426FBEDEE0003D5EF /* Preview Content */,
 			);
@@ -232,7 +250,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D98B464626FBEDEE0003D5EF /* Preview Assets.xcassets in Resources */,
+				D9CA609127011B9E00EC664C /* iphone_alarm.mp3 in Resources */,
 				D98B464326FBEDEE0003D5EF /* Assets.xcassets in Resources */,
+				D9CA609027011B9E00EC664C /* critalAlarm.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,6 +279,10 @@
 			files = (
 				D98B464126FBEDEC0003D5EF /* ContentView.swift in Sources */,
 				D98B463F26FBEDEC0003D5EF /* OptimumSwiftUIApp.swift in Sources */,
+				D9E8D777271244E200F9C0CE /* HamiltonView.swift in Sources */,
+				D982A90A270FB1AB00ADE73E /* FreeFlowView.swift in Sources */,
+				D9CA608D27011AB500EC664C /* LocalNotificationManager.swift in Sources */,
+				D9CA608B2700057E00EC664C /* SwiftUIView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
