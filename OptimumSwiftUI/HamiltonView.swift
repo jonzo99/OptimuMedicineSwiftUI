@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct HamiltonView: View {
     func getTotalSecondsLeft() -> Int {
         let a = selectedTankSize * psiTextField
@@ -65,24 +66,22 @@ struct HamiltonView: View {
     @State var first = false
     
     @State var isInForeground = true
-    
+    @State private var showAlert: Bool = false
     //@State private var isActive = false
     //@State var timer = Timer()
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State var countDown = 0
-    
+    @available(iOS 15.0, *)
+    @FocusState private var isFocused: Bool
     /// so create a variable name for all the textfields and set them to 0.0
     var body: some View {
-        //onTapGesture {
-        //    print("ive been tapped")
-        //}
-        //let tap = UITapGestureRecognizer(target: View.self, action: #selector(UIView.endEditing))
         VStack {
             Text("Hamilton Oxygen Calculator")
                 .font(.system(.largeTitle, design: .rounded))
             //.font(.largeTitle)
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
+                .padding(.top,25)
             Spacer()
             Group {
                 HStack {
@@ -241,6 +240,11 @@ struct HamiltonView: View {
                     rateTextField = 0.0
                     vtTextField = 0.0
                     timeText = self.makeTimeString(hours: 0, minutes: 0, seconds: 0)
+                    if #available(iOS 15.0, *) {
+                        isFocused = false
+                    } else {
+                        // Fallback on earlier versions
+                    }
                 }) {
                     Text("RESET")
                         .foregroundColor(Color(.red))
@@ -250,11 +254,20 @@ struct HamiltonView: View {
                 .padding()
                 
                 Button(action: {
-                    let total = getTotalSecondsLeft()
+                    var total = getTotalSecondsLeft()
+                    if (total <= 0) {
+                        showAlert = true
+                        total = 0
+                    }
                     let time = secondsToHoursMinutesSeconds(seconds: total)
                     let timeString = makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
                     timeText = timeString
                     //timeLabel.text = String(getTotalSecondsLeft())
+                    if #available(iOS 15.0, *) {
+                        isFocused = false
+                    } else {
+                        // Fallback on earlier versions
+                    }
                 }) {
                     Text("CALC ")
                         .foregroundColor(Color(.red))
@@ -308,6 +321,11 @@ struct HamiltonView: View {
                         // when the timer is counting down it does this part of the code
                         print(countDown)
                     }
+                    if #available(iOS 15.0, *) {
+                        isFocused = false
+                    } else {
+                        // Fallback on earlier versions
+                    }
                 }) {
                     Text(stopStartText)
                         .foregroundColor(Color(.red))
@@ -319,6 +337,9 @@ struct HamiltonView: View {
             }
             //.padding()
         }
+        .alert(isPresented: $showAlert) {
+                    Alert(title: Text("Error"), message: Text("Calculation needs to be greater than 0"), dismissButton: .default(Text("OK")))
+            }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             print("app entered foreground")
             
