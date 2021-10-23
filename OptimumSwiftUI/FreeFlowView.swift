@@ -10,13 +10,22 @@ import SwiftUI
 struct FreeFlowView: View {
     
     func getTotalSecondsLeft() -> Int {
+        let numPsiTextField = Double(psiTextField) ?? 0
+        let numRateTextField = Double(rateTextField) ?? 0
+        /*
         if (psiTextField == 0.0 || rateTextField == 0.0) {
             return 0
         } else {
             let totalTimeInSeconds = ((psiTextField - 200) * selectedTankSize / rateTextField) * 60
             return Int(round(totalTimeInSeconds))
         }
-        
+        */
+        if (numPsiTextField == 0.0 || numRateTextField == 0.0) {
+            return 0
+        } else {
+            let totalTimeInSeconds = ((numPsiTextField - 200) * selectedTankSize / numRateTextField) * 60
+            return Int(round(totalTimeInSeconds))
+        }
     }
     func secondsToHoursMinutesSeconds(seconds: Int) -> (Int, Int, Int) {
         return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
@@ -39,8 +48,9 @@ struct FreeFlowView: View {
     @ObservedObject var notificationManager = LocalNotificationManager()
     @State var userNotificationCenter = UNUserNotificationCenter.current()
     @State private var selectedTankSize = 0.16
-    @State var psiTextField = 0.0
-    @State private var rateTextField = 0.0
+   // @State var psiTextField = 0.0
+    @State var psiTextField = ""
+    @State private var rateTextField = ""
     @State private var timerText = "00:00:00"
     @State private var timeText  = "00:00:00"
     @State private var stopStartText = "START"
@@ -69,8 +79,6 @@ struct FreeFlowView: View {
     //@State var timer = Timer()
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State var countDown = 0
-    @available(iOS 15.0, *)
-    @FocusState private var isFocused: Bool
     var body: some View {
         //onTapGesture {
         //    print("ive been tapped")
@@ -110,9 +118,19 @@ struct FreeFlowView: View {
                 Text("Tank Psi: ")
                     .modifier(PrimaryLabel())
                 Spacer()
+                /*
                 TextField("tank size", value: $psiTextField, formatter: formatter, onEditingChanged: { changed in
-                    print("hello world")
+                    print(changed)
+                    if (changed == true) {
+                        psiTextField = 0.0
+                    }
                     
+                })
+                */
+                TextField("tank size", text: $psiTextField, onEditingChanged: { changed in
+                    if (changed == true) {
+                        psiTextField = ""
+                    }
                 })
                     .frame(width: 200)
                     .multilineTextAlignment(.center)
@@ -128,8 +146,11 @@ struct FreeFlowView: View {
                 Text("Rate:         ")
                     .modifier(PrimaryLabel())
                 Spacer()
-                TextField("rate", value: $rateTextField, formatter: formatter, onEditingChanged: { changed in
+                TextField("rate", text: $rateTextField, onEditingChanged: { changed in
                     print("oneEdititng chaged: \(changed)")
+                    if (changed == true) {
+                        rateTextField = ""
+                    }
                     //@State var $rateTextField = ""
                 })
                     .frame(width: 200)
@@ -178,14 +199,11 @@ struct FreeFlowView: View {
                     // I just added this
                     // if i press the reset button it should remove all the pending notifications request
                     userNotificationCenter.removeAllPendingNotificationRequests()
-                    psiTextField = 0.0
-                    rateTextField = 0.0
+                    //psiTextField = 0.0
+                    psiTextField = ""
+                    rateTextField = ""
                     timeText = self.makeTimeString(hours: 0, minutes: 0, seconds: 0)
-                    if #available(iOS 15.0, *) {
-                        isFocused = false
-                    } else {
-                        // Fallback on earlier versions
-                    }
+                    hideKeyboard()
                 }) {
                     Text("RESET")
                         .foregroundColor(Color(.red))
@@ -203,12 +221,7 @@ struct FreeFlowView: View {
                     let time = secondsToHoursMinutesSeconds(seconds: total)
                     let timeString = makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
                     timeText = timeString
-                    if #available(iOS 15.0, *) {
-                        isFocused = false
-                    } else {
-                        // Fallback on earlier versions
-                    }
-                    //timeLabel.text = String(getTotalSecondsLeft())
+                    hideKeyboard()
                 }) {
                     Text("CALC ")
                         .foregroundColor(Color(.red))
@@ -259,11 +272,7 @@ struct FreeFlowView: View {
                         
                         // when the timer is counting down it does this part of the code
                         print(countDown)
-                    }
-                    if #available(iOS 15.0, *) {
-                        isFocused = false
-                    } else {
-                        // Fallback on earlier versions
+                        hideKeyboard()
                     }
                 }) {
                     Text(stopStartText)
@@ -361,6 +370,13 @@ struct FreeFlowView: View {
     }
 }
 
+#if canImport(UIKit)
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+#endif
 
 struct FreeFlowView_Previews: PreviewProvider {
     static var previews: some View {

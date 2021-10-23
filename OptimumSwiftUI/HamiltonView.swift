@@ -10,9 +10,14 @@ import SwiftUI
 
 struct HamiltonView: View {
     func getTotalSecondsLeft() -> Int {
-        let a = selectedTankSize * psiTextField
-        let b = (rateTextField * vtTextField / 1000 * 1.1) + selectedPatient
-        let c = (fi02TextField - 20.9) / 79.1
+        let numPsiTextField  = Double(psiTextField)  ?? 0
+        let numRateTextField = Double(rateTextField) ?? 0
+        let numVtTextField   = Double(vtTextField)   ?? 0
+        let numFi02TextField = Double(fi02TextField) ?? 0
+        
+        let a = selectedTankSize * numPsiTextField
+        let b = (numRateTextField * numVtTextField / 1000 * 1.1) + selectedPatient
+        let c = (numFi02TextField - 20.9) / 79.1
         let totalTimeInSeconds = (1 / (b * c) * a) * 60
         
         return Int(round(totalTimeInSeconds))
@@ -29,11 +34,7 @@ struct HamiltonView: View {
         timeString += String(format: "%02d", seconds)
         return timeString
     }
-    let formatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        return formatter
-    }()
+
     
     @ObservedObject var notificationManager = LocalNotificationManager()
     @State var userNotificationCenter = UNUserNotificationCenter.current()
@@ -41,10 +42,10 @@ struct HamiltonView: View {
     @State private var selectedPatient = 3.0
     
     //@State private var psiTextField = 0.0
-    @State var psiTextField = 0.0
-    @State private var fi02TextField = 0.0
-    @State private var rateTextField = 0.0
-    @State private var vtTextField   = 0.0
+    @State var psiTextField = ""
+    @State private var fi02TextField = ""
+    @State private var rateTextField = ""
+    @State private var vtTextField   = ""
     @State private var stopStartText = "START"
     @State private var timerText = "00:00:00"
     @State private var timeText  = "00:00:00"
@@ -71,9 +72,7 @@ struct HamiltonView: View {
     //@State var timer = Timer()
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State var countDown = 0
-    @available(iOS 15.0, *)
-    @FocusState private var isFocused: Bool
-    /// so create a variable name for all the textfields and set them to 0.0
+    
     var body: some View {
         VStack {
             Text("Hamilton Oxygen Calculator")
@@ -109,9 +108,10 @@ struct HamiltonView: View {
                     Text("Tank Psi: ")
                         .modifier(PrimaryLabel())
                     Spacer()
-                    TextField("tank size", value: $psiTextField, formatter: formatter, onEditingChanged: { changed in
-                        print("hello world")
-                        
+                    TextField("tank size", text: $psiTextField, onEditingChanged: { changed in
+                        if (changed == true) {
+                            psiTextField = ""
+                        }
                     })
                         .frame(width: 200)
                         .multilineTextAlignment(.center)
@@ -128,13 +128,11 @@ struct HamiltonView: View {
                     Text("Fi02%:     ")
                         .modifier(PrimaryLabel())
                     Spacer()
-                    TextField("fi02%", value: $fi02TextField, formatter: formatter, onEditingChanged: {
-                        changed in
-                        print("oneEdititng chaged: \(changed)")
-                        //$fi02TextField = 0.0
-                    }) {
-                        print("oncommit")
-                    }
+                    TextField("fi02%", text: $fi02TextField, onEditingChanged: { changed in
+                        if (changed == true) {
+                            fi02TextField = ""
+                        }
+                    })
                     .frame(width: 200)
                     .multilineTextAlignment(.center)
                     .modifier(PrimaryLabel())
@@ -150,9 +148,11 @@ struct HamiltonView: View {
                     Text("Rate:         ")
                         .modifier(PrimaryLabel())
                     Spacer()
-                    TextField("rate", value: $rateTextField, formatter: formatter, onEditingChanged: { changed in
+                    TextField("rate", text: $rateTextField, onEditingChanged: { changed in
                         print("oneEdititng chaged: \(changed)")
-                        //@State var $rateTextField = ""
+                        if (changed == true) {
+                            rateTextField = ""
+                        }
                     })
                         .frame(width: 200)
                         .multilineTextAlignment(.center)
@@ -168,9 +168,10 @@ struct HamiltonView: View {
                     Text("Vt (ml):    ")
                         .modifier(PrimaryLabel())
                     Spacer()
-                    TextField("Vt(ml)", value: $vtTextField, formatter: formatter, onEditingChanged: {
-                        changed in
-                        print("hello everybody")
+                    TextField("Vt(ml)", text: $vtTextField, onEditingChanged: { changed in
+                        if (changed == true) {
+                            vtTextField = ""
+                        }
                     })
                         .frame(width: 200)
                         .multilineTextAlignment(.center)
@@ -235,16 +236,12 @@ struct HamiltonView: View {
                     // I just added this
                     // if i press the reset button it should remove all the pending notifications request
                     userNotificationCenter.removeAllPendingNotificationRequests()
-                    psiTextField = 0.0
-                    fi02TextField = 0.0
-                    rateTextField = 0.0
-                    vtTextField = 0.0
+                    psiTextField  = ""
+                    fi02TextField = ""
+                    rateTextField = ""
+                    vtTextField   = ""
                     timeText = self.makeTimeString(hours: 0, minutes: 0, seconds: 0)
-                    if #available(iOS 15.0, *) {
-                        isFocused = false
-                    } else {
-                        // Fallback on earlier versions
-                    }
+                    hideKeyboard()
                 }) {
                     Text("RESET")
                         .foregroundColor(Color(.red))
@@ -263,11 +260,7 @@ struct HamiltonView: View {
                     let timeString = makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
                     timeText = timeString
                     //timeLabel.text = String(getTotalSecondsLeft())
-                    if #available(iOS 15.0, *) {
-                        isFocused = false
-                    } else {
-                        // Fallback on earlier versions
-                    }
+                    hideKeyboard()
                 }) {
                     Text("CALC ")
                         .foregroundColor(Color(.red))
@@ -320,11 +313,7 @@ struct HamiltonView: View {
                         
                         // when the timer is counting down it does this part of the code
                         print(countDown)
-                    }
-                    if #available(iOS 15.0, *) {
-                        isFocused = false
-                    } else {
-                        // Fallback on earlier versions
+                        hideKeyboard()
                     }
                 }) {
                     Text(stopStartText)
