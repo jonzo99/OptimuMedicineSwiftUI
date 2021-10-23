@@ -8,6 +8,7 @@
 import SwiftUI
 
 
+@available(iOS 15.0, *)
 struct HamiltonView: View {
     func getTotalSecondsLeft() -> Int {
         let numPsiTextField  = Double(psiTextField)  ?? 0
@@ -68,8 +69,14 @@ struct HamiltonView: View {
     
     @State var isInForeground = true
     @State private var showAlert: Bool = false
-    //@State private var isActive = false
-    //@State var timer = Timer()
+    
+    enum Field {
+        case psiTextField
+        case fi02TextField
+        case rateTextField
+        case vtTextField
+    }
+    @FocusState private var focusedField: Field?
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State var countDown = 0
     
@@ -113,11 +120,13 @@ struct HamiltonView: View {
                             psiTextField = ""
                         }
                     })
+                        .focused($focusedField, equals: .psiTextField)
                         .frame(width: 200)
                         .multilineTextAlignment(.center)
                         .modifier(PrimaryLabel())
                         .keyboardType(.numbersAndPunctuation)
                         .textFieldStyle(OvalTextFieldStyle())
+                        .submitLabel(.next)
                 }
                 .padding(.bottom)
                 .padding(.leading,20)
@@ -133,11 +142,13 @@ struct HamiltonView: View {
                             fi02TextField = ""
                         }
                     })
+                    .focused($focusedField, equals: .fi02TextField)
                     .frame(width: 200)
                     .multilineTextAlignment(.center)
                     .modifier(PrimaryLabel())
                     .keyboardType(.numbersAndPunctuation)
                     .textFieldStyle(OvalTextFieldStyle())
+                    .submitLabel(.next)
                 }
                 .padding(.bottom)
                 .padding(.leading,20)
@@ -154,11 +165,13 @@ struct HamiltonView: View {
                             rateTextField = ""
                         }
                     })
+                        .focused($focusedField, equals: .rateTextField)
                         .frame(width: 200)
                         .multilineTextAlignment(.center)
                         .modifier(PrimaryLabel())
                         .keyboardType(.numbersAndPunctuation)
                         .textFieldStyle(OvalTextFieldStyle())
+                        .submitLabel(.next)
                 }
                 .padding(.bottom)
                 .padding(.leading,20)
@@ -173,11 +186,13 @@ struct HamiltonView: View {
                             vtTextField = ""
                         }
                     })
+                        .focused($focusedField, equals: .vtTextField)
                         .frame(width: 200)
                         .multilineTextAlignment(.center)
                         .modifier(PrimaryLabel())
                         .keyboardType(.numbersAndPunctuation)
                         .textFieldStyle(OvalTextFieldStyle())
+                        .submitLabel(.return)
                 }
                 .padding(.bottom)
                 .padding(.leading,20)
@@ -326,6 +341,18 @@ struct HamiltonView: View {
             }
             //.padding()
         }
+        .onSubmit {
+            switch focusedField {
+            case .psiTextField:
+                focusedField = .fi02TextField
+            case .fi02TextField:
+                focusedField = .rateTextField
+            case .rateTextField:
+                focusedField = .vtTextField
+            default:
+                print("you have submitted")
+            }
+        }
         .alert(isPresented: $showAlert) {
                     Alert(title: Text("Error"), message: Text("Calculation needs to be greater than 0"), dismissButton: .default(Text("OK")))
             }
@@ -413,6 +440,10 @@ struct HamiltonView: View {
 
 struct HamiltonView_Previews: PreviewProvider {
     static var previews: some View {
-        HamiltonView()
+        if #available(iOS 15.0, *) {
+            HamiltonView()
+        } else {
+            // Fallback on earlier versions
+        }
     }
 }

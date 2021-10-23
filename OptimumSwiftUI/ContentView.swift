@@ -17,16 +17,24 @@ struct ContentView: View {
     }
     var body: some View {
         TabView {
-            HamiltonView()
-                .tabItem{
-                    Image(systemName: "square.fill")
-                    Text("HAMILTON")
-                }
-            FreeFlowView()
-                .tabItem {
-                    Image(systemName: "square.fill")
-                    Text("Free Flow")
-                }
+            if #available(iOS 15.0, *) {
+                HamiltonView()
+                    .tabItem{
+                        Image(systemName: "square.fill")
+                        Text("HAMILTON")
+                    }
+            } else {
+                // Fallback on earlier versions
+            }
+            if #available(iOS 15.0, *) {
+                FreeFlowView()
+                    .tabItem {
+                        Image(systemName: "square.fill")
+                        Text("Free Flow")
+                    }
+            } else {
+                // Fallback on earlier versions
+            }
         }
         .accentColor(.red)
     }

@@ -7,19 +7,13 @@
 
 import SwiftUI
 
+@available(iOS 15.0, *)
 struct FreeFlowView: View {
     
     func getTotalSecondsLeft() -> Int {
         let numPsiTextField = Double(psiTextField) ?? 0
         let numRateTextField = Double(rateTextField) ?? 0
-        /*
-        if (psiTextField == 0.0 || rateTextField == 0.0) {
-            return 0
-        } else {
-            let totalTimeInSeconds = ((psiTextField - 200) * selectedTankSize / rateTextField) * 60
-            return Int(round(totalTimeInSeconds))
-        }
-        */
+
         if (numPsiTextField == 0.0 || numRateTextField == 0.0) {
             return 0
         } else {
@@ -39,11 +33,7 @@ struct FreeFlowView: View {
         timeString += String(format: "%02d", seconds)
         return timeString
     }
-    let formatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        return formatter
-    }()
+
     
     @ObservedObject var notificationManager = LocalNotificationManager()
     @State var userNotificationCenter = UNUserNotificationCenter.current()
@@ -73,8 +63,13 @@ struct FreeFlowView: View {
     
    
     @State private var showAlert: Bool = false
-
     
+    enum Field {
+        case psiTextField
+        case rateTextField
+    }
+
+    @FocusState private var focusedField: Field?
     //@State private var isActive = false
     //@State var timer = Timer()
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -118,25 +113,18 @@ struct FreeFlowView: View {
                 Text("Tank Psi: ")
                     .modifier(PrimaryLabel())
                 Spacer()
-                /*
-                TextField("tank size", value: $psiTextField, formatter: formatter, onEditingChanged: { changed in
-                    print(changed)
-                    if (changed == true) {
-                        psiTextField = 0.0
-                    }
-                    
-                })
-                */
                 TextField("tank size", text: $psiTextField, onEditingChanged: { changed in
                     if (changed == true) {
                         psiTextField = ""
                     }
                 })
+                    .focused($focusedField, equals: .psiTextField)
                     .frame(width: 200)
                     .multilineTextAlignment(.center)
                     .modifier(PrimaryLabel())
                     .keyboardType(.numbersAndPunctuation)
                     .textFieldStyle(OvalTextFieldStyle())
+                    .submitLabel(.next)
             }
             .padding(.bottom)
             .padding(.leading,20)
@@ -151,13 +139,14 @@ struct FreeFlowView: View {
                     if (changed == true) {
                         rateTextField = ""
                     }
-                    //@State var $rateTextField = ""
                 })
+                    .focused($focusedField, equals: .rateTextField)
                     .frame(width: 200)
                     .multilineTextAlignment(.center)
                     .modifier(PrimaryLabel())
                     .keyboardType(.numbersAndPunctuation)
                     .textFieldStyle(OvalTextFieldStyle())
+                    .submitLabel(.return)
             }
             .padding(.bottom)
             .padding(.leading,20)
@@ -285,6 +274,14 @@ struct FreeFlowView: View {
             }
             //.padding()
         }
+        .onSubmit {
+            switch focusedField {
+            case .psiTextField:
+                focusedField = .rateTextField
+            default:
+                print("you have submitted")
+            }
+        }
         .alert(isPresented: $showAlert) {
                     Alert(title: Text("Error"), message: Text("Calculation needs to be greater than 0"), dismissButton: .default(Text("OK")))
             }
@@ -380,6 +377,10 @@ extension View {
 
 struct FreeFlowView_Previews: PreviewProvider {
     static var previews: some View {
-        FreeFlowView()
+        if #available(iOS 15.0, *) {
+            FreeFlowView()
+        } else {
+            // Fallback on earlier versions
+        }
     }
 }
