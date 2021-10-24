@@ -51,7 +51,7 @@ struct HamiltonView: View {
     @State private var timerText = "00:00:00"
     @State private var timeText  = "00:00:00"
     
-    @State private var timerCounting = false
+    @AppStorage("timerCountingHamilton") var timerCounting = false
     
     @State var hrs = 0
     @State var min = 0
@@ -62,12 +62,12 @@ struct HamiltonView: View {
     @State var diffHrs = 0
     @State var diffMins = 0
     @State var diffSecs = 0
-    @State var totalTimeInSec = 0
-    @State var totalTimeInSec2 = 0
-    @State var timePassedInBack = 0
+    @AppStorage("totalTimeInSecHamilton") var totalTimeInSec = 0
+    @AppStorage("totalTimeInSec2Hamilton") var totalTimeInSec2 = 0
+    @AppStorage("timePassedInBackHamilton") var timePassedInBack = 0
     @State var first = false
     
-    @State var isInForeground = true
+    @AppStorage("isInForegroundHamilton") var isInForeground = true
     @State private var showAlert: Bool = false
     
     enum Field {
@@ -78,8 +78,10 @@ struct HamiltonView: View {
     }
     @FocusState private var focusedField: Field?
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    @State var countDown = 0
+    @AppStorage("countDownHamilton") var countDown = 0
+    @Environment(\.scenePhase) var scenePhase
     
+    @State var isActive = true
     var body: some View {
         VStack {
             Text("Hamilton Oxygen Calculator")
@@ -240,6 +242,7 @@ struct HamiltonView: View {
                 Spacer()
                 Button(action: {
                     //self.countDown = getTotalSecondsLeft()
+                    print(UserDefaults.standard.integer(forKey: "countDowns"))
                     countDown = 0
                     timerCounting = false
                     //self.timer.invalidate()
@@ -270,6 +273,12 @@ struct HamiltonView: View {
                     if (total <= 0) {
                         showAlert = true
                         total = 0
+                    }
+                    // I added this condition here because if the user has a value for countdown than when the user presses start it doesnt do what the calculted value is. so this allows the user to do another calcultion and not mess up the countdown. while also if the timer is not counting down
+                    
+                    
+                    if (timerCounting == false) {
+                        countDown = total
                     }
                     let time = secondsToHoursMinutesSeconds(seconds: total)
                     let timeString = makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
@@ -302,6 +311,7 @@ struct HamiltonView: View {
                         if countDown >= 600 {
                             let minuteLeft = countDown - 599
                             print(countDown)
+                            print()
                             /*sendNotification(timeInterval: Double(minuteLeft), title: "10 Minutes Left", body: "HAMILTON: there is 10 minutes left", sound: "critalAlarm.wav") */
                             notificationManager.sendLocalNotification(timeInterval: Double(minuteLeft), title: "10 mins Left", body: "HAMILTON there is 10 mins left", sound: "critalAlarm.wav")
                         }
@@ -341,6 +351,52 @@ struct HamiltonView: View {
             }
             //.padding()
         }
+        .onChange(of: scenePhase) { newPhase in
+            if newPhase == .inactive {
+                print("Inactive")
+                isActive = false
+            } else if newPhase == .active {
+                // I added the isActive variable because when the user just has the app swiped up it takes off even more seconds than what the app is supposed to because the timer is still going down than it calculates tehe time the app is swiped up and removes that
+               print("active")
+                print(timerCounting)
+                print(isInForeground)
+                if (timerCounting == true && isInForeground == false && isActive == true) {
+                    // I am subrtracting 2 because when the conversion happens between foreground and background i think i lose a second
+                    totalTimeInSec2 = 0
+                    let date = Date()
+                    let calendar = Calendar.current
+                    /*print("")
+                     print("App moved to foreGround")
+                     print("") */
+                    let components = calendar.dateComponents([.hour, .year, .minute, .second], from: date)
+                    /*print("all comp", components) */
+                    hrs2 = calendar.component(.hour, from: date)
+                    min2 = calendar.component(.minute, from: date)
+                    sec2 = calendar.component(.second, from: date)
+                    
+                    print(hrs2, min2, sec2)
+                    
+                    
+                    // i might need an if statement to check if c
+                    totalTimeInSec2 = (min2 * 60) + (hrs2 * 3600) + sec2
+                    /*print(totalTimeInSec2, "   ", totalTimeInSec)
+                     print(first, "    ", timerCounting) */
+                    if (first == true && timerCounting == true) {
+                        first = false
+                    }
+                    timePassedInBack = (totalTimeInSec2 - totalTimeInSec)
+                    countDown = countDown - (timePassedInBack - 1)
+                    print("DOES THIS CALCULATION HAPPEN HERE")
+                }
+                isActive = true
+                
+            } else if newPhase == .background {
+                print("Background")
+
+            }
+            
+            print(newPhase)
+        }
         .onSubmit {
             switch focusedField {
             case .psiTextField:
@@ -357,7 +413,7 @@ struct HamiltonView: View {
                     Alert(title: Text("Error"), message: Text("Calculation needs to be greater than 0"), dismissButton: .default(Text("OK")))
             }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-            print("app entered foreground")
+            //print("app entered foreground")
             
             totalTimeInSec2 = 0
             let date = Date()

@@ -38,48 +38,39 @@ struct FreeFlowView: View {
     @ObservedObject var notificationManager = LocalNotificationManager()
     @State var userNotificationCenter = UNUserNotificationCenter.current()
     @State private var selectedTankSize = 0.16
-   // @State var psiTextField = 0.0
     @State var psiTextField = ""
     @State private var rateTextField = ""
     @State private var timerText = "00:00:00"
     @State private var timeText  = "00:00:00"
     @State private var stopStartText = "START"
-    @State private var timerCounting = false
+    @AppStorage("timerCounting") var timerCounting = false
     @State var hrs = 0
     @State var min = 0
     @State var sec = 0
     @State var hrs2 = 0
     @State var min2 = 0
     @State var sec2 = 0
-    @State var diffHrs = 0
-    @State var diffMins = 0
-    @State var diffSecs = 0
-    @State var totalTimeInSec = 0
-    @State var totalTimeInSec2 = 0
-    @State var timePassedInBack = 0
-    @State var first = false
-    
-    @State var isInForeground = true
-    
+    @AppStorage("totalTimeInSec") var totalTimeInSec: Int = 0
+    @AppStorage("totalTimeInSec2") var totalTimeInSec2: Int = 0
+    @AppStorage("timePassedInBack") var timePassedInBack: Int = 0
    
+    @State var first = false
+    @State var isActive = true
+    @AppStorage("isInForeground") var isInForeground = true
+    
     @State private var showAlert: Bool = false
     
     enum Field {
         case psiTextField
         case rateTextField
     }
-
     @FocusState private var focusedField: Field?
-    //@State private var isActive = false
-    //@State var timer = Timer()
+    
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    @State var countDown = 0
+    
+    @AppStorage("countDowns") var countDowns: Int = 0
+    @Environment(\.scenePhase) var scenePhase
     var body: some View {
-        //onTapGesture {
-        //    print("ive been tapped")
-        //}
-        //let tap = UITapGestureRecognizer(target: View.self, action: #selector(UIView.endEditing))
-        
         VStack {
             Text("Free Flow Oxygen Calculator")
                 .font(.system(.largeTitle, design: .rounded))
@@ -177,7 +168,7 @@ struct FreeFlowView: View {
                 Spacer()
                 Button(action: {
                     //self.countDown = getTotalSecondsLeft()
-                    countDown = 0
+                    countDowns = 0
                     timerCounting = false
                     //self.timer.invalidate()
                     self.timerText = self.makeTimeString(hours: 0, minutes: 0, seconds: 0)
@@ -207,6 +198,9 @@ struct FreeFlowView: View {
                         showAlert = true
                         total = 0
                     }
+                    if (timerCounting == false) {
+                        countDowns = total
+                    }
                     let time = secondsToHoursMinutesSeconds(seconds: total)
                     let timeString = makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
                     timeText = timeString
@@ -220,8 +214,8 @@ struct FreeFlowView: View {
                 .padding()
                 
                 Button(action: {
-                    if countDown <= 0 {
-                        self.countDown = getTotalSecondsLeft()
+                    if countDowns <= 0 {
+                        self.countDowns = getTotalSecondsLeft()
                         first = true
                     }
                     if (timerCounting) {
@@ -234,19 +228,19 @@ struct FreeFlowView: View {
                         // this should cancel my notifications that I have created when I press the pause button
                         userNotificationCenter.removeAllPendingNotificationRequests()
                     } else {
-                        if countDown >= 600 {
-                            let minuteLeft = countDown - 599
-                            print(countDown)
+                        if countDowns >= 600 {
+                            let minuteLeft = countDowns - 599
+                            print(countDowns)
                             /*sendNotification(timeInterval: Double(minuteLeft), title: "10 Minutes Left", body: "HAMILTON: there is 10 minutes left", sound: "critalAlarm.wav") */
                             notificationManager.sendLocalNotification(timeInterval: Double(minuteLeft), title: "10 mins Left", body: "FREE FLOW there is 10 mins left", sound: "critalAlarm.wav")
                         }
-                        if countDown >= 60 {
-                            let tenseconds = countDown - 59
-                            print(countDown)
+                        if countDowns >= 60 {
+                            let tenseconds = countDowns - 59
+                            print(countDowns)
                             notificationManager.sendLocalNotification(timeInterval: Double(tenseconds), title: "1 min Left", body: "FREE FLOW there is 1 mins left", sound: "critalAlarm.wav")
                         }
-                        if countDown >= 2 {
-                            let twoSeconds = countDown - 1
+                        if countDowns >= 2 {
+                            let twoSeconds = countDowns - 1
                             notificationManager.sendLocalNotification(timeInterval: Double(twoSeconds), title: "Timer is Done", body: "FREE FLOW Timer is done", sound: "critalAlarm.wav")
                         }
                         
@@ -260,7 +254,7 @@ struct FreeFlowView: View {
                         //RunLoop.current.add(timer,forMode: .common)
                         
                         // when the timer is counting down it does this part of the code
-                        print(countDown)
+                        print(countDowns)
                         hideKeyboard()
                     }
                 }) {
@@ -274,6 +268,47 @@ struct FreeFlowView: View {
             }
             //.padding()
         }
+        .onChange(of: scenePhase) { newPhase in
+            if newPhase == .inactive {
+                print("Inactive")
+                isActive = false
+            } else if newPhase == .active {
+               print("active")
+                print(timerCounting)
+                print(isInForeground)
+                if (timerCounting == true && isInForeground == false && isActive == true) {
+                    // I am subrtracting 2 because when the conversion happens between foreground and background i think i lose a second
+                    totalTimeInSec2 = 0
+                    let date = Date()
+                    let calendar = Calendar.current
+                    /*print("")
+                     print("App moved to foreGround")
+                     print("") */
+                    let components = calendar.dateComponents([.hour, .year, .minute, .second], from: date)
+                    /*print("all comp", components) */
+                    hrs2 = calendar.component(.hour, from: date)
+                    min2 = calendar.component(.minute, from: date)
+                    sec2 = calendar.component(.second, from: date)
+                    
+                    print(hrs2, min2, sec2)
+                    
+                    
+                    // i might need an if statement to check if c
+                    totalTimeInSec2 = (min2 * 60) + (hrs2 * 3600) + sec2
+                    /*print(totalTimeInSec2, "   ", totalTimeInSec)
+                     print(first, "    ", timerCounting) */
+                    if (first == true && timerCounting == true) {
+                        first = false
+                    }
+                    timePassedInBack = (totalTimeInSec2 - totalTimeInSec)
+                    countDowns = countDowns - (timePassedInBack - 2)
+                }
+                isActive = true
+                
+            } else if newPhase == .background {
+                print("Background")
+            }
+        }
         .onSubmit {
             switch focusedField {
             case .psiTextField:
@@ -286,7 +321,6 @@ struct FreeFlowView: View {
                     Alert(title: Text("Error"), message: Text("Calculation needs to be greater than 0"), dismissButton: .default(Text("OK")))
             }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-            print("app entered foreground")
             
             totalTimeInSec2 = 0
             let date = Date()
@@ -314,13 +348,27 @@ struct FreeFlowView: View {
             /*print(totalTimeInSec2, "total time insec")
              print(timePassedInBack, "this is how much time has passed in the back")
              print(countDown, "is in foreground") */
+            print(timerCounting, isInForeground)
             if (timerCounting == true && isInForeground == false) {
                 // I am subrtracting 2 because when the conversion happens between foreground and background i think i lose a second
-                countDown = countDown - (timePassedInBack - 2)
+                countDowns = countDowns - (timePassedInBack - 2)
             }
             
             isInForeground = true
             /*print(countDown, "app is in foreground2")*/
+            print("THE APP HAS ENTERED THE foreground")
+        }
+        .onAppear(perform: {
+            print(totalTimeInSec)
+            print(timePassedInBack)
+            print(timerCounting)
+        })
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willTerminateNotification)) { _ in
+            print("yeah the terminated your app boi")
+            //countDowns = 600
+            //timerCounting = false
+            print(countDowns)
+           
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
             //self.timerCounting = false
@@ -349,18 +397,18 @@ struct FreeFlowView: View {
         }
         .onReceive(timer) { time in
             guard timerCounting else { return }
-            print(countDown, "this is in timerCounter()")
+            print(countDowns, "this is in timerCounter()")
             
             //countDown -= 1
-            if (countDown > 0) {
-                countDown -= 1
+            if (countDowns > 0) {
+                countDowns -= 1
             }
-            if (countDown <= 0) {
+            if (countDowns <= 0) {
                 //timer.invalidate()
                 timerCounting = false
             }
             // if i want to add a message when it hits a certain amount of seconds i should make phone vibrate show notification
-            let time = secondsToHoursMinutesSeconds(seconds: countDown)
+            let time = secondsToHoursMinutesSeconds(seconds: countDowns)
             let timeString = makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
             timerText = timeString
         }
