@@ -4,7 +4,6 @@
 //
 //  Created by Jonzo Jimenez on 10/7/21.
 //
-
 import SwiftUI
 
 @available(iOS 15.0, *)
@@ -13,7 +12,7 @@ struct FreeFlowView: View {
     func getTotalSecondsLeft() -> Int {
         let numPsiTextField = Double(psiTextField) ?? 0
         let numRateTextField = Double(rateTextField) ?? 0
-
+        
         if (numPsiTextField == 0.0 || numRateTextField == 0.0) {
             return 0
         } else {
@@ -33,7 +32,7 @@ struct FreeFlowView: View {
         timeString += String(format: "%02d", seconds)
         return timeString
     }
-
+    
     
     @ObservedObject var notificationManager = LocalNotificationManager()
     @State var userNotificationCenter = UNUserNotificationCenter.current()
@@ -53,7 +52,7 @@ struct FreeFlowView: View {
     @AppStorage("totalTimeInSec") var totalTimeInSec: Int = 0
     @AppStorage("totalTimeInSec2") var totalTimeInSec2: Int = 0
     @AppStorage("timePassedInBack") var timePassedInBack: Int = 0
-   
+    
     @State var first = false
     @State var isActive = true
     @AppStorage("isInForeground") var isInForeground = true
@@ -104,7 +103,7 @@ struct FreeFlowView: View {
                 Text("Tank Psi: ")
                     .modifier(PrimaryLabel())
                 Spacer()
-                TextField("tank size", text: $psiTextField, onEditingChanged: { changed in
+                TextField("tank psi", text: $psiTextField, onEditingChanged: { changed in
                     if (changed == true) {
                         psiTextField = ""
                     }
@@ -273,7 +272,7 @@ struct FreeFlowView: View {
                 print("Inactive")
                 isActive = false
             } else if newPhase == .active {
-               print("active")
+                print("active")
                 print(timerCounting)
                 print(isInForeground)
                 if (timerCounting == true && isInForeground == false && isActive == true) {
@@ -315,11 +314,22 @@ struct FreeFlowView: View {
                 focusedField = .rateTextField
             default:
                 print("you have submitted")
+                var total = getTotalSecondsLeft()
+                if (total <= 0) {
+                    showAlert = true
+                    total = 0
+                }
+                if (timerCounting == false) {
+                    countDowns = total
+                }
+                let time = secondsToHoursMinutesSeconds(seconds: total)
+                let timeString = makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
+                timeText = timeString
             }
         }
         .alert(isPresented: $showAlert) {
-                    Alert(title: Text("Error"), message: Text("Calculation needs to be greater than 0"), dismissButton: .default(Text("OK")))
-            }
+            Alert(title: Text("Error"), message: Text("Calculation needs to be greater than 0"), dismissButton: .default(Text("OK")))
+        }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             
             totalTimeInSec2 = 0
@@ -368,7 +378,7 @@ struct FreeFlowView: View {
             //countDowns = 600
             //timerCounting = false
             print(countDowns)
-           
+            
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
             //self.timerCounting = false

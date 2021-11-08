@@ -4,7 +4,6 @@
 //
 //  Created by Jonzo Jimenez on 10/9/21.
 //
-
 import SwiftUI
 
 
@@ -92,6 +91,25 @@ struct HamiltonView: View {
                 .padding(.top,25)
             Spacer()
             Group {
+                
+                HStack {
+                    Text("Patient:   ")
+                        .modifier(PrimaryLabel())
+                    Spacer()
+                    VStack {
+                        Picker("patient", selection: $selectedPatient) {
+                            Text("Adult/Ped").tag(3.0)
+                            Text("Neonate").tag(4.0)
+                        }.pickerStyle(SegmentedPickerStyle())
+                    }
+                    .frame(width:200)
+                    .multilineTextAlignment(.center)
+                }
+                .padding(.bottom)
+                .padding(.leading,20)
+                .padding(.trailing,20)
+                
+                
                 HStack {
                     Text("Tank size:")
                         .modifier(PrimaryLabel())
@@ -113,11 +131,12 @@ struct HamiltonView: View {
                 .padding(.trailing,20)
                 
                 
+                
                 HStack {
                     Text("Tank Psi: ")
                         .modifier(PrimaryLabel())
                     Spacer()
-                    TextField("tank size", text: $psiTextField, onEditingChanged: { changed in
+                    TextField("tank psi", text: $psiTextField, onEditingChanged: { changed in
                         if (changed == true) {
                             psiTextField = ""
                         }
@@ -200,23 +219,6 @@ struct HamiltonView: View {
                 .padding(.leading,20)
                 .padding(.trailing,20)
                 
-                
-                HStack {
-                    Text("Patient:   ")
-                        .modifier(PrimaryLabel())
-                    Spacer()
-                    VStack {
-                        Picker("patient", selection: $selectedPatient) {
-                            Text("Adult/Ped").tag(3.0)
-                            Text("Neonate").tag(4.0)
-                        }.pickerStyle(SegmentedPickerStyle())
-                    }
-                    .frame(width:200)
-                    .multilineTextAlignment(.center)
-                }
-                .padding(.bottom)
-                .padding(.leading,20)
-                .padding(.trailing,20)
                 
                 HStack {
                     Text("Time Left:      ")
@@ -407,6 +409,20 @@ struct HamiltonView: View {
                 focusedField = .vtTextField
             default:
                 print("you have submitted")
+                var total = getTotalSecondsLeft()
+                if (total <= 0) {
+                    showAlert = true
+                    total = 0
+                }
+                // I added this condition here because if the user has a value for countdown than when the user presses start it doesnt do what the calculted value is. so this allows the user to do another calcultion and not mess up the countdown. while also if the timer is not counting down
+                
+                
+                if (timerCounting == false) {
+                    countDown = total
+                }
+                let time = secondsToHoursMinutesSeconds(seconds: total)
+                let timeString = makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
+                timeText = timeString
             }
         }
         .alert(isPresented: $showAlert) {
