@@ -16,7 +16,7 @@ struct OptimumSwiftUIApp: App {
     //@UIApplicationDelegateAdaptor(appDelegate.self)
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LoginAndSignup()
                 .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
         }
     }

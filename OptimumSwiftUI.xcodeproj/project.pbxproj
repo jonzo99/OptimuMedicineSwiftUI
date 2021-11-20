@@ -15,6 +15,8 @@
 		D98B465026FBEDEE0003D5EF /* OptimumSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98B464F26FBEDEE0003D5EF /* OptimumSwiftUITests.swift */; };
 		D98B465A26FBEDEE0003D5EF /* OptimumSwiftUIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98B465926FBEDEE0003D5EF /* OptimumSwiftUIUITests.swift */; };
 		D98B465C26FBEDEE0003D5EF /* OptimumSwiftUIUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98B465B26FBEDEE0003D5EF /* OptimumSwiftUIUITestsLaunchTests.swift */; };
+		D9ACAFB82745D08300780B8A /* LoginAndSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ACAFB72745D08300780B8A /* LoginAndSignup.swift */; };
+		D9ACAFBA2745D74000780B8A /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ACAFB92745D74000780B8A /* OnboardingView.swift */; };
 		D9CA608B2700057E00EC664C /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CA608A2700057E00EC664C /* SwiftUIView.swift */; };
 		D9CA608D27011AB500EC664C /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CA608C27011AB500EC664C /* LocalNotificationManager.swift */; };
 		D9CA609027011B9E00EC664C /* critalAlarm.wav in Resources */ = {isa = PBXBuildFile; fileRef = D9CA608E27011B9E00EC664C /* critalAlarm.wav */; };
@@ -56,6 +58,8 @@
 		D98B465526FBEDEE0003D5EF /* OptimumSwiftUIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OptimumSwiftUIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D98B465926FBEDEE0003D5EF /* OptimumSwiftUIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptimumSwiftUIUITests.swift; sourceTree = "<group>"; };
 		D98B465B26FBEDEE0003D5EF /* OptimumSwiftUIUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptimumSwiftUIUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D9ACAFB72745D08300780B8A /* LoginAndSignup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAndSignup.swift; sourceTree = "<group>"; };
+		D9ACAFB92745D74000780B8A /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		D9CA608A2700057E00EC664C /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		D9CA608C27011AB500EC664C /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
 		D9CA608E27011B9E00EC664C /* critalAlarm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = critalAlarm.wav; sourceTree = "<group>"; };
@@ -136,6 +140,8 @@
 				D9CA608F27011B9E00EC664C /* iphone_alarm.mp3 */,
 				D98B463E26FBEDEC0003D5EF /* OptimumSwiftUIApp.swift */,
 				D98B464026FBEDEC0003D5EF /* ContentView.swift */,
+				D9ACAFB72745D08300780B8A /* LoginAndSignup.swift */,
+				D9ACAFB92745D74000780B8A /* OnboardingView.swift */,
 				D982A909270FB1AA00ADE73E /* FreeFlowView.swift */,
 				D9E8D776271244E200F9C0CE /* HamiltonView.swift */,
 				D9CA608C27011AB500EC664C /* LocalNotificationManager.swift */,
@@ -353,6 +359,8 @@
 				D98B463F26FBEDEC0003D5EF /* OptimumSwiftUIApp.swift in Sources */,
 				D9E8D777271244E200F9C0CE /* HamiltonView.swift in Sources */,
 				D982A90A270FB1AB00ADE73E /* FreeFlowView.swift in Sources */,
+				D9ACAFB82745D08300780B8A /* LoginAndSignup.swift in Sources */,
+				D9ACAFBA2745D74000780B8A /* OnboardingView.swift in Sources */,
 				D9CA608D27011AB500EC664C /* LocalNotificationManager.swift in Sources */,
 				D9CA608B2700057E00EC664C /* SwiftUIView.swift in Sources */,
 			);
@@ -525,13 +533,13 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jonzoJmemenz.OptimumSwiftUI;
+				PRODUCT_BUNDLE_IDENTIFIER = com.OptimumSwiftUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -557,13 +565,13 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jonzoJmemenz.OptimumSwiftUI;
+				PRODUCT_BUNDLE_IDENTIFIER = com.OptimumSwiftUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
