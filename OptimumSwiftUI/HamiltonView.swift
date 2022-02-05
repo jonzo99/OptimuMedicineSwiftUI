@@ -82,13 +82,12 @@ struct HamiltonView: View {
     
     @State var isActive = true
     var body: some View {
-        VStack {
+        VStack(spacing: 8) {
+            /*
             Text("Hamilton Oxygen Calculator")
-                .font(.system(.largeTitle, design: .rounded))
-            //.font(.largeTitle)
+                .font(.system(.title, design: .rounded))
                 .fontWeight(.bold)
-                .multilineTextAlignment(.center)
-                .padding(.top,25)
+                .multilineTextAlignment(.center)*/
             Spacer()
             Group {
                 
@@ -241,10 +240,10 @@ struct HamiltonView: View {
             //Spacer()
             Spacer()
             HStack {
-                Spacer()
+                
                 Button(action: {
                     //self.countDown = getTotalSecondsLeft()
-                    print(UserDefaults.standard.integer(forKey: "countDowns"))
+                    //print(UserDefaults.standard.integer(forKey: "countDowns"))
                     countDown = 0
                     timerCounting = false
                     //self.timer.invalidate()
@@ -312,8 +311,8 @@ struct HamiltonView: View {
                     } else {
                         if countDown >= 600 {
                             let minuteLeft = countDown - 599
-                            print(countDown)
-                            print()
+                            //print(countDown)
+                            //print()
                             /*sendNotification(timeInterval: Double(minuteLeft), title: "10 Minutes Left", body: "HAMILTON: there is 10 minutes left", sound: "critalAlarm.wav") */
                             notificationManager.sendLocalNotification(timeInterval: Double(minuteLeft), title: "10 mins Left", body: "HAMILTON there is 10 mins left", sound: "critalAlarm.wav")
                         }
@@ -349,19 +348,17 @@ struct HamiltonView: View {
                 }
                 .background(RoundedRectangle(cornerRadius: 10   , style: .continuous))
                 .padding()
-                Spacer()
             }
-            //.padding()
         }
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .inactive {
-                print("Inactive")
+               // print("Inactive")
                 isActive = false
             } else if newPhase == .active {
                 // I added the isActive variable because when the user just has the app swiped up it takes off even more seconds than what the app is supposed to because the timer is still going down than it calculates tehe time the app is swiped up and removes that
-               print("active")
-                print(timerCounting)
-                print(isInForeground)
+               //print("active")
+                //print(timerCounting)
+                //print(isInForeground)
                 if (timerCounting == true && isInForeground == false && isActive == true) {
                     // I am subrtracting 2 because when the conversion happens between foreground and background i think i lose a second
                     totalTimeInSec2 = 0
@@ -376,7 +373,7 @@ struct HamiltonView: View {
                     min2 = calendar.component(.minute, from: date)
                     sec2 = calendar.component(.second, from: date)
                     
-                    print(hrs2, min2, sec2)
+                    //print(hrs2, min2, sec2)
                     
                     
                     // i might need an if statement to check if c
@@ -388,16 +385,16 @@ struct HamiltonView: View {
                     }
                     timePassedInBack = (totalTimeInSec2 - totalTimeInSec)
                     countDown = countDown - (timePassedInBack - 1)
-                    print("DOES THIS CALCULATION HAPPEN HERE")
+                   // print("DOES THIS CALCULATION HAPPEN HERE")
                 }
                 isActive = true
                 
             } else if newPhase == .background {
-                print("Background")
+                //print("Background")
 
             }
             
-            print(newPhase)
+            //print(newPhase)
         }
         .onSubmit {
             switch focusedField {
@@ -408,7 +405,7 @@ struct HamiltonView: View {
             case .rateTextField:
                 focusedField = .vtTextField
             default:
-                print("you have submitted")
+                
                 var total = getTotalSecondsLeft()
                 if (total <= 0) {
                     showAlert = true
@@ -429,7 +426,7 @@ struct HamiltonView: View {
                     Alert(title: Text("Error"), message: Text("Calculation needs to be greater than 0"), dismissButton: .default(Text("OK")))
             }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-            //print("app entered foreground")
+           // print("APP HAS ENTERED FOREGROUNG")
             
             totalTimeInSec2 = 0
             let date = Date()
@@ -443,7 +440,7 @@ struct HamiltonView: View {
             min2 = calendar.component(.minute, from: date)
             sec2 = calendar.component(.second, from: date)
             
-            print(hrs2, min2, sec2)
+            
             
             
             // i might need an if statement to check if c
@@ -459,7 +456,7 @@ struct HamiltonView: View {
              print(countDown, "is in foreground") */
             if (timerCounting == true && isInForeground == false) {
                 // I am subrtracting 2 because when the conversion happens between foreground and background i think i lose a second
-                countDown = countDown - (timePassedInBack - 2)
+                countDown = countDown - (timePassedInBack + 1)
             }
             
             isInForeground = true
@@ -467,7 +464,7 @@ struct HamiltonView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
             //self.timerCounting = false
-            print("app entered background")
+            //print("APP ENTERED BACKGROUND")
             totalTimeInSec = 0
             let date = Date()
             let calendar = Calendar.current
@@ -492,7 +489,7 @@ struct HamiltonView: View {
         }
         .onReceive(timer) { time in
             guard timerCounting else { return }
-            print(countDown, "this is in timerCounter()")
+            
             
             //countDown -= 1
             if (countDown > 0) {

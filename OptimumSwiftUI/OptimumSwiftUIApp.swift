@@ -11,14 +11,24 @@ import Firebase
 @main
 
 struct OptimumSwiftUIApp: App {
-    
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     //@UIApplicationDelegateAdaptor(appDelegate.self)
+    @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
+    
+    
     var body: some Scene {
         WindowGroup {
-            LoginAndSignup()
+//            if isLoggedIn == false {
+//                LoginAndSignup(isLoggedIn: $isLoggedIn)
+//                    .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
+//            } else {
+//                ContentView(isLoggedIn: $isLoggedIn)
+//                    .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
+//            }
+            SignInView()
                 .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
         }
+       
     }
 }
 
@@ -27,11 +37,15 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions:
                      [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+       // FirebaseApp.configure()
         FirebaseApp.configure()
+        let db = Firestore.firestore()
         
         return true
     }
 }
+
+
 extension UIApplication {
     func addTapGestureRecognizer() {
         guard let window = windows.first else { return }

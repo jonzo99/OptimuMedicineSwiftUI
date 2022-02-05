@@ -55,7 +55,7 @@ struct FreeFlowView: View {
     
     @State var first = false
     @State var isActive = true
-    @AppStorage("isInForeground") var isInForeground = true
+    @AppStorage("isInForeground") var isInForeground = false
     
     @State private var showAlert: Bool = false
     
@@ -71,12 +71,11 @@ struct FreeFlowView: View {
     @Environment(\.scenePhase) var scenePhase
     var body: some View {
         VStack {
+            /*
             Text("Free Flow Oxygen Calculator")
                 .font(.system(.largeTitle, design: .rounded))
-            //.font(.largeTitle)
                 .fontWeight(.bold)
-                .multilineTextAlignment(.center)
-                .padding(.top,25)
+                .multilineTextAlignment(.center) */
             Spacer()
             HStack {
                 Text("Tank size:")
@@ -209,6 +208,7 @@ struct FreeFlowView: View {
                         .foregroundColor(Color(.red))
                         .padding()
                 }
+               
                 .background(RoundedRectangle(cornerRadius: 10, style: .continuous))
                 .padding()
                 
@@ -265,20 +265,113 @@ struct FreeFlowView: View {
                 .padding()
                 Spacer()
             }
-            //.padding()
         }
+        .onChange(of: scenePhase) { phase in
+                    switch phase {
+                    case .background:
+                        print("App is in background")
+                        print("App is Inactive")
+                        totalTimeInSec = 0
+                        let date = Date()
+                        let calendar = Calendar.current
+                        
+                        // if i set the calender to this timezone I dont have to worry about
+                        // the person going throught the time zones since i only care about how much seconds has passed
+                        //calendar.timeZone = TimeZone(identifier: "UTC")
+                        /*print("")
+                         print("app move to the background")
+                         print("")*/
+                        let components = calendar.dateComponents([.hour, .year, .minute, .second], from: date)
+                        /*print("all comp", components)*/
+                        hrs = calendar.component(.hour, from: date)
+                        min = calendar.component(.minute, from: date)
+                        sec = calendar.component(.second, from: date)
+                        
+                        totalTimeInSec = (min * 60) + (hrs * 3600) + sec
+                        isInForeground = false
+                    case .active:
+                        
+                        print("App is Active")
+                        if(timerCounting) {
+                            self.timer.upstream.connect()
+                            //timer.start()
+                        }
+                        totalTimeInSec2 = 0
+                        let date = Date()
+                        let calendar = Calendar.current
+                        /*print("")
+                         print("App moved to foreGround")
+                         print("") */
+                        let components = calendar.dateComponents([.hour, .year, .minute, .second], from: date)
+                        /*print("all comp", components) */
+                        hrs2 = calendar.component(.hour, from: date)
+                        min2 = calendar.component(.minute, from: date)
+                        sec2 = calendar.component(.second, from: date)
+                        
+                        // what if I created a variable to pause the timer and its fake so i stop it every time
+                        
+                        
+                        // i might need an if statement to check if c
+                        totalTimeInSec2 = (min2 * 60) + (hrs2 * 3600) + sec2
+                        /*print(totalTimeInSec2, "   ", totalTimeInSec)
+                         print(first, "    ", timerCounting) */
+                        if (first == true && timerCounting == true) {
+                            first = false
+                        }
+                        timePassedInBack = (totalTimeInSec2 - totalTimeInSec)
+                        print("\(timePassedInBack) = \(totalTimeInSec2) - \(totalTimeInSec)")
+                        
+                        print(timerCounting, isInForeground)
+                        if (timerCounting == true && isInForeground == false) {
+                            // I am subrtracting 2 because when the conversion happens between foreground and background i think i lose a second
+                            countDowns = countDowns - (timePassedInBack + 1)
+                        }
+                        //
+                        
+                        isInForeground = true
+                    case .inactive:
+                        // so this does not work just having this code here because everytime i enter the app for some reason it shows that the app is inactive than it turns to active
+                        print("App is Inactive")
+                        self.timer.upstream.connect().cancel()
+                        //self.timer.upstream.connect().pause()
+                        //timer.cancel()
+                        /*totalTimeInSec = 0
+                        let date = Date()
+                        let calendar = Calendar.current
+                        
+                        // if i set the calender to this timezone I dont have to worry about
+                        // the person going throught the time zones since i only care about how much seconds has passed
+                        //calendar.timeZone = TimeZone(identifier: "UTC")
+                        /*print("")
+                         print("app move to the background")
+                         print("")*/
+                        let components = calendar.dateComponents([.hour, .year, .minute, .second], from: date)
+                        /*print("all comp", components)*/
+                        hrs = calendar.component(.hour, from: date)
+                        min = calendar.component(.minute, from: date)
+                        sec = calendar.component(.second, from: date)
+                        
+                        totalTimeInSec = (min * 60) + (hrs * 3600) + sec
+                        isInForeground = false*/
+                    @unknown default:
+                        print("New App state not yet introduced")
+                    }
+                }
+        /*
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .inactive {
-                print("Inactive")
+                print("FREEFLOW IS INACTIVE")
                 isActive = false
             } else if newPhase == .active {
-                print("active")
+                print("FREEFLOW IS ACTIVE")
                 print(timerCounting)
                 print(isInForeground)
                 if (timerCounting == true && isInForeground == false && isActive == true) {
                     // I am subrtracting 2 because when the conversion happens between foreground and background i think i lose a second
                     totalTimeInSec2 = 0
                     let date = Date()
+                   // let currentAccumulatedTime = date.timeIntervalSince(lastDateObserved)
+                    //lastDateObserved = date
                     let calendar = Calendar.current
                     /*print("")
                      print("App moved to foreGround")
@@ -305,9 +398,9 @@ struct FreeFlowView: View {
                 isActive = true
                 
             } else if newPhase == .background {
-                print("Background")
+                print("FREEFLOW IS IN BACKGROUND")
             }
-        }
+        }*/
         .onSubmit {
             switch focusedField {
             case .psiTextField:
@@ -329,7 +422,7 @@ struct FreeFlowView: View {
         }
         .alert(isPresented: $showAlert) {
             Alert(title: Text("Error"), message: Text("Calculation needs to be greater than 0"), dismissButton: .default(Text("OK")))
-        }
+        }/*
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             
             totalTimeInSec2 = 0
@@ -367,7 +460,7 @@ struct FreeFlowView: View {
             isInForeground = true
             /*print(countDown, "app is in foreground2")*/
             print("THE APP HAS ENTERED THE foreground")
-        }
+        }*/
         .onAppear(perform: {
             print(totalTimeInSec)
             print(timePassedInBack)
@@ -380,6 +473,10 @@ struct FreeFlowView: View {
             print(countDowns)
             
         }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+            print("I wonder when does this happen")
+        }
+        /*
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
             //self.timerCounting = false
             print("app entered background")
@@ -404,11 +501,10 @@ struct FreeFlowView: View {
             /*
              print(totalTimeInSec)
              print(hrs, min, sec) */
-        }
+        }*/
         .onReceive(timer) { time in
             guard timerCounting else { return }
             print(countDowns, "this is in timerCounter()")
-            
             //countDown -= 1
             if (countDowns > 0) {
                 countDowns -= 1
@@ -423,6 +519,7 @@ struct FreeFlowView: View {
             timerText = timeString
         }
     }
+   
 }
 
 #if canImport(UIKit)
