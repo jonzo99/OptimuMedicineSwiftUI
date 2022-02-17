@@ -11,10 +11,11 @@ import SwiftUI
 import Firebase
 struct SignInView: View {
     // When I enter this view I should have my keyboard up inside the email and the the keyboaerd button should say next and it should take me to the password view. Than change it to say sign in and than let the user sign
-    @State var email = "jonzo@mail.com"
+    @State var email = "test@mail.com"
     @State var password = "12345678"
     @State var employeeId = ""
     @State var showContentView = false
+    //@ObservedObject var viewModel: userViewModel
     let db = Firestore.firestore()
     enum Field {
         case email
@@ -98,6 +99,7 @@ struct SignInView: View {
 //                            db.collection("users").document("uid").setData(["id": "uid", "lastName": "Jimenez"])
                             showContentView = true
                             isLoggedIn = true
+                            //viewModel.fetchCurrentUser()
 //                            print(authResult?.user.uid)
 //                            if let uid = authResult?.user.uid {
 //                                let user = [
@@ -152,6 +154,7 @@ struct SignInView: View {
 
 struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
+        // I have to put fake data here
         SignInView()
     }
 }

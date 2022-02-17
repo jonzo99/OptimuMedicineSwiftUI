@@ -26,9 +26,24 @@ class userViewModel: ObservableObject {
                     
                     let lastName = data["lastName"] as? String ?? ""
                     let userId = data["id"] as? String ?? ""
+                    let firstName = data["firstName"] as? String ?? ""
+                    // the dates I am not retrieving them correctly and they are using the defualt date
+                    let dob = (data["dateOfBirth"] as? Timestamp)?.dateValue() ?? Date()
+                    let status = data["status"] as? String ?? ""
+                    let cellPhoneService = data["cellPhoneService"] as? String ?? ""
+                    let phoneNumber = data["phoneNumber"] as? String ?? ""
+                    let emergencyContact = data["EmergencyContact"] as? String ?? ""
+                    let emergencyPhoneNumber = data["EmergencyPhoneNumber"] as? String ?? ""
+                    let email = data["EmailAddress"] as? String ?? ""
+                    let hireDate = (data["hireDate"] as? Timestamp)?.dateValue() ?? Date()
+                    let costCenter = data["costCenter"] as? String ?? ""
+                    let payRate = data["PayRate"] as? String ?? ""
+                    let payType = data["payType"] as? String ?? ""
+                    let qualifications = data["Qualifications"] as? String ?? ""
                     //I see that I actually do get all of my users information I dont know why it doesnt save
                     print(lastName)
-                    return User(id: userId, lastName: lastName)
+                   
+                    return User(id: userId, lastName: lastName, firstName: firstName, dateOfBirth: dob, status: status, cellPhoneService: cellPhoneService, phoneNumber: phoneNumber, EmergencyContact: emergencyContact, EmergencyPhoneNumber: emergencyPhoneNumber, EmailAddress: email, hireDate: hireDate, costCenter: costCenter, PayRate: payRate, payType: payType, Qualifications: qualifications)
                 }
             
         }
@@ -48,7 +63,20 @@ class userViewModel: ObservableObject {
             if let data = snapshot?.data() {
                 let lastName = data["lastName"] as? String ?? ""
                 let userId = data["id"] as? String ?? ""
-                self.currentUser = User(id: userId, lastName: lastName)
+                let firstName = data["firstName"] as? String ?? ""
+                let dob = (data["dateOfBirth"] as? Timestamp)?.dateValue() ?? Date()
+                let status = data["status"] as? String ?? ""
+                let cellPhoneService = data["cellPhoneService"] as? String ?? ""
+                let phoneNumber = data["phoneNumber"] as? String ?? ""
+                let emergencyContact = data["EmergencyContact"] as? String ?? ""
+                let emergencyPhoneNumber = data["EmergencyPhoneNumber"] as? String ?? ""
+                let email = data["EmailAddress"] as? String ?? ""
+                let hireDate = (data["hireDate"] as? Timestamp)?.dateValue() ?? Date()
+                let costCenter = data["costCenter"] as? String ?? ""
+                let payRate = data["PayRate"] as? String ?? ""
+                let payType = data["payType"] as? String ?? ""
+                let qualifications = data["Qualifications"] as? String ?? ""
+                self.currentUser = User(id: userId, lastName: lastName, firstName: firstName, dateOfBirth: dob, status: status, cellPhoneService: cellPhoneService, phoneNumber: phoneNumber, EmergencyContact: emergencyContact, EmergencyPhoneNumber: emergencyPhoneNumber, EmailAddress: email, hireDate: hireDate, costCenter: costCenter, PayRate: payRate, payType: payType, Qualifications: qualifications)
             } else {
                 "There was an issue getting the current user"
             }

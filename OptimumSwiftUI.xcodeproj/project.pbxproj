@@ -20,6 +20,10 @@
 		D90D0C6527AA29D700D9538F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D0C6427AA29D700D9538F /* User.swift */; };
 		D90D0C6927AA2BFA00D9538F /* userViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D0C6827AA2BFA00D9538F /* userViewModel.swift */; };
 		D90D0C6B27ACC1E200D9538F /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D0C6A27ACC1E200D9538F /* FirebaseManager.swift */; };
+		D90D0C6D27B0B39D00D9538F /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D0C6C27B0B39C00D9538F /* ProfileView.swift */; };
+		D90D0C7127B4A66600D9538F /* NewShiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D0C7027B4A66600D9538F /* NewShiftView.swift */; };
+		D90D0C7327B868E100D9538F /* Shifts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D0C7227B868E000D9538F /* Shifts.swift */; };
+		D90D0C7527B87C7900D9538F /* ShiftsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D0C7427B87C7700D9538F /* ShiftsViewModel.swift */; };
 		D982A90A270FB1AB00ADE73E /* FreeFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D982A909270FB1AA00ADE73E /* FreeFlowView.swift */; };
 		D98B463F26FBEDEC0003D5EF /* OptimumSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98B463E26FBEDEC0003D5EF /* OptimumSwiftUIApp.swift */; };
 		D98B464126FBEDEC0003D5EF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98B464026FBEDEC0003D5EF /* ContentView.swift */; };
@@ -95,6 +99,10 @@
 		D90D0C6427AA29D700D9538F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D90D0C6827AA2BFA00D9538F /* userViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userViewModel.swift; sourceTree = "<group>"; };
 		D90D0C6A27ACC1E200D9538F /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		D90D0C6C27B0B39C00D9538F /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		D90D0C7027B4A66600D9538F /* NewShiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewShiftView.swift; sourceTree = "<group>"; };
+		D90D0C7227B868E000D9538F /* Shifts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shifts.swift; sourceTree = "<group>"; };
+		D90D0C7427B87C7700D9538F /* ShiftsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftsViewModel.swift; sourceTree = "<group>"; };
 		D982A909270FB1AA00ADE73E /* FreeFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeFlowView.swift; sourceTree = "<group>"; };
 		D98B463B26FBEDEC0003D5EF /* OptimumSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OptimumSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D98B463E26FBEDEC0003D5EF /* OptimumSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptimumSwiftUIApp.swift; sourceTree = "<group>"; };
@@ -178,8 +186,10 @@
 		D90D0C4327A60C2C00D9538F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D90D0C6427AA29D700D9538F /* User.swift */,
 				D90D0C4027A60C1400D9538F /* DateValue.swift */,
 				D90D0C4427A60C4A00D9538F /* Task.swift */,
+				D90D0C7227B868E000D9538F /* Shifts.swift */,
 			);
 			name = Model;
 			path = Calendar/Model;
@@ -195,18 +205,11 @@
 			path = OptimumSwiftUI_UAT;
 			sourceTree = "<group>";
 		};
-		D90D0C6327AA29BF00D9538F /* UserModel */ = {
-			isa = PBXGroup;
-			children = (
-				D90D0C6427AA29D700D9538F /* User.swift */,
-			);
-			path = UserModel;
-			sourceTree = "<group>";
-		};
 		D90D0C6727AA2BDE00D9538F /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
 				D90D0C6827AA2BFA00D9538F /* userViewModel.swift */,
+				D90D0C7427B87C7700D9538F /* ShiftsViewModel.swift */,
 				D90D0C6A27ACC1E200D9538F /* FirebaseManager.swift */,
 			);
 			name = ViewModel;
@@ -242,9 +245,9 @@
 				D90D0C5F27A8E1E500D9538F /* development.cer */,
 				D9CA608E27011B9E00EC664C /* critalAlarm.wav */,
 				D9CA608F27011B9E00EC664C /* iphone_alarm.mp3 */,
+				D98B464026FBEDEC0003D5EF /* ContentView.swift */,
 				D98B463E26FBEDEC0003D5EF /* OptimumSwiftUIApp.swift */,
 				D90C6866274F0FA10064527D /* SideMenuViewModel.swift */,
-				D98B464026FBEDEC0003D5EF /* ContentView.swift */,
 				D90C6868274F0FE30064527D /* SideMenuView.swift */,
 				D90C6860274F0EFA0064527D /* SideMenuHeaderView.swift */,
 				D90C6862274F0F310064527D /* SideMenuOptionView.swift */,
@@ -294,8 +297,9 @@
 				D9BC910E27A384860076DD7C /* SignInView.swift */,
 				D9BC911027A38A880076DD7C /* HomeViewController.swift */,
 				D9BC911427A4E76F0076DD7C /* MainSideMenu.swift */,
+				D90D0C6C27B0B39C00D9538F /* ProfileView.swift */,
+				D90D0C7027B4A66600D9538F /* NewShiftView.swift */,
 				D90D0C6727AA2BDE00D9538F /* ViewModel */,
-				D90D0C6327AA29BF00D9538F /* UserModel */,
 				D90D0C3D27A60B0A00D9538F /* Calendar */,
 				D90D0C4327A60C2C00D9538F /* Model */,
 			);
@@ -488,12 +492,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				D98B464126FBEDEC0003D5EF /* ContentView.swift in Sources */,
+				D90D0C7527B87C7900D9538F /* ShiftsViewModel.swift in Sources */,
+				D90D0C7327B868E100D9538F /* Shifts.swift in Sources */,
 				D98B463F26FBEDEC0003D5EF /* OptimumSwiftUIApp.swift in Sources */,
 				D9E8D777271244E200F9C0CE /* HamiltonView.swift in Sources */,
 				D90C6863274F0F310064527D /* SideMenuOptionView.swift in Sources */,
 				D90D0C4927A60DD400D9538F /* DetailView.swift in Sources */,
 				D90D0C4727A60DA300D9538F /* CustomDatePicker.swift in Sources */,
 				D982A90A270FB1AB00ADE73E /* FreeFlowView.swift in Sources */,
+				D90D0C6D27B0B39D00D9538F /* ProfileView.swift in Sources */,
 				D9BC911127A38A880076DD7C /* HomeViewController.swift in Sources */,
 				D9ACAFB82745D08300780B8A /* LoginAndSignup.swift in Sources */,
 				D90D0C4127A60C1400D9538F /* DateValue.swift in Sources */,
@@ -508,6 +515,7 @@
 				D90D0C6927AA2BFA00D9538F /* userViewModel.swift in Sources */,
 				D90D0C3C27A60AFF00D9538F /* CalendarView.swift in Sources */,
 				D9BC910A279CEDB40076DD7C /* UserInfoView.swift in Sources */,
+				D90D0C7127B4A66600D9538F /* NewShiftView.swift in Sources */,
 				D9CA608D27011AB500EC664C /* LocalNotificationManager.swift in Sources */,
 				D9CA608B2700057E00EC664C /* SwiftUIView.swift in Sources */,
 				D90D0C6527AA29D700D9538F /* User.swift in Sources */,
@@ -716,8 +724,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"OptimumSwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = L6RJ755VZU;
@@ -737,7 +745,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.OptimumSwiftUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = SelectedAll;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

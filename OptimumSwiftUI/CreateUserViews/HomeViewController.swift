@@ -17,7 +17,7 @@ struct HomeViewController: View {
     // Offset for Both Drag Gesuture and showing Menu...
     @State var offset: CGFloat = 0
     @State var lastStoredOffset: CGFloat = 0
-    @ObservedObject  var viewModel = userViewModel()
+    @ObservedObject var viewModel = userViewModel()
     // Gesture Offset...
     @GestureState var gestureOffset: CGFloat = 0
     var body: some View {
@@ -29,11 +29,55 @@ struct HomeViewController: View {
             HStack(spacing: 0) {
                 MainSideMenu(showMenu: $showMenu, viewModel: viewModel)
                 VStack(spacing: 0) {
-                    Text("This is your home view")
-                    Text("Here I can put anouncemets they have put")
+                    Text("These Are the Annocentments")
+                    VStack {
+                        //Color.red
+                          //  .ignoresSafeArea()
+                        
+                        List(viewModel.users) { usser in
+                            VStack{
+                                //HStack {
+                                    Text(usser.lastName)
+                                    Text(usser.id)
+                                Text(usser.lastName)
+                                Text(usser.lastName)
+                                //}
+                                
+                            }
+                            .listRowBackground(Color.purple)
+                            //.listRowBackground(Color.red.ignoresSafeArea())
+                            
+                        }
+                        .listStyle(.plain)
+                        //.background(Color.red)
+                        //.listStyle(InsetListStyle())
+                        //.listStyle(InsetListStyle)
+                        
+                        .cornerRadius(15)
+                        
+                    }
+                    .padding(.trailing)
+                    .padding(.leading)
+                    //.background(Color.pink)
+                    .cornerRadius(15)
+                    //.frame(maxWidth: .infinity)
+                    .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height / 3)
+                    
+                    
+                    //.background(Color.pink)
+                    Text("these should be buttonsdfgdgfdgss")
+                    Text("these should be buttonsdfgdfgdfgdfg")
+                    Spacer()
+//                    List(viewModel.users) { usser in
+//                        VStack {
+//                            Text(usser.lastName)
+//                            Text(usser.id)
+//                        }
+//                    }
                     //UserInfoView()
                 }
                 .frame(width: getRect().width)
+                //.background(Color.blue.ignoresSafeArea())
                 // BG when menu is showing...
                 // this is for when I click on the out side of the screen that I am able to go back to my main screen instead of only just clicking on the button
                 .overlay(
@@ -50,6 +94,7 @@ struct HomeViewController: View {
                         }
                 )
             }
+            //.background(Color.red)
             //Max Size...
             .frame(width: getRect().width + sideBarWidth)
             .offset(x: -sideBarWidth / 2)
@@ -83,6 +128,7 @@ struct HomeViewController: View {
                 }
             }
         }
+        .background(Color.gray)
         .animation(.easeOut, value: offset == 0)
         .onChange(of: showMenu) { newValue in
             if showMenu && offset == 0 {

@@ -12,7 +12,7 @@ struct CalendarView: View {
     @State var currentDate: Date = Date()
     @State private var mode: Int = 0
     var body: some View {
-        NavigationView {
+        //NavigationView {
             
         
         ScrollView(.vertical, showsIndicators: false) {
@@ -39,7 +39,7 @@ struct CalendarView: View {
         }
     
         //.navigationBarTitleDisplayMode(.inline,)
-        }
+       // }
         // Safe Area View...
 //        .safeAreaInset(edge: .bottom) {
 //            HStack {

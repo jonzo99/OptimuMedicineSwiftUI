@@ -42,6 +42,9 @@ struct TaskMetaData: Identifiable {
     var id = UUID().uuidString
     var task: [Task]
     var taskDate: Date
+    
+    // so the task will be my shifts
+    // and the taskDate will be shared for the stardate so I can have multiple on that one day
 }
 
 // sample Date for Testing
