@@ -9,77 +9,86 @@ import SwiftUI
 import UIKit
 import Foundation
 import Combine
-
+import FirebaseFirestore
 struct DetailView: View {
-    @Binding var details: Task
+    @Binding var details: Shifts
     @Environment(\.presentationMode) var presentationMode
     @State var showAlert = false
+    let db = Firestore.firestore()
+    @State var selectedValue: String = ""
+    @State var selectedKey: String = ""
+    @ObservedObject var viewModel: userViewModel
     var body: some View {
-//        VStack {
-//            //Text("\(details.emp[0])")
-//            //Text("\(details.time)")
-//            Text(details.title)
-//            Text(details.detail)
-//                .onAppear(perform: {
-//                    print(details.emp)
-//                    print(details.time)
-//                })
-//            Text(details.emp[0].name)
-//            //for details.emp.count in pep {
-//            //    pep.name
-//            //}
-//            ForEach(details.emp.indices) { i in
-//                HStack {
-//                    //Text(emp.name)
-//                    //Text(emp.job)
-//                    Text(details.emp[i].name)
-//                    Text(details.emp[i].job)
-//                }
-//            }
-//
-//        }
         NavigationView {
             ZStack {
-                Color.red
+                Color.gray
                     //.ignoresSafeArea()
-            
-            VStack {
-                Text(details.title)
-                    .font(.largeTitle.bold())
-                    .border(Color.black)
-                Text(details.detail)
-                    .font(.title)
-                    .fontWeight(.semibold)
-                Text(details.time, style: .time)
-                    .onAppear(){
-                        print(details.time)
+                
+                VStack {
+                    Text(details.shiftName)
+                        .font(.largeTitle.bold())
+                        .border(Color.black)
+                        .padding()
+                    //Spacer()
+                    HStack(spacing: 10) {
+                        Text(dateFormatDDMMYY(date: details.startTime))
+                            .font(.title2.bold())
+                            .padding(.leading, 20)
+                        Spacer()
+                        Text(dateFormatHHMM(date: details.startTime))
+                            .fontWeight(.semibold)
+                        Text("-")
+                            .fontWeight(.semibold)
+                        Text(dateFormatHHMM(date: details.endTime))
+                            .fontWeight(.semibold)
+                        Spacer()
                     }
-                Text(details.time, style: .date)
-                Spacer()
-            
-                List {
-                    ForEach(details.emp) { emp in
-                        HStack {
-                            Text(emp.name)
-                            Text(emp.job)
-                            Spacer()
-                            if emp.job == "Site Lead" {
-                                Image(systemName: "person.crop.circle.badge.exclamationmark").foregroundColor(.red).imageScale(.large)
-                            } else {
-                                Image(systemName: "person.crop.circle.badge.checkmark").foregroundColor(.green).imageScale(.large)
+                    List {
+                        
+                        ForEach(details.jobShifts.sorted(by: <), id: \.key) { key, value in
+                            HStack {
+                                Text(key)
+                                Spacer()
+                                Text(value)
+    
+                                
+//                                if emp.job == "Site Lead" {
+//                                    Image(systemName: "person.crop.circle.badge.exclamationmark").foregroundColor(.red).imageScale(.large)
+//                                } else {
+//                                    Image(systemName: "person.crop.circle.badge.checkmark").foregroundColor(.green).imageScale(.large)
+//                                }
+                            }
+                            .listRowBackground(key.contains("empty") ? Color.green.opacity(0.4) : Color.gray.opacity(0.4))
+                            .onTapGesture {
+                                showAlert = true
+                                selectedKey = key
+                                selectedValue = value
                             }
                         }
-                        .onTapGesture {
-                            showAlert = true
-                        }
+                        
                     }
-                }
-                Text("hey")
-                Spacer()
+                    .listStyle(.plain)
+                    
+                    .cornerRadius(15)
+                    .border(Color.black, width: 1)
+                    .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height / 2)
+                    
+                    //.padding()
+                    //.frame(width: .infinity, height: 200, alignment: .center)
+                    
                 
+                    //.background(Color.red.ignoresSafeArea())
+                    //.listStyle(.sidebar)
+                    
+                    //Spacer()
+                    //Spacer()
+                    Text(details.comment)
+                    Spacer()
+                    
+                    
+                }
             }
-            }
-            .navigationBarTitle("Detail View", displayMode: .inline)
+            .navigationBarTitle("Pick Up Shift", displayMode: .inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Back") {
@@ -87,20 +96,56 @@ struct DetailView: View {
                     }
                 }
             }
+            .alert(isPresented: $showAlert, content: {
+                Alert(title: Text("Confirm"), message: Text("Do you want to accept this job"), primaryButton: .default(Text("Yes🚑")) {
+                    print("Hello world")
+                    db.collection("shifts").whereField("id", isEqualTo: details.id).getDocuments() { (querySnapshot, err) in
+                        if let err = err {
+                            print("there was an error\(err)")
+                        } else {
+                            
+                            let document = querySnapshot?.documents.first
+                            var dic = details.jobShifts
+                            dic.removeValue(forKey: selectedKey)
+                            // here is where I would get the first and last name of selected user
+                            // than I will set the
+                            //dic["currentUser"] = selected value
+                            dic[viewModel.currentUser.firstName] = selectedValue
+                            document?.reference.updateData([
+                                "comment": "Practice1",
+                                "jobShifts": dic
+                            ])
+                            
+                        }
+                    }
+                }, secondaryButton: .cancel(Text("NO 😕")))
+            })
+            
         }
-        .alert(isPresented: $showAlert, content: {
-//            Alert(title: Text("Do you want to accept this job"),
-//            message: Text("this is why"),
-//                  dismissButton: .default(Text("Accept")))
-            Alert(title: Text("Alert"), message: Text("Do you want to accept this job"), primaryButton: .default(Text("Confirm")), secondaryButton: .cancel())
-        })
+        //.tint(.green)
+        //.foregroundColor(Color.green)
+    }
+    
+    func dateFormatDDMMYY(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd"
+        //dateFormatter.timeZone = TimeZone.current
+        //dateFormatter.locale = Locale.current
+        return dateFormatter.string(from: date)
+    }
+    func dateFormatHHMM(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        //dateFormatter.timeZone = TimeZone.current
+        //dateFormatter.locale = Locale.current
+        return dateFormatter.string(from: date)
     }
 }
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView(details: .constant(Task(title: "MVS - Southern Nevada", emp: [Pruitt, Valdez, Williams, Anderson], detail: des)))
-.previewInterfaceOrientation(.portrait)
+        DetailView(details: .constant(Shifts(id: "id343", comment: "Behindthe school", jobShifts: ["0 empty": "Nurse", "Jonzo": "Nurse", "2 empty": "Admin"], shiftName: "OM 1", startTime: Date(), endTime: Date().addingTimeInterval(60 * 120))), viewModel: userViewModel())
+            .previewInterfaceOrientation(.portrait)
     }
 }
 

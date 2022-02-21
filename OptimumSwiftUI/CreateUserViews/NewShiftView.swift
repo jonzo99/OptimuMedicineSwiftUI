@@ -8,6 +8,9 @@
 import SwiftUI
 import Firebase
 import Combine
+import EventKit
+import EventKitUI
+import Foundation
 struct NewShiftView: View {
     @State var numberOfEmp = "0"
     @State var employeeName = "Jonzo"
@@ -73,6 +76,8 @@ struct NewShiftView: View {
     // end time enter by textfield
     @State var qualificationDic = [String: String]()
     @State var selectedQualifcation = ["None"]
+    let eventStore = EKEventStore()
+    
     let db = Firestore.firestore()
     // and than I can have duration but only as informational
     var body: some View {
@@ -231,9 +236,47 @@ struct NewShiftView: View {
                     .overlay(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.black))
                     .padding(.leading, 10)
                     .padding(.trailing, 10)
+                
+                Button("ADD Event to callendar") {
+                    let event:EKEvent = EKEvent(eventStore: eventStore)
+                          event.title = "New Event Has Been created to you calendar"
+                          event.startDate = Date()
+                    event.endDate = Date().addingTimeInterval(60*120)
+                          event.notes = "This is a note"
+                          event.calendar = eventStore.defaultCalendarForNewEvents
+                    
+                          do {
+                              try eventStore.save(event, span: .thisEvent)
+
+                          } catch let error as NSError {
+                              print("failed to save event with error : \(error)")
+                          }
+                          print("Saved Event")
+                    
+                }
                 // bellow this I will show an information cell that only shows the start and end date
                 //  with the hour and min also I will have a switch that says nextday that represents teh  next day
                 
+            }
+            .onAppear() {
+                eventStore.requestAccess( to: EKEntityType.event, completion:{(granted, error) in
+                           DispatchQueue.main.async {
+                               if (granted) && (error == nil) {
+                                   let event = EKEvent(eventStore: self.eventStore)
+                                   event.title = "Keynote Apple"
+                                   print("you gave me access")
+//                                   event.startDate = self.time
+//                                   event.url = URL(string: "https://apple.com")
+//                                   event.endDate = self.time
+//                                   let eventController = EKEventEditViewController()
+//                                   eventController.event = event
+//                                   eventController.eventStore = self.eventStore
+//                                   eventController.editViewDelegate = self
+//                                   self.present(eventController, animated: true, completion: nil)
+                                   
+                               }
+                           }
+                       })
             }
             .toolbar {
                 ToolbarItem {

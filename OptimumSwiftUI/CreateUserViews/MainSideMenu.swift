@@ -164,7 +164,7 @@ struct MainSideMenu: View {
                 // if text == Calendar than I will go to this view
                 
                 if (title == "Calendar") {
-                    CalendarView()
+                    CalendarView(shiftViewModel: shiftViewModel, viewModel: viewModel)
                 } else if (title == "All Shifts") {
                     VStack {
                         Button("fetch all shifts") {
@@ -173,23 +173,28 @@ struct MainSideMenu: View {
                             
                         }
                         Button("fetch shifts desc") {
+                            
+                            print(shiftViewModel.CalendarShifts)
+                            
                             shiftViewModel.fetchShiftMetaData()
-                            print(shiftViewModel.desend)
-                            print("jonzo")
-                            print(shiftViewModel.tempShifts)
-                            print(shiftViewModel.tempShifts.count)
+                            print(shiftViewModel.CalendarShifts)
                         }
-                        List(shiftViewModel.tempShifts) { shift in
+                        List(shiftViewModel.CalendarShifts) { shift in
                             VStack {
+                                
                                 Text(shift.id)
+//                                if shift.shift.count > 0 {
+//                                    Text(shift.shift[0].shiftName)
+//                                }
+//
+//                                if shift.shift.count > 1 {
+//                                    Text(shift.shift[0].shiftName)
+//                                    Text(shift.shift[1].shiftName)
+//                                }
                                 if shift.shift.count > 0 {
                                     Text(shift.shift[0].shiftName)
                                 }
-                               
-                                if shift.shift.count > 1 {
-                                    Text(shift.shift[0].shiftName)
-                                    Text(shift.shift[1].shiftName)
-                                }
+                                
                                 
                                 Text("\(shift.shiftDate)")
                             }

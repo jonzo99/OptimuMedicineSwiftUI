@@ -15,10 +15,11 @@ struct ShiftsMetaData: Identifiable {
 }
 class ShiftsViewModel: ObservableObject {
     // creating zero filled days but I am going to want to fill it up with task
-    @Published var tempShifts = [ShiftsMetaData]()
+    @Published var CalendarShifts = [ShiftsMetaData]()
+    var tempshiftMeta = ShiftsMetaData()
+    var shiftsArr = [Shifts]()
     @Published var allShifts = [Shifts]()
-    @Published var desend = [Shifts]()
-    @Published var arrShift = [Shifts]()
+    //@Published var arrShift = [Shifts]()
     private var db = Firestore.firestore()
     
     func fetchAllShifts() {
@@ -34,10 +35,7 @@ class ShiftsViewModel: ObservableObject {
                 let shiftId = data["id"] as? String ?? ""
                 let comment = data["comment"] as? String ?? ""
                 let jobShifts = data["jobShifts"] as? [String: String] ?? [String: String]()
-                print(data["jobShifts"])
-            
-                //var jobShifts = Dictionary = [String: String]()
-                var shiftName = data["shiftName"] as? String ?? ""
+                let shiftName = data["shiftName"] as? String ?? ""
                 let startTime = (data["startTime"] as? Timestamp)?.dateValue() ?? Date()
                 let endTime = (data["endTime"] as? Timestamp)?.dateValue() ?? Date()
                 
@@ -52,64 +50,56 @@ class ShiftsViewModel: ObservableObject {
 //            Task(title: "Dispatch", time: getDate5(date: "2022/01/09 14:12")!),
 //        ], taskDate: getDate5(date: "2022/01/09 23:12")!))
         
-        db.collection("shifts").order(by: "startTime", descending: true).getDocuments { (document, error) in
+        db.collection("shifts").order(by: "startTime", descending: true).getDocuments { [self] (document, error) in
             guard let documents = document?.documents else {
                 print("There was an error")
                 print(error)
                 return
             }
             var FirstDate = Date()
-            var secondDate = Date()
             var isFirst = true
+           
+            //
             
-            
-            
-            self.desend = documents.map { (querySnapShot) -> Shifts in
+            let t  = documents.map { (querySnapShot) -> Shifts in
                 let data = querySnapShot.data()
                 let shiftId = data["id"] as? String ?? ""
                 let comment = data["comment"] as? String ?? ""
                 let jobShifts = data["jobShifts"] as? [String: String] ?? [String: String]()
-                print(data["jobShifts"])
-            
-                //var jobShifts = Dictionary = [String: String]()
-                var shiftName = data["shiftName"] as? String ?? ""
+                let shiftName = data["shiftName"] as? String ?? ""
                 let startTime = (data["startTime"] as? Timestamp)?.dateValue() ?? Date()
                 let endTime = (data["endTime"] as? Timestamp)?.dateValue() ?? Date()
                 print(startTime)
                 print(shiftName)
+                let dateArr = [startTime, endTime, Date()]
                 
-                print(self.allShifts.count)
                 if isFirst == true {
                     FirstDate = startTime
-                    secondDate = startTime
                     isFirst = false
-                } else {
-                    secondDate = startTime
                 }
-                self.arrShift.append(Shifts(id: shiftId, comment: comment, jobShifts: jobShifts, shiftName: shiftName, startTime: startTime, endTime: endTime))
-                if self.isSameDay(date1: FirstDate, date2: secondDate) {
-                    
+               
+                let tempShifts = Shifts(id: shiftId, comment: comment, jobShifts: jobShifts, shiftName: shiftName, startTime: startTime, endTime: endTime)
+                
+                if self.isSameDay(date1: FirstDate, date2: startTime) {
                     print("the days MATCH")
-                    //print(tempShifts.shift)
+                    
                 } else {
-                    //CalenderShifts.append(tempShifts)
-                    
-                    self.tempShifts.append(ShiftsMetaData(id: shiftId, shift: self.arrShift, shiftDate: FirstDate))
-                    
-                    
-                        
-                    
-                    self.arrShift = [Shifts]()
-                    FirstDate = secondDate
+                    let idd = UUID().uuidString
+                    tempshiftMeta = ShiftsMetaData(id: idd, shift: shiftsArr, shiftDate: FirstDate)
+                    CalendarShifts.append(tempshiftMeta)
+                    shiftsArr.removeAll()
                     print("The days do not match")
                 }
-                print(self.tempShifts.count)
-                print("TEMSHift")
-                // save the first day
-                // if the next day is the  same than store it on the same MetaData
-                // once its not that Im going to append that to that main
+                self.shiftsArr.append(tempShifts)
+                FirstDate = startTime
                 return Shifts(id: shiftId, comment: comment, jobShifts: jobShifts, shiftName: shiftName, startTime: startTime, endTime: endTime)
             }
+            if shiftsArr.isEmpty {
+                // dont add anything but if its not empty
+            } else {
+                CalendarShifts.append(ShiftsMetaData(id: UUID().uuidString, shift: shiftsArr, shiftDate: shiftsArr[0].startTime))
+            }
+            
         }
         
     }

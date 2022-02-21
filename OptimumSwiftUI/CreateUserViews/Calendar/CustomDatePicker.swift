@@ -13,8 +13,15 @@ struct CustomDatePicker: View {
     
     @State var currentMonth: Int = 0
     @State var showDetailView: Bool = false
-    @Binding var details: Task
-    
+    @Binding var details: Shifts
+    @ObservedObject var shiftViewModel: ShiftsViewModel
+    @ObservedObject var userViewModel: userViewModel
+    func dateToHHmm(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        return dateFormatter.string(from: date)
+    }
+    @State var count = 0
     var body: some View {
 
             
@@ -78,7 +85,8 @@ struct CustomDatePicker: View {
 //                            .padding(.horizontal, 8)
 //                            .opacity(isSameDay(date1: value.date, date2: currentDate) ? 1 : 0)
                             Color.red
-                                .opacity(isSameDay(date1: value.date, date2: currentDate) ? 1 : 0)
+                                .cornerRadius(8)
+                                .opacity(isSameDay(date1: value.date, date2: currentDate) ? 0.5 : 0)
                         )
                         .onTapGesture {
                             currentDate = value.date
@@ -89,40 +97,47 @@ struct CustomDatePicker: View {
                 Text("Tasks")
                     .font(.title2.bold())
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.vertical,20)
+                    .padding(.bottom,10)
                 
-                if let task = tasks.first(where: { task in
-                    return isSameDay(date1: task.taskDate, date2: currentDate)
+                if let task = shiftViewModel.CalendarShifts.first(where: { task in
+                    return isSameDay(date1: task.shiftDate, date2: currentDate)
                 }) {
-                    ForEach(task.task) { task in
+                    ForEach(task.shift) { task in
                        
                         VStack(alignment: .leading, spacing: 10) {
                             
                             // For Custom Timing...
-                            Text(task.time.addingTimeInterval(CGFloat.random(in: 0...5000)), style: .time)
+                            //Text(task.time.addingTimeInterval(CGFloat.random(in: 0...5000)), style: .time)
+                            //Text(task.startTime)
                             //Text("\(task.time)")
-                            Text(task.title)
-                                .font(.title2.bold())
+                            HStack {
+                                Text(task.shiftName)
+                                    .font(.title2.bold())
+                                Spacer()
+                                Text(dateToHHmm(date: task.startTime))
+                                Text(" - ")
+                                Text(dateToHHmm(date: task.endTime))
+                                
+                            }
+                            
+                            
                         }
+                        
                         .onTapGesture {
                             print("you have clicked on ", task)
                             details = task
-                            let emp = task.emp
-                            for emp in emp {
-                                print(emp.name)
-                                print(emp.job)
-                            }
+//                            let emp = task.emp
+//                            for emp in emp {
+//                                print(emp.name)
+//                                print(emp.job)
+//                            }
                             showDetailView = true
                         }
                         .padding(.vertical, 10)
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(
-                            Color.purple
-                                .opacity(0.5)
-                                //.clipShape(Capsule())
-                                .cornerRadius(10)
-                        )
+                        .background(task.jobShifts.keys.contains("0 empty") ? Color.green.cornerRadius(10) : Color.gray.opacity(0.5).cornerRadius(10))
+                        
                         
                     }
                 } else {
@@ -133,7 +148,7 @@ struct CustomDatePicker: View {
         
         }
         .fullScreenCover(isPresented: $showDetailView) {
-            DetailView(details: $details)
+            DetailView(details: $details, viewModel: userViewModel)
         }
         .onChange(of: currentMonth) { newValue in
             // Updating Month...
@@ -144,27 +159,35 @@ struct CustomDatePicker: View {
     
     @ViewBuilder
     func CardView(value: DateValue)->some View {
+        var circleColor = Color.green
         VStack {
             if value.day != -1 {
-                if let task = tasks.first(where: { task in
-                    return isSameDay(date1: task.taskDate, date2: value.date)
+                if let task = shiftViewModel.CalendarShifts.first(where: { task in
+                    return isSameDay(date1: task.shiftDate, date2: value.date)
                 }) {
                     Text("\(value.day)")
                         .font(.title3.bold())
-                        .foregroundColor(isSameDay(date1: task.taskDate, date2: currentDate) ? .white : .black)
+                        .foregroundColor(isSameDay(date1: task.shiftDate, date2: currentDate) ? .white : .black)
                         .frame(maxWidth:.infinity)
                     
                     Spacer()
                     HStack {
-                        Circle()
-                            .fill(isSameDay(date1: task.taskDate, date2: currentDate) ? .white : .pink)
-                            .frame(width: 8, height: 8)
-                        Circle()
-                            .fill(isSameDay(date1: task.taskDate, date2: currentDate) ? .black : .black)
-                            .frame(width: 8, height: 8)
-                        Circle()
-                            .fill(isSameDay(date1: task.taskDate, date2: currentDate) ? .green : .green)
-                            .frame(width: 8, height: 8)
+                        
+                        ForEach(task.shift) { i in
+//                            Circle()
+//                                .fill(isSameDay(date1: task.shiftDate, date2: currentDate) ? .white : .pink)
+//                                .frame(width: 8, height: 8)
+                            Circle()
+                                .fill(ColorIndicator.getColorForShift(shiftName: i.shiftName))
+                                .frame(width: 8, height: 8)
+                        }
+                        
+//                        Circle()
+//                            .fill(isSameDay(date1: task.shiftDate, date2: currentDate) ? circleColor : circleColor)
+//                            .frame(width: 8, height: 8)
+//                        Circle()
+//                            .fill(isSameDay(date1: task.shiftDate, date2: currentDate) ? .green : .green)
+//                            .frame(width: 8, height: 8)
                     }
                 } else {
                     Text("\(value.day)")

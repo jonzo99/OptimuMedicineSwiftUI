@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Shifts: Identifiable {
+struct Shifts: Identifiable, Hashable {
     // I think I shouldnt set them equally to empty since those are things all users need I cant have one without it
     var id: String = ""
     var comment: String = ""

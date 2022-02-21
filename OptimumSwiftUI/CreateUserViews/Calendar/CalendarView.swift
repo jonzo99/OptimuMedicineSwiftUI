@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct CalendarView: View {
-    @State var details: Task = Task()
+    @State var details: Shifts = Shifts()
     @State var currentDate: Date = Date()
     @State private var mode: Int = 0
+    @ObservedObject var shiftViewModel: ShiftsViewModel
+    @ObservedObject var viewModel: userViewModel
     var body: some View {
         //NavigationView {
             
@@ -18,7 +20,10 @@ struct CalendarView: View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 20) {
                 // Custom date picker..
-                CustomDatePicker(currentDate: $currentDate, details: $details)
+                CustomDatePicker(currentDate: $currentDate, details: $details, shiftViewModel: shiftViewModel, userViewModel: viewModel)
+                    .onAppear(perform: {
+                        shiftViewModel.fetchShiftMetaData()
+                    })
             }
             .padding(.vertical)
         }
@@ -70,9 +75,9 @@ struct CalendarView: View {
 //        }
     }
 }
-
-struct CalendarView_Previews: PreviewProvider {
-    static var previews: some View {
-        CalendarView()
-    }
-}
+//
+//struct CalendarView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        //CalendarView(shiftViewModel: ShiftsViewModel)
+//    }
+//}
