@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-//import Firebase
+import Firebase
 @main
 
 struct OptimumSwiftUIApp: App {

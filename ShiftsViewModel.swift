@@ -6,7 +6,8 @@
 //
 
 import Foundation
-
+import Firebase
+import FirebaseFirestore
 // this is the day in which It lands on. SO I want to create an array of this so I can get multiple days
 struct ShiftsMetaData: Identifiable {
     var id: String = ""
