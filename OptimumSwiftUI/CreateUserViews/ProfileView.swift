@@ -9,27 +9,54 @@ import SwiftUI
 
 struct ProfileView: View {
     @ObservedObject var viewModel: userViewModel
+    
     var body: some View {
         VStack {
             List {
                 Group {
-                    Text(viewModel.currentUser.id)
-                    Text(viewModel.currentUser.costCenter)
-                    Text(viewModel.currentUser.Qualifications)
-                    Text(viewModel.currentUser.payType)
-                    Text("\(viewModel.currentUser.hireDate)")
-                    Text(viewModel.currentUser.phoneNumber)
-                    Text(viewModel.currentUser.cellPhoneService)
-                    Text(viewModel.currentUser.firstName)
-                    Text("\(viewModel.currentUser.dateOfBirth)")
+                    
+                    ProfileRow(title: "First Name", content: viewModel.currentUser.firstName)
+                    ProfileRow(title: "Email Address", content: viewModel.currentUser.EmailAddress)
+                    ProfileRow(title: "Cost Center", content: viewModel.currentUser.costCenter)
+                    ProfileRow(title: "Qualifications", content: viewModel.currentUser.Qualifications)
+                    ProfileRow(title: "Pay Type", content: viewModel.currentUser.payType)
+                    ProfileRow(title: "Pay Rate", content: viewModel.currentUser.PayRate)
+                    ProfileRow(title: "Hire Date", content: "\(viewModel.currentUser.hireDate)")
+                    ProfileRow(title: "Phone Number", content: viewModel.currentUser.phoneNumber)
+                    
                 }
+                ProfileRow(title: "Cell Phone Service", content: viewModel.currentUser.cellPhoneService)
+                ProfileRow(title: "DOB", content: "\(viewModel.currentUser.dateOfBirth)")
+                ProfileRow(title: "Emergency Phone Number", content: viewModel.currentUser.EmergencyPhoneNumber)
+                ProfileRow(title: "Emergency Contact", content: viewModel.currentUser.EmergencyContact)
                 
-                Text(viewModel.currentUser.PayRate)
-                Text(viewModel.currentUser.EmergencyPhoneNumber)
-                Text(viewModel.currentUser.EmergencyContact)
-                Text(viewModel.currentUser.EmailAddress)
-                Text(viewModel.currentUser.status)
+                ProfileRow(title: "Status", content: viewModel.currentUser.status)
+                ProfileRow(title: "ID", content: viewModel.currentUser.id)
             }
+        }
+    }
+}
+
+struct ProfileRow: View {
+    var title: String
+    var content: String
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 2){
+            Text(title)
+                .fontWeight(.semibold)
+            HStack {
+                //Image(systemName: "number")
+//                TextField("Employee ID", text: $employeeId, onEditingChanged: { edit in
+//                    self.isEditing = edit
+//                })
+                Text(content)
+                
+            }
+            .frame(maxWidth: .infinity)
+            //.padding()
+            .padding(8)
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(Color.black))
         }
     }
 }

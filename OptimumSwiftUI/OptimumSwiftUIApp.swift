@@ -7,10 +7,11 @@
 
 import SwiftUI
 
-import Firebase
+//import Firebase
 @main
 
 struct OptimumSwiftUIApp: App {
+    
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     //@UIApplicationDelegateAdaptor(appDelegate.self)
     @AppStorage("isLoggedIn") var isLoggedIn: Bool = false

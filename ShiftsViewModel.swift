@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Firebase
+
 // this is the day in which It lands on. SO I want to create an array of this so I can get multiple days
 struct ShiftsMetaData: Identifiable {
     var id: String = ""
@@ -19,11 +19,33 @@ class ShiftsViewModel: ObservableObject {
     var tempshiftMeta = ShiftsMetaData()
     var shiftsArr = [Shifts]()
     @Published var allShifts = [Shifts]()
+    @Published var userAvailableShifts = [ShiftsMetaData]()
     //@Published var arrShift = [Shifts]()
     private var db = Firestore.firestore()
     
-    func fetchAllShifts() {
-        db.collection("shifts").addSnapshotListener { (querySnapshot, error) in
+//    func fetchCurrentUsersShifts() {
+//        db.collection("shifts").addSnapshotListener { (querySnapshot, error) in
+//            guard let documents = querySnapshot?.documents else {
+//                print(error)
+//                print("There was an error getting the shifts documents")
+//                return
+//            }
+//            self.allShifts = documents.map { (querySnapshot) -> Shifts in
+//                //let shiftId = data
+//                let data = querySnapshot.data()
+//                let shiftId = data["id"] as? String ?? ""
+//                let comment = data["comment"] as? String ?? ""
+//                let jobShifts = data["jobShifts"] as? [String: String] ?? [String: String]()
+//                let shiftName = data["shiftName"] as? String ?? ""
+//                let startTime = (data["startTime"] as? Timestamp)?.dateValue() ?? Date()
+//                let endTime = (data["endTime"] as? Timestamp)?.dateValue() ?? Date()
+//
+//               return Shifts(id: shiftId, comment: comment, jobShifts: jobShifts, shiftName: shiftName, startTime: startTime, endTime: endTime)
+//            }
+//        }
+//    }
+    func fetchCurrentUsersShifts() {
+        db.collection("shifts").whereField("shiftName", isEqualTo: "OM 1").getDocuments() { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print(error)
                 print("There was an error getting the shifts documents")
@@ -39,11 +61,11 @@ class ShiftsViewModel: ObservableObject {
                 let startTime = (data["startTime"] as? Timestamp)?.dateValue() ?? Date()
                 let endTime = (data["endTime"] as? Timestamp)?.dateValue() ?? Date()
                 
-               return Shifts(id: shiftId, comment: comment, jobShifts: jobShifts, shiftName: shiftName, startTime: startTime, endTime: endTime)
+                return Shifts(id: shiftId, comment: comment, jobShifts: jobShifts, shiftName: shiftName, startTime: startTime, endTime: endTime)
+            
             }
         }
     }
-    
     func fetchShiftMetaData() {
 //        shifts.append(ShiftsMetaData(task: [
 //            Task(title: "OM 1", time: Date(timeIntervalSince1970: 99999333)),
@@ -61,7 +83,7 @@ class ShiftsViewModel: ObservableObject {
            
             //
             
-            let t  = documents.map { (querySnapShot) -> Shifts in
+            self.allShifts = documents.map { (querySnapShot) -> Shifts in
                 let data = querySnapShot.data()
                 let shiftId = data["id"] as? String ?? ""
                 let comment = data["comment"] as? String ?? ""
@@ -85,7 +107,10 @@ class ShiftsViewModel: ObservableObject {
                     
                 } else {
                     let idd = UUID().uuidString
-                    tempshiftMeta = ShiftsMetaData(id: idd, shift: shiftsArr, shiftDate: FirstDate)
+                    tempshiftMeta = ShiftsMetaData(id: idd, shift: self.shiftsArr, shiftDate: FirstDate)
+                    if shiftName == "OM 1" {
+                        userAvailableShifts.append(tempshiftMeta)
+                    }
                     CalendarShifts.append(tempshiftMeta)
                     shiftsArr.removeAll()
                     print("The days do not match")

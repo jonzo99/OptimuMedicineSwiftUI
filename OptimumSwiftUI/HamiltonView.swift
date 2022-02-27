@@ -7,7 +7,7 @@
 import SwiftUI
 
 
-@available(iOS 15.0, *)
+//@available(iOS 15.0, *)
 struct HamiltonView: View {
     func getTotalSecondsLeft() -> Int {
         let numPsiTextField  = Double(psiTextField)  ?? 0
@@ -509,10 +509,6 @@ struct HamiltonView: View {
 
 struct HamiltonView_Previews: PreviewProvider {
     static var previews: some View {
-        if #available(iOS 15.0, *) {
-            HamiltonView()
-        } else {
-            // Fallback on earlier versions
-        }
+        HamiltonView()
     }
 }

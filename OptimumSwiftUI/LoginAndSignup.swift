@@ -42,14 +42,14 @@ struct LoginAndSignup: View {
                         Spacer()
                         
                         
-                        NavigationLink(destination: SignInView(isLoggedIn: isLoggedIn)) {
-                            
-                            Text("Sign In")
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.gray)
-                        }
+//                        NavigationLink(destination: SignInView(isLoggedIn: isLoggedIn)) {
+//                            
+//                            Text("Sign In")
+//                                .foregroundColor(.white)
+//                                .frame(maxWidth: .infinity)
+//                                .padding()
+//                                .background(Color.gray)
+//                        }
                         
                         NavigationLink(destination: SignUpView(isLoggedIn: $isLoggedIn)) {
                             

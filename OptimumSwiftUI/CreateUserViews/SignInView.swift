@@ -15,15 +15,15 @@ struct SignInView: View {
     @State var password = "12345678"
     @State var employeeId = ""
     @State var showContentView = false
-    //@ObservedObject var viewModel: userViewModel
     let db = Firestore.firestore()
     enum Field {
         case email
         case password
     }
-    
+    @AppStorage("isFirstSignIn") var isFirstSignIn: Bool = false
     @FocusState private var focusedField: Field?
     @State var isLoggedIn: Bool = true
+    
     var body: some View {
         ZStack {
             RadialGradient (
@@ -96,7 +96,8 @@ struct SignInView: View {
                             print(error)
                         } else {
                             // this is the correct way to do it. Im creating a new user and the document id with be the current user id and the setData is whatever data I want to save for that user.
-//                            db.collection("users").document("uid").setData(["id": "uid", "lastName": "Jimenez"])
+//                            db.collection("users").document("uid").setData(["id": "uid", "lastName": "Jimenez"])\
+                            isFirstSignIn  = true
                             showContentView = true
                             isLoggedIn = true
                             //viewModel.fetchCurrentUser()

@@ -6,7 +6,9 @@
 //
 
 import SwiftUI
-
+import FirebaseFirestore
+import Firebase
+import Combine
 struct MainSideMenu: View {
     @Binding var showMenu: Bool
     @State var isShowingLogIn = false
@@ -14,7 +16,6 @@ struct MainSideMenu: View {
     @ObservedObject var viewModel: userViewModel
     @ObservedObject var shiftViewModel = ShiftsViewModel()
     @State var isFirst = false
-    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             VStack(alignment: .leading, spacing: 14) {
@@ -32,7 +33,7 @@ struct MainSideMenu: View {
 //                    viewModel.fetchData()
 //                }
 
-                Text(viewModel.currentUser.Qualifications)
+                Text(viewModel.currentUser.costCenter)
                     .font(.callout)
                     .fontWeight(.semibold)
                     .onTapGesture {
@@ -45,9 +46,9 @@ struct MainSideMenu: View {
                         
                     } label: {
                         Label {
-                            Text("Blank Data")
+                            Text("Accepted Job shifts")
                         } icon: {
-                            Text("189")
+                            Text("4")
                                 .fontWeight(.bold)
                         }
                     }
@@ -89,7 +90,7 @@ struct MainSideMenu: View {
                         TabButton(title: "New Employee", image: "logo.playstation")
                         Divider()
                         TabButton(title: "New Shift", image: "loupe")
-                        TabButton(title: "All Shifts", image: "calendar")
+                        //TabButton(title: "All Shifts", image: "calendar")
                     }
                     
                     // this is how I can show data depending on the user
@@ -102,10 +103,16 @@ struct MainSideMenu: View {
                 .padding(.leading)
                 .padding(.top, 35)
             }
-        }
+        } 
         .onAppear() {
-            viewModel.fetchData()
-            viewModel.fetchCurrentUser()
+            
+            
+            if UserDefaults.standard.bool(forKey: "isFirstSignIn") == true {
+                viewModel.fetchData()
+                viewModel.fetchCurrentUser()
+                UserDefaults.standard.set(false, forKey: "isFirstSignIn")
+            }
+            
         }
         .padding(.top)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -144,7 +151,15 @@ struct MainSideMenu: View {
 //        }
         if title == "LogOut" {
             Button {
-                isShowingLogIn = true
+
+            
+                do {
+                    try Auth.auth().signOut()
+                    isShowingLogIn = true
+                    //Auth.auth().signIn
+                } catch {
+                    print(error)
+                }
             } label: {
                 HStack(spacing: 14) {
                     Image(systemName: image)
@@ -168,7 +183,7 @@ struct MainSideMenu: View {
                 } else if (title == "All Shifts") {
                     VStack {
                         Button("fetch all shifts") {
-                            shiftViewModel.fetchAllShifts()
+                            //shiftViewModel.fetchAllShifts()
                             print(shiftViewModel.allShifts)
                             
                         }
@@ -226,10 +241,20 @@ struct MainSideMenu: View {
                     }
                 } else if (title == "Profile") {
                     ProfileView(viewModel: viewModel)
+                        .navigationBarTitle(title)
+                        .navigationBarTitleDisplayMode(.inline)
                 } else if (title == "New Shift") {
                     NewShiftView()
                         .navigationTitle(title)
                         .navigationBarTitleDisplayMode(.inline)
+                } else if (title == "Punch") {
+                    
+                    PunchView()
+                        .navigationBarTitle(title)
+                        .navigationBarTitleDisplayMode(.inline)
+                        .onAppear(){
+                            showMenu = false
+                        }
                 }
                 
                 else if (title == "timer") {

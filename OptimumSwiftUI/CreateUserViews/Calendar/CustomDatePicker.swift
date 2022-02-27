@@ -22,6 +22,7 @@ struct CustomDatePicker: View {
         return dateFormatter.string(from: date)
     }
     @State var count = 0
+    @State private var mode: Int = 0
     var body: some View {
 
             
@@ -147,6 +148,7 @@ struct CustomDatePicker: View {
             .padding()
         
         }
+            
         .fullScreenCover(isPresented: $showDetailView) {
             DetailView(details: $details, viewModel: userViewModel)
         }

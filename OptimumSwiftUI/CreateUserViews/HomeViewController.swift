@@ -20,6 +20,8 @@ struct HomeViewController: View {
     @ObservedObject var viewModel = userViewModel()
     // Gesture Offset...
     @GestureState var gestureOffset: CGFloat = 0
+    @State var currentUserEmail = ""
+    //@AppStorage("isFirstSignIn") var isFirstSignIn: Bool
     var body: some View {
         let sideBarWidth = getRect().width - 90
         NavigationView {

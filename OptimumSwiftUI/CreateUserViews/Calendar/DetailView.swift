@@ -10,6 +10,8 @@ import UIKit
 import Foundation
 import Combine
 import FirebaseFirestore
+import EventKit
+import EventKitUI
 struct DetailView: View {
     @Binding var details: Shifts
     @Environment(\.presentationMode) var presentationMode
@@ -18,6 +20,7 @@ struct DetailView: View {
     @State var selectedValue: String = ""
     @State var selectedKey: String = ""
     @ObservedObject var viewModel: userViewModel
+    let eventStore = EKEventStore()
     var body: some View {
         NavigationView {
             ZStack {
@@ -88,6 +91,29 @@ struct DetailView: View {
                     
                 }
             }
+            .onAppear() {
+                eventStore.requestAccess( to: EKEntityType.event, completion:{(granted, error) in
+                           DispatchQueue.main.async {
+                               if (granted) && (error == nil) {
+                                   let event = EKEvent(eventStore: self.eventStore)
+                                   // this is where I would
+                                   // pop up the view so that the user can customize how
+                                   // they want the event to be
+//                                   event.title = "Keynote Apple"
+                                   print("you gave me access")
+//                                   event.startDate = self.time
+//                                   event.url = URL(string: "https://apple.com")
+//                                   event.endDate = self.time
+//                                   let eventController = EKEventEditViewController()
+//                                   eventController.event = event
+//                                   eventController.eventStore = self.eventStore
+//                                   eventController.editViewDelegate = self
+//                                   self.present(eventController, animated: true, completion: nil)
+                                   
+                               }
+                           }
+                       })
+            }
             .navigationBarTitle("Pick Up Shift", displayMode: .inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -115,7 +141,20 @@ struct DetailView: View {
                                 "comment": "Practice1",
                                 "jobShifts": dic
                             ])
+                            let event:EKEvent = EKEvent(eventStore: eventStore)
+                            event.title = "\(details.shiftName) Shift For Optimum"
+                            event.startDate = details.startTime
+                            event.endDate = details.endTime
+                            event.notes = "Make sure to be on work on time"
+                            event.calendar = eventStore.defaultCalendarForNewEvents
                             
+                            do {
+                                try eventStore.save(event, span: .thisEvent)
+                                
+                            } catch let error as NSError {
+                                print("failed to save event with error : \(error)")
+                            }
+                            print("Saved Event")
                         }
                     }
                 }, secondaryButton: .cancel(Text("NO 😕")))
