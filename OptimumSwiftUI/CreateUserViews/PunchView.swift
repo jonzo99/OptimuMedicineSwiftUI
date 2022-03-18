@@ -15,11 +15,14 @@ struct PunchView: View {
         ZStack {
             VStack {
                 Map(coordinateRegion: $punchViewModel.region, showsUserLocation: true)
-                    .ignoresSafeArea()
+                    //.ignoresSafeArea()
                     .accentColor(.pink)
                     .onAppear {
                         punchViewModel.checkIfLocationServicesIsEnabled()
                     }
+                Spacer()
+                
+                
 //                    .overlay(content: {
 //                        Spacer()
 //                        VStack {
@@ -33,6 +36,7 @@ struct PunchView: View {
             }
             VStack {
                 Spacer()
+                Spacer()
                 Button("PUNCH IN") {
                     print("hey")
                     showAlert = true
@@ -41,6 +45,7 @@ struct PunchView: View {
                 .tint(.red)
                 .frame(maxWidth: .infinity)
                 .padding()
+                Spacer()
                 //.background(Color.red)
                 
             }

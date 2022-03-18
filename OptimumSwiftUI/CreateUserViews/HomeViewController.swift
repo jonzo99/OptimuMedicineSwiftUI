@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+
+import UIKit
 //https://www.youtube.com/watch?v=0HEYo3QRDfA
 /// this is the youtube toturial that showed me how to do it
 /// note to myself I need to start linking where I find the code that helped me solved this situation so I can go back and loook at them and they can help me outss
@@ -30,8 +32,14 @@ struct HomeViewController: View {
             
             HStack(spacing: 0) {
                 MainSideMenu(showMenu: $showMenu, viewModel: viewModel)
+                    //.foregroundColor(.pink)
+                    
                 VStack(spacing: 0) {
-                    Text("These Are the Annocentments")
+                    Text("Announcements")
+                        .fontWeight(.bold)
+                        .font(.title)
+                    
+                        .padding()
                     VStack {
                         //Color.red
                           //  .ignoresSafeArea()
@@ -46,7 +54,7 @@ struct HomeViewController: View {
                                 //}
                                 
                             }
-                            .listRowBackground(Color.purple)
+                            .listRowBackground(Color.red.opacity(0.7))
                             //.listRowBackground(Color.red.ignoresSafeArea())
                             
                         }
@@ -64,12 +72,42 @@ struct HomeViewController: View {
                     .cornerRadius(15)
                     //.frame(maxWidth: .infinity)
                     .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height / 3)
-                    
-                    
-                    //.background(Color.pink)
-                    Text("these should be buttonsdfgdgfdgss")
-                    Text("these should be buttonsdfgdfgdfgdfg")
                     Spacer()
+                    HStack{
+                        NavigationLink {
+                            PunchView()
+                                .navigationBarTitle("Punch")
+                                .navigationBarTitleDisplayMode(.inline)
+//                                .onAppear(){
+//                                    showMenu = false
+//                                }
+                        } label: {
+                            Text("Punch In")
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                        }
+                        
+                        .padding()
+                        .buttonStyle(.bordered)
+                        .tint(Color.red)
+                        //Button
+                        Button {
+                            print("Navigate to the screen")
+                        } label: {
+                            Text("Calendar")
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                        }
+                        
+                        .padding()
+                        .buttonStyle(.bordered)
+                        .tint(Color.green)
+                    }
+                   
+                    //.background(Color.pink)
+//                    Text("these should be buttonsdfgdgfdgss")
+//                    Text("these should be buttonsdfgdfgdfgdfg")
+                    //Spacer()
 //                    List(viewModel.users) { usser in
 //                        VStack {
 //                            Text(usser.lastName)
@@ -120,7 +158,8 @@ struct HomeViewController: View {
                         //}
                     }, label: {
                         Image(systemName: "list.bullet")
-                            .foregroundColor(.black)
+                            .foregroundColor(Color.gray)
+                            
                     })
                 }
                 ToolbarItem(placement: .principal) {

@@ -73,6 +73,7 @@ struct UserInfoView: View {
     ]
     @State var cellPhoneServiceCompanies = ["Service","AT&T", "Verizon", "T-Mobile", "Sprint"]
     @State var isEditing = false
+    @Environment(\.presentationMode) var presentationMode
     var body: some View {
         //NavigationView {
         
@@ -332,6 +333,7 @@ struct UserInfoView: View {
                                         }
                                     }
                                 }
+                                presentationMode.wrappedValue.dismiss()
                                 // I should store my dob as a date variable just in case I want to do some
                                 //                                    let user = ["employeeId": 1002,
                                 //                                                "status": "Active",

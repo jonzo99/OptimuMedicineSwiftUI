@@ -103,7 +103,8 @@ struct MainSideMenu: View {
                 .padding(.leading)
                 .padding(.top, 35)
             }
-        } 
+        }
+        
         .onAppear() {
             
             
@@ -125,6 +126,7 @@ struct MainSideMenu: View {
                 .ignoresSafeArea(.container, edges: .vertical)
         )
         .frame(maxWidth: .infinity, alignment: .leading)
+        .background(ColorIndicator.SideMenuColor)
         .fullScreenCover(isPresented: $isShowingLogIn) {
             SignInView()
         }
@@ -132,27 +134,8 @@ struct MainSideMenu: View {
     }
     @ViewBuilder
     func TabButton(title: String, image: String) -> some View {
-        
-        // For navigation...
-        // Simply replace button with Navigation Links...
-//        Button {
-//
-//        } label: {
-//            HStack(spacing: 14) {
-//                Image(systemName: image)
-//                    .resizable()
-//                    .renderingMode(.template)
-//                    .aspectRatio(contentMode: .fill)
-//                    .frame(width: 22, height: 22)
-//                Text(title)
-//            }
-//            .foregroundColor(.primary)
-//            .frame(maxWidth: .infinity, alignment: .leading)
-//        }
         if title == "LogOut" {
             Button {
-
-            
                 do {
                     try Auth.auth().signOut()
                     isShowingLogIn = true
@@ -180,6 +163,9 @@ struct MainSideMenu: View {
                 
                 if (title == "Calendar") {
                     CalendarView(shiftViewModel: shiftViewModel, viewModel: viewModel)
+//                        .onAppear(){
+//                            showMenu = false
+//                        }
                 } else if (title == "All Shifts") {
                     VStack {
                         Button("fetch all shifts") {
@@ -198,14 +184,6 @@ struct MainSideMenu: View {
                             VStack {
                                 
                                 Text(shift.id)
-//                                if shift.shift.count > 0 {
-//                                    Text(shift.shift[0].shiftName)
-//                                }
-//
-//                                if shift.shift.count > 1 {
-//                                    Text(shift.shift[0].shiftName)
-//                                    Text(shift.shift[1].shiftName)
-//                                }
                                 if shift.shift.count > 0 {
                                     Text(shift.shift[0].shiftName)
                                 }
@@ -214,18 +192,11 @@ struct MainSideMenu: View {
                                 Text("\(shift.shiftDate)")
                             }
                         }
-                        // I Found the issue I am just displaying the same thing over and over agian
                         List(shiftViewModel.allShifts) { shift in
                             VStack {
-                              //  Text(shift.id)
-                                //Text(shift.comment)
+                             
                                 Text(shift.shiftName)
-                                //Text("\(shift.jobShifts[0])")
-                                //Text(shift.jobShifts[0].valu)
-                                // so I am storing my information correctly just only when its time to display I am doing it wrong
-                                
-                                // I just need to create a 2D array its going to be to complicated to keep it this format
-                                // the issue I am having it displaying the values of the dictionary.
+                              
                                 ForEach(shift.jobShifts.sorted(by: <), id: \.key) { key, value in
                                     HStack {
                                         Text(key)
@@ -247,6 +218,9 @@ struct MainSideMenu: View {
                     NewShiftView()
                         .navigationTitle(title)
                         .navigationBarTitleDisplayMode(.inline)
+                        .onAppear(){
+                            showMenu = false
+                        }
                 } else if (title == "Punch") {
                     
                     PunchView()
@@ -266,6 +240,9 @@ struct MainSideMenu: View {
                     UserInfoView()
                         .navigationTitle("New Employee")
                         .navigationBarTitleDisplayMode(.inline)
+                        .onAppear(){
+                            showMenu = false
+                        }
                 }
                 else  {
                     Text(title)
@@ -291,12 +268,12 @@ struct MainSideMenu: View {
     
 }
 
-//struct MainSideMenu_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MainSideMenu(showMenu: .constant(true), viewModel: userViewMo)
-//            
-//    }
-//}
+struct MainSideMenu_Previews: PreviewProvider {
+    static var previews: some View {
+        MainSideMenu(showMenu: .constant(true), viewModel: userViewModel())
+            
+    }
+}
 
 extension View {
     func getRect()->CGRect {

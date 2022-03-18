@@ -14,8 +14,8 @@ struct OptimumSwiftUIApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     //@UIApplicationDelegateAdaptor(appDelegate.self)
-    @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
-    
+    //@AppStorage("isLoggedIin") var isLoggedIn8: Bool
+   // @AppStorage("isFirstSignIn") var isFirstSignIn: Bool = false
     
     var body: some Scene {
         WindowGroup {
@@ -24,6 +24,29 @@ struct OptimumSwiftUIApp: App {
 //                    .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
 //            } else {
 //                ContentView(isLoggedIn: $isLoggedIn)
+//                    .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
+//            }
+            
+            // this should be called OnBoardingView
+//            if isFirstSignIn == true {
+//                HomeViewController()
+//                    .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
+//            } else {
+//
+//                SignInView()
+//                    .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
+//            }
+            
+            // Can not do this just yet because I still have some logic that is tied to this
+//            if UserDefaults.standard.bool(forKey: "isFirstSignIn") == true {
+////                viewModel.fetchData()
+////                viewModel.fetchCurrentUser()
+////                UserDefaults.standard.set(false, forKey: "isFirstSignIn")
+//                SignInView()
+//                    .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
+//
+//            } else {
+//                HomeViewController()
 //                    .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
 //            }
             SignInView()

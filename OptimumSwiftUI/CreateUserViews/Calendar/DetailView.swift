@@ -24,8 +24,8 @@ struct DetailView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.gray
-                    //.ignoresSafeArea()
+                Color.gray.opacity(0.7)
+                    .ignoresSafeArea()
                 
                 VStack {
                     Text(details.shiftName)
@@ -39,20 +39,29 @@ struct DetailView: View {
                             .padding(.leading, 20)
                         Spacer()
                         Text(dateFormatHHMM(date: details.startTime))
-                            .fontWeight(.semibold)
+                            .font(.title2.bold())
                         Text("-")
-                            .fontWeight(.semibold)
+                            .font(.title2.bold())
                         Text(dateFormatHHMM(date: details.endTime))
-                            .fontWeight(.semibold)
+                            .font(.title2.bold())
                         Spacer()
                     }
                     List {
-                        
+                        HStack{
+                            Text("Employee")
+                            Spacer()
+                            Text("Title")
+                        }
+                        .font(.title2.bold())
+                        .padding(.horizontal)
                         ForEach(details.jobShifts.sorted(by: <), id: \.key) { key, value in
                             HStack {
                                 Text(key)
+                                    .font(.title3.bold())
                                 Spacer()
+                                    
                                 Text(value)
+                                    .font(.title3.bold())
     
                                 
 //                                if emp.job == "Site Lead" {
@@ -61,6 +70,7 @@ struct DetailView: View {
 //                                    Image(systemName: "person.crop.circle.badge.checkmark").foregroundColor(.green).imageScale(.large)
 //                                }
                             }
+                            .padding(.horizontal)
                             .listRowBackground(key.contains("empty") ? Color.green.opacity(0.4) : Color.gray.opacity(0.4))
                             .onTapGesture {
                                 showAlert = true
@@ -70,7 +80,13 @@ struct DetailView: View {
                         }
                         
                     }
-                    .listStyle(.plain)
+                    //.padding()
+                    //.listStyle(.bordered)
+                    .listStyle(.automatic)
+                    .listStyle(.inset)
+                    //.background(.red)
+                    //.listStyle(BorderedListStyle)
+                    //.listStyle()
                     
                     .cornerRadius(15)
                     .border(Color.black, width: 1)
@@ -141,6 +157,7 @@ struct DetailView: View {
                                 "comment": "Practice1",
                                 "jobShifts": dic
                             ])
+                            details.jobShifts = dic
                             let event:EKEvent = EKEvent(eventStore: eventStore)
                             event.title = "\(details.shiftName) Shift For Optimum"
                             event.startDate = details.startTime

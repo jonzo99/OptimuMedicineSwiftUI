@@ -15,33 +15,37 @@ struct CalendarView: View {
     @ObservedObject var viewModel: userViewModel
     var body: some View {
         //NavigationView {
-            
-        
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: 20) {
-                // Custom date picker..
-                CustomDatePicker(currentDate: $currentDate, details: $details, shiftViewModel: shiftViewModel, userViewModel: viewModel)
-                    .onAppear(perform: {
-                        shiftViewModel.fetchShiftMetaData()
-                    })
-            }
-            .padding(.vertical)
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                Picker("Color", selection: $mode) {
-                    Text("All Available Jobs").tag(0)
-                        .font(.title)
-                    Text("Jobs For Me").tag(1)
-                        .font(.title)
+        ZStack {
+            Color.gray.opacity(0.3)
+                .ignoresSafeArea()
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(spacing: 20) {
+                    // Custom date picker..
+                    CustomDatePicker(currentDate: $currentDate, details: $details, shiftViewModel: shiftViewModel, userViewModel: viewModel)
+                        .onAppear(perform: {
+                            shiftViewModel.fetchShiftMetaData()
+                        })
                 }
-                .foregroundColor(.gray)
-                .tint(Color.gray)
-//                .pickerStyle(SegmentedPickerStyle())
+                
+                .padding(.vertical)
             }
-            
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Picker("Color", selection: $mode) {
+                        Text("All Available Jobs").tag(0)
+                            .font(.title)
+                        Text("Jobs For Me").tag(1)
+                            .font(.title)
+                    }
+                    .foregroundColor(.gray)
+                    .tint(Color.gray)
+    //                .pickerStyle(SegmentedPickerStyle())
+                }
+                
+            }
         }
+        
     
         //.navigationBarTitleDisplayMode(.inline,)
        // }

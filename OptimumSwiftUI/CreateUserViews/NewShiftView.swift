@@ -77,12 +77,14 @@ struct NewShiftView: View {
     @State var qualificationDic = [String: String]()
     @State var selectedQualifcation = ["None"]
     let eventStore = EKEventStore()
-    
+    @Environment(\.presentationMode) var presentationMode
     let db = Firestore.firestore()
     // and than I can have duration but only as informational
     var body: some View {
-        NavigationView {
             // this is what I can do I can let the
+        ZStack {
+            Color.gray.opacity(0.2)
+                .ignoresSafeArea()
             ScrollView {
                 VStack(alignment: .leading, spacing: 2){
                     HStack {
@@ -242,6 +244,7 @@ struct NewShiftView: View {
                 //  with the hour and min also I will have a switch that says nextday that represents teh  next day
                 
             }
+        }
             .toolbar {
                 ToolbarItem {
                     Text("Save")
@@ -283,6 +286,8 @@ struct NewShiftView: View {
                                     print("new shift has been created")
                                 }
                             }
+                            
+                            presentationMode.wrappedValue.dismiss()
 //                            db.collection("users").document(uid).setData(newUser) { error in
 //                                if let err = error {
 //                                    print("there was an error", err)
@@ -294,7 +299,7 @@ struct NewShiftView: View {
                         }
                 }
             }
-        }
+    
     }
 }
 
