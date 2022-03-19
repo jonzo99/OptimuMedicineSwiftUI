@@ -64,10 +64,10 @@ struct NewShiftView: View {
     @State var StartTime = Date()
     @State var startHourMin = "10:30"
     
-    @State var commentss = "dfdsfdsfdsfdsfsdfdsf"
+    @State var commentss = "Make sure to show up to work on Time"
     func dateToString(date: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM/dd"
+        dateFormatter.dateFormat = "MM/dd"
         //dateFormatter.timeZone = TimeZone.current
         //dateFormatter.locale = Locale.current
         return dateFormatter.string(from: date) // replace Date String
@@ -80,6 +80,7 @@ struct NewShiftView: View {
     let eventStore = EKEventStore()
     @Environment(\.presentationMode) var presentationMode
     let db = Firestore.firestore()
+    @State private var nextDay = false
     let formatter: NumberFormatter = {
             let formatter = NumberFormatter()
             formatter.numberStyle = .decimal
@@ -121,7 +122,7 @@ struct NewShiftView: View {
                 .padding()
                 VStack(alignment: .leading, spacing: 2){
                     HStack {
-                        Text("Qulification")
+                        Text("Qualification")
                             .fontWeight(.semibold)
                         Button("Add") {
                             selectedQualifcation.append("None")
@@ -231,8 +232,9 @@ struct NewShiftView: View {
                     .padding(.trailing, 4)
                     
                     HStack {
-                        Text("\(dateToString(date: StartTime))")
-                        Spacer(minLength: 40)
+                        //Text("\(dateToString(date: StartTime))")
+                        //Spacer(minLength: 40)
+                        Toggle("Next Day", isOn: $nextDay)
                         HStack {
                             Image(systemName: "clock")
                                 .foregroundColor(.green)
@@ -309,6 +311,19 @@ struct NewShiftView: View {
         let endMin = endHourMin.components(separatedBy: ":")[1]
         endTime = Calendar.current.date(bySettingHour: Int(endHour) ?? 0, minute: Int(endMin) ?? 0, second: 0, of: StartTime)!
         let uuid = NSUUID().uuidString
+        if nextDay {
+            endTime = Calendar.current.date(byAdding: .day, value: 1, to: endTime)!
+        }
+        
+        // I would just need to create a for loop for
+        // The date the user choose so lets say the choose up to april first
+        
+        // while the starting date >= april first
+        // keep sending it and than adding a week to it
+        
+        // make a variable the so for like 30 times create a variable that just exits it
+        // so I dont break the back end.
+        
         // this would be better to do not set the ID when I create it
         // but when I retrive it I should get the document id: and set the id to
         let newShift = ["comment": commentss,

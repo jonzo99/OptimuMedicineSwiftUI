@@ -216,7 +216,7 @@ struct UserInfoView: View {
                 Spacer()
             }
             HStack {
-                DatePicker(selection: $hireDate, in: ...Date(), displayedComponents: [.date]) {
+                DatePicker(selection: $hireDate, displayedComponents: [.date]) {
                     Text("Hire Date:")
                         .fontWeight(.semibold)
                 }
