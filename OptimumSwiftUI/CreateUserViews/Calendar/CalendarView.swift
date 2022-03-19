@@ -21,7 +21,7 @@ struct CalendarView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 20) {
                     // Custom date picker..
-                    CustomDatePicker(currentDate: $currentDate, details: $details, shiftViewModel: shiftViewModel, userViewModel: viewModel)
+                    CustomDatePicker(currentDate: $currentDate, details: $details, shifts: $shiftViewModel.CalendarShifts, userViewModel: viewModel)
                         .onAppear(perform: {
                             shiftViewModel.fetchShiftMetaData()
                         })

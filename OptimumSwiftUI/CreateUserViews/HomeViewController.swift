@@ -20,6 +20,7 @@ struct HomeViewController: View {
     @State var offset: CGFloat = 0
     @State var lastStoredOffset: CGFloat = 0
     @ObservedObject var viewModel = userViewModel()
+    @ObservedObject var shiftViewModel = ShiftsViewModel()
     // Gesture Offset...
     @GestureState var gestureOffset: CGFloat = 0
     @State var currentUserEmail = ""
@@ -31,7 +32,7 @@ struct HomeViewController: View {
             
             
             HStack(spacing: 0) {
-                MainSideMenu(showMenu: $showMenu, viewModel: viewModel)
+                MainSideMenu(showMenu: $showMenu, viewModel: viewModel, shiftViewModel: shiftViewModel)
                     //.foregroundColor(.pink)
                     
                 VStack(spacing: 0) {
@@ -73,37 +74,68 @@ struct HomeViewController: View {
                     //.frame(maxWidth: .infinity)
                     .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height / 3)
                     Spacer()
-                    HStack{
-                        NavigationLink {
-                            PunchView()
-                                .navigationBarTitle("Punch")
-                                .navigationBarTitleDisplayMode(.inline)
-//                                .onAppear(){
-//                                    showMenu = false
-//                                }
-                        } label: {
-                            Text("Punch In")
-                                .frame(maxWidth: .infinity)
-                                .padding()
+                    VStack(spacing: 0) {
+                        HStack {
+                            NavigationLink {
+                                ContentView(isLoggedIn: .constant(true))
+                                    //.navigationBarTitle("")
+                                    //.navigationBarTitleDisplayMode(.inline)
+                                //                                .onAppear(){
+                                //                                    showMenu = false
+                                //                                }
+                            } label: {
+                                Text("Timer")
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                            }
+                            
+                            .padding()
+                            .buttonStyle(.bordered)
+                            .tint(Color.red)
+                            //Button
+                            NavigationLink {
+                                CalendarView(shiftViewModel: shiftViewModel, viewModel: viewModel)
+                            } label: {
+                                Text("All Shifts")
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                            }
+                            
+                            .padding()
+                            .buttonStyle(.bordered)
+                            .tint(Color.green)
                         }
-                        
-                        .padding()
-                        .buttonStyle(.bordered)
-                        .tint(Color.red)
-                        //Button
-                        Button {
-                            print("Navigate to the screen")
-                        } label: {
-                            Text("Calendar")
-                                .frame(maxWidth: .infinity)
-                                .padding()
+                        HStack{
+                            NavigationLink {
+                                PunchView()
+                                    .navigationBarTitle("Punch")
+                                    .navigationBarTitleDisplayMode(.inline)
+                                //                                .onAppear(){
+                                //                                    showMenu = false
+                                //                                }
+                            } label: {
+                                Text("Punch In")
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                            }
+                            
+                            .padding()
+                            .buttonStyle(.bordered)
+                            .tint(Color.red)
+                            //Button
+                            NavigationLink {
+                                CalendarViewForUser(shiftViewModel: shiftViewModel, viewModel: viewModel)
+                            } label: {
+                                Text("My Shifts")
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                            }
+                            
+                            .padding()
+                            .buttonStyle(.bordered)
+                            .tint(Color.green)
                         }
-                        
-                        .padding()
-                        .buttonStyle(.bordered)
-                        .tint(Color.green)
                     }
-                   
                     //.background(Color.pink)
 //                    Text("these should be buttonsdfgdgfdgss")
 //                    Text("these should be buttonsdfgdfgdfgdfg")

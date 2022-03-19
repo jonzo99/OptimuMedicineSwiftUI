@@ -81,6 +81,7 @@ struct NewShiftView: View {
     @Environment(\.presentationMode) var presentationMode
     let db = Firestore.firestore()
     @State private var nextDay = false
+    @State private var repeatingEvent = false
     let formatter: NumberFormatter = {
             let formatter = NumberFormatter()
             formatter.numberStyle = .decimal
@@ -190,8 +191,11 @@ struct NewShiftView: View {
                             //.padding(.horizontal)
                         }
                     }
+                    
+                    Toggle("Repeating Event", isOn: $repeatingEvent)
+                        .padding(.top)
                 }
-                .padding()
+                .padding(.horizontal)
                 Divider()
                 VStack(alignment: .leading, spacing: 2) {
                     HStack {

@@ -14,7 +14,9 @@ struct CustomDatePicker: View {
     @State var currentMonth: Int = 0
     @State var showDetailView: Bool = false
     @Binding var details: Shifts
-    @ObservedObject var shiftViewModel: ShiftsViewModel
+    //@ObservedObject var shiftViewModel: ShiftsViewModel
+    
+    @Binding var shifts: [ShiftsMetaData]
     @ObservedObject var userViewModel: userViewModel
     func dateToHHmm(date: Date) -> String {
         let dateFormatter = DateFormatter()
@@ -100,7 +102,7 @@ struct CustomDatePicker: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom,10)
                 
-                if let task = shiftViewModel.CalendarShifts.first(where: { task in
+                if let task = shifts.first(where: { task in
                     return isSameDay(date1: task.shiftDate, date2: currentDate)
                 }) {
                     ForEach(task.shift) { task in
@@ -164,7 +166,7 @@ struct CustomDatePicker: View {
         var circleColor = Color.green
         VStack {
             if value.day != -1 {
-                if let task = shiftViewModel.CalendarShifts.first(where: { task in
+                if let task = shifts.first(where: { task in
                     return isSameDay(date1: task.shiftDate, date2: value.date)
                 }) {
                     Text("\(value.day)")

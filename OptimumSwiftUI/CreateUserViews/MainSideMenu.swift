@@ -14,7 +14,7 @@ struct MainSideMenu: View {
     @State var isShowingLogIn = false
     //@ObservedObject private var viewModel = userViewModel()
     @ObservedObject var viewModel: userViewModel
-    @ObservedObject var shiftViewModel = ShiftsViewModel()
+    @ObservedObject var shiftViewModel: ShiftsViewModel
     @State var isFirst = false
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -78,12 +78,12 @@ struct MainSideMenu: View {
                     Group {
                         Divider()
                         TabButton(title: "Profile", image: "person.fill")
-                        Divider()
-                        TabButton(title: "Calendar", image: "calendar")
-                        Divider()
-                        TabButton(title: "Punch", image: "clock")
-                        Divider()
-                        TabButton(title: "timer", image: "timer")
+                        //Divider()
+//                        TabButton(title: "Calendar", image: "calendar")
+//                        Divider()
+//                        TabButton(title: "Punch", image: "clock")
+//                        Divider()
+//                        TabButton(title: "timer", image: "timer")
                     }
                     if viewModel.currentUser.costCenter == "Admin" {
                         Divider()
@@ -170,7 +170,7 @@ struct MainSideMenu: View {
                     VStack {
                         Button("fetch all shifts") {
                             //shiftViewModel.fetchAllShifts()
-                            print(shiftViewModel.allShifts)
+                            //print(shiftViewModel.allShifts)
                             
                         }
                         Button("fetch shifts desc") {
@@ -270,7 +270,7 @@ struct MainSideMenu: View {
 
 struct MainSideMenu_Previews: PreviewProvider {
     static var previews: some View {
-        MainSideMenu(showMenu: .constant(true), viewModel: userViewModel())
+        MainSideMenu(showMenu: .constant(true), viewModel: userViewModel(), shiftViewModel: ShiftsViewModel())
             
     }
 }
