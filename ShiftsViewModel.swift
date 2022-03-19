@@ -8,12 +8,8 @@
 import Foundation
 import Firebase
 import FirebaseFirestore
-// this is the day in which It lands on. SO I want to create an array of this so I can get multiple days
-struct ShiftsMetaData: Identifiable {
-    var id: String = ""
-    var shift: [Shifts] = [Shifts]()
-    var shiftDate: Date = Date()
-}
+
+
 class ShiftsViewModel: ObservableObject {
     // creating zero filled days but I am going to want to fill it up with task
     @Published var CalendarShifts = [ShiftsMetaData]()

@@ -76,12 +76,18 @@ struct NewShiftView: View {
     // end time enter by textfield
     @State var qualificationDic = [String: String]()
     @State var selectedQualifcation = ["None"]
+    @State var selectedAmount = [1]
     let eventStore = EKEventStore()
     @Environment(\.presentationMode) var presentationMode
     let db = Firestore.firestore()
+    let formatter: NumberFormatter = {
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .decimal
+            return formatter
+        }()
     // and than I can have duration but only as informational
     var body: some View {
-            // this is what I can do I can let the
+        // this is what I can do I can let the
         ZStack {
             Color.gray.opacity(0.2)
                 .ignoresSafeArea()
@@ -119,16 +125,20 @@ struct NewShiftView: View {
                             .fontWeight(.semibold)
                         Button("Add") {
                             selectedQualifcation.append("None")
+                            selectedAmount.append(1)
                         }
                         Button("Remove") {
                             let i = selectedQualifcation.count
                             selectedQualifcation.removeLast()
-                            qualificationDic.removeValue(forKey: "\(i) empty")
+                            //qualificationDic.removeValue(forKey: "\(i) empty")
                         }
                         Spacer()
                         Text("Number")
                             .fontWeight(.semibold)
-                            .padding(.trailing, 25)
+                        //.padding(.trailing, 25)
+                        Spacer()
+                        Spacer()
+                        Spacer()
                     }
                     ForEach(selectedQualifcation.indices, id: \.self) { index in
                         HStack {
@@ -148,14 +158,35 @@ struct NewShiftView: View {
                             .padding(8)
                             .overlay(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.black))
                             HStack {
-                                //Image(systemName: "number")
-                                TextField("#", text: $numberOfEmp)
+                                TextField("#", value: $selectedAmount[index], format: .number)
                                     .multilineTextAlignment(.center)
                             }
                             .frame(width: getRect().width/4)
-                            .background(Color.red)
+                            .background()
                             .padding(8)
                             .overlay(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.black))
+                            VStack {
+                                Button {
+                                    print("he")
+                                    selectedAmount[index] += 1
+                                } label: {
+                                    Image(systemName: "chevron.up")
+                                        .foregroundColor(.green)
+                                        .font(Font.title3.weight(.bold))
+                                }
+                                Spacer()
+                                Button {
+                                    selectedAmount[index] -= 1
+                                    print("he")
+                                } label: {
+                                    Image(systemName: "chevron.down")
+                                        .foregroundColor(.red)
+                                        .font(Font.title3.weight(.bold))
+                                }
+                                
+                                
+                            }
+                            //.padding(.horizontal)
                         }
                     }
                 }
@@ -245,61 +276,57 @@ struct NewShiftView: View {
                 
             }
         }
-            .toolbar {
-                ToolbarItem {
-                    Text("Save")
-                        .foregroundColor(.blue)
-                        .onTapGesture {
-                            print("you have pressed save")
-                            print(qualifications)
-                            
-                            //qualificationDic.updateValue(selectedQualifcation[0], forKey: "empty + 1")
-//                            selectedQualifcation.forEach {
-//                                qualificationDic.updateValue("\($0) empty", forKey: selectedQualifcation[$0])
-//                            }
-                            // I just need to create a 2D array its going to be to complicated to keep it this format
-                            
-                            for i in 0..<selectedQualifcation.count {
-                                qualificationDic.updateValue(selectedQualifcation[i], forKey: "\(i) empty")
-                            }
-                            
-                            let startHour = startHourMin.components(separatedBy: ":")[0]
-                            let startMin = startHourMin.components(separatedBy: ":")[1]
-                            StartTime = Calendar.current.date(bySettingHour: Int(startHour) ?? 0, minute: Int(startMin) ?? 0, second: 0, of: StartTime)!
-                            
-                            let endHour = endHourMin.components(separatedBy: ":")[0]
-                            let endMin = endHourMin.components(separatedBy: ":")[1]
-                            endTime = Calendar.current.date(bySettingHour: Int(endHour) ?? 0, minute: Int(endMin) ?? 0, second: 0, of: StartTime)!
-                            let uuid = NSUUID().uuidString
-                            // this would be better to do not set the ID when I create it
-                            // but when I retrive it I should get the document id: and set the id to
-                            let newShift = ["comment": commentss,
-                                           "shiftName": selectedShift,
-                                           "startTime": StartTime,
-                                            "endTime": endTime,
-                                            "id": uuid,
-                                           "jobShifts": qualificationDic] as [String : Any]
-                            db.collection("shifts").addDocument(data: newShift) { error in
-                                if let err = error {
-                                    print("there was an error")
-                                } else {
-                                    print("new shift has been created")
-                                }
-                            }
-                            
-                            presentationMode.wrappedValue.dismiss()
-//                            db.collection("users").document(uid).setData(newUser) { error in
-//                                if let err = error {
-//                                    print("there was an error", err)
-//                                } else {
-//                                    print("That user has been created for you")
-//                                }
-//                            }
-                            
-                        }
-                }
+        .toolbar {
+            ToolbarItem {
+                Text("Save")
+                    .foregroundColor(.blue)
+                    .onTapGesture {
+                        print("you have pressed save")
+                        print(qualifications)
+                        
+                        SaveButtonPressed()
+                    }
             }
+        }
+        
+    }
     
+    func SaveButtonPressed() {
+        
+        var numberOfShifts = 0
+        for j in 0..<selectedQualifcation.count {
+            for i in 0..<selectedAmount[j] {
+                qualificationDic[("\(numberOfShifts) empty")] = selectedQualifcation[j]
+                numberOfShifts += 1
+            }
+        }
+        
+        let startHour = startHourMin.components(separatedBy: ":")[0]
+        let startMin = startHourMin.components(separatedBy: ":")[1]
+        StartTime = Calendar.current.date(bySettingHour: Int(startHour) ?? 0, minute: Int(startMin) ?? 0, second: 0, of: StartTime)!
+
+        let endHour = endHourMin.components(separatedBy: ":")[0]
+        let endMin = endHourMin.components(separatedBy: ":")[1]
+        endTime = Calendar.current.date(bySettingHour: Int(endHour) ?? 0, minute: Int(endMin) ?? 0, second: 0, of: StartTime)!
+        let uuid = NSUUID().uuidString
+        // this would be better to do not set the ID when I create it
+        // but when I retrive it I should get the document id: and set the id to
+        let newShift = ["comment": commentss,
+                       "shiftName": selectedShift,
+                       "startTime": StartTime,
+                        "endTime": endTime,
+                        "id": uuid,
+                       "jobShifts": qualificationDic] as [String : Any]
+        db.collection("shifts").addDocument(data: newShift) { error in
+            if let err = error {
+                print("there was an error")
+            } else {
+                print("new shift has been created")
+            }
+        }
+
+        presentationMode.wrappedValue.dismiss()
+        
     }
 }
 
