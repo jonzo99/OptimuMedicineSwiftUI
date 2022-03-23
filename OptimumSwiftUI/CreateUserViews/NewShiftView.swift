@@ -128,6 +128,8 @@ struct NewShiftView: View {
                         Button("Add") {
                             selectedQualifcation.append("None")
                             selectedAmount.append(1)
+                            
+                            
                         }
                         Button("Remove") {
                             let i = selectedQualifcation.count
@@ -203,11 +205,19 @@ struct NewShiftView: View {
                         //                        TextField("Employee ID", text: $employeeId, onEditingChanged: { edit in
                         //                            self.isEditing = edit
                         //                        })
-                        
+                        //Form {
                         DatePicker("", selection: $StartTime, displayedComponents: [.date])
+                                .datePickerStyle(.graphical)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 30)
+                                        .stroke(Color.blue, lineWidth: 3)
+                                )
+                                
+                                
+                        //}
                         
                         //.datePickerStyle(.compact)
-                            .datePickerStyle(.graphical)
+                            
                         //.colorMultiply(.red)
                         //.applyTextColor(.white)
                         //.datePickerStyle(.automatic)
@@ -264,6 +274,14 @@ struct NewShiftView: View {
                     .padding(8)
                     .overlay(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.black))
                 }
+//                HStack {
+//                    Text("3/26")
+//                    Text(" - ")
+//                    Text("3/27")
+//                    Text("0 Hour Shift")
+//                }
+//                .padding(8)
+//                .overlay(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.black))
                 .padding(.leading)
                 .padding(.trailing)
                 HStack {

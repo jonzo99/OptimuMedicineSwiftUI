@@ -26,6 +26,7 @@
 		D90D0C7527B87C7900D9538F /* ShiftsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D0C7427B87C7700D9538F /* ShiftsViewModel.swift */; };
 		D90E33D627CB2C3500D79C59 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D90D0C4F27A8D28900D9538F /* AuthenticationServices.framework */; };
 		D95560FE27E639B6008C52EA /* CalendarViewForUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95560FD27E639B6008C52EA /* CalendarViewForUser.swift */; };
+		D955610227E6854A008C52EA /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D955610127E6854A008C52EA /* Announcement.swift */; };
 		D9563D0027C1A7EE0011115F /* ColorIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9563CFF27C1A7EE0011115F /* ColorIndicator.swift */; };
 		D97FA7B827CC2713008E0F6F /* OnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97FA7B727CC2713008E0F6F /* OnBoardingView.swift */; };
 		D982A90A270FB1AB00ADE73E /* FreeFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D982A909270FB1AA00ADE73E /* FreeFlowView.swift */; };
@@ -109,6 +110,7 @@
 		D90D0C7227B868E000D9538F /* Shifts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shifts.swift; sourceTree = "<group>"; };
 		D90D0C7427B87C7700D9538F /* ShiftsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftsViewModel.swift; sourceTree = "<group>"; };
 		D95560FD27E639B6008C52EA /* CalendarViewForUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewForUser.swift; sourceTree = "<group>"; };
+		D955610127E6854A008C52EA /* Announcement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Announcement.swift; sourceTree = "<group>"; };
 		D9563CFF27C1A7EE0011115F /* ColorIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorIndicator.swift; sourceTree = "<group>"; };
 		D97FA7B727CC2713008E0F6F /* OnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingView.swift; sourceTree = "<group>"; };
 		D982A909270FB1AA00ADE73E /* FreeFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeFlowView.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 			children = (
 				D90D0C6427AA29D700D9538F /* User.swift */,
 				D90D0C4027A60C1400D9538F /* DateValue.swift */,
+				D955610127E6854A008C52EA /* Announcement.swift */,
 				D90D0C4427A60C4A00D9538F /* Task.swift */,
 				D90D0C7227B868E000D9538F /* Shifts.swift */,
 				D9563CFF27C1A7EE0011115F /* ColorIndicator.swift */,
@@ -522,6 +525,7 @@
 				D97FA7B827CC2713008E0F6F /* OnBoardingView.swift in Sources */,
 				D90C6869274F0FE30064527D /* SideMenuView.swift in Sources */,
 				D9BC911527A4E7700076DD7C /* MainSideMenu.swift in Sources */,
+				D955610227E6854A008C52EA /* Announcement.swift in Sources */,
 				D90D0C6B27ACC1E200D9538F /* FirebaseManager.swift in Sources */,
 				D90C6861274F0EFA0064527D /* SideMenuHeaderView.swift in Sources */,
 				D90D0C4527A60C4A00D9538F /* Task.swift in Sources */,
