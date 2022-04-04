@@ -21,6 +21,7 @@ struct HomeViewController: View {
     @State var lastStoredOffset: CGFloat = 0
     @ObservedObject var viewModel = userViewModel()
     @ObservedObject var shiftViewModel = ShiftsViewModel()
+    @ObservedObject var annoucemntViewModel = AnnouncementViewModel()
     // Gesture Offset...
     @GestureState var gestureOffset: CGFloat = 0
     @State var currentUserEmail = ""
@@ -43,19 +44,16 @@ struct HomeViewController: View {
                         .padding()
                     VStack {
                         //Color.red
-                          //  .ignoresSafeArea()
+                        //  .ignoresSafeArea()
                         
-                        List(viewModel.users) { usser in
-                            VStack{
-                                //HStack {
-                                    Text(usser.lastName)
-                                    Text(usser.id)
-                                Text(usser.lastName)
-                                Text(usser.lastName)
-                                //}
-                                
-                            }
-                            .listRowBackground(Color.red.opacity(0.7))
+                        List(annoucemntViewModel.announcements) { annoucemnt in
+                            
+                            // I can do a pull to refresh
+                            // thats if im scared of calling this service to much
+                            // that way I only call it on the pull to refresh and when they barely login
+                            AnnouncementsRowView(announment: annoucemnt)
+                                .listRowBackground(Color.blue.opacity(0.3))
+                            //.listRowBackground(Color.red.opacity(0.7))
                             //.listRowBackground(Color.red.ignoresSafeArea())
                             
                         }
@@ -179,7 +177,9 @@ struct HomeViewController: View {
                     })
                     .onEnded(onEnd(value: ))
             )
-            
+            .onAppear {
+                annoucemntViewModel.fetchAllAnnouncements()
+            }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -201,6 +201,7 @@ struct HomeViewController: View {
                 }
             }
         }
+        
         .background(Color.gray)
         .animation(.easeOut, value: offset == 0)
         .onChange(of: showMenu) { newValue in

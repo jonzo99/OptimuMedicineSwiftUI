@@ -6,7 +6,7 @@
 //
 //Users/jonzojimenez/Desktop/OptimuMedicineSwiftUI/OptimumSwiftUI/SideMenuViewModel.swift
 import SwiftUI
-import Firebase
+import FirebaseFirestore
 import Combine
 import EventKit
 import EventKitUI

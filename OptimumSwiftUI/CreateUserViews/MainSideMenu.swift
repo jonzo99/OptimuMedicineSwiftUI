@@ -90,7 +90,8 @@ struct MainSideMenu: View {
                         TabButton(title: "New Employee", image: "logo.playstation")
                         Divider()
                         TabButton(title: "New Shift", image: "loupe")
-                        //TabButton(title: "All Shifts", image: "calendar")
+                        Divider()
+                        TabButton(title: "New Announcement", image: "calendar")
                     }
                     
                     // this is how I can show data depending on the user
@@ -239,6 +240,13 @@ struct MainSideMenu: View {
                 } else if (title == "New Employee") {
                     UserInfoView()
                         .navigationTitle("New Employee")
+                        .navigationBarTitleDisplayMode(.inline)
+                        .onAppear(){
+                            showMenu = false
+                        }
+                } else if (title == "New Announcement") {
+                    NewAnnouncementView(viewModel: viewModel)
+                        .navigationTitle("New Announcemnt")
                         .navigationBarTitleDisplayMode(.inline)
                         .onAppear(){
                             showMenu = false

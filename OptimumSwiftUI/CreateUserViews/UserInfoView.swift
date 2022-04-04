@@ -7,7 +7,8 @@
 
 import SwiftUI
 import iPhoneNumberField
-import Firebase
+import FirebaseFirestore
+import FirebaseAuth
 //import Foundation
 struct UserInfoView: View {
     
