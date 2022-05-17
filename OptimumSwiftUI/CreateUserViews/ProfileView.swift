@@ -46,17 +46,10 @@ struct ProfileRow: View {
             Text(title)
                 .fontWeight(.semibold)
             HStack {
-                //Image(systemName: "number")
-//                TextField("Employee ID", text: $employeeId, onEditingChanged: { edit in
-//                    self.isEditing = edit
-//                })
                 Text(content)
-                
             }
             .frame(maxWidth: .infinity)
-            //.padding()
-            .padding(8)
-            .overlay(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(Color.black))
+            .blackBorder()
         }
     }
 }

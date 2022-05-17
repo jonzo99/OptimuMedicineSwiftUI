@@ -7,11 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		20C3C5F81B6F4397CA0CA002 /* Pods_OptimumSwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79999F6E7EA8BE305F6BB2F2 /* Pods_OptimumSwiftUI.framework */; };
-		D90C6861274F0EFA0064527D /* SideMenuHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C6860274F0EFA0064527D /* SideMenuHeaderView.swift */; };
-		D90C6863274F0F310064527D /* SideMenuOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C6862274F0F310064527D /* SideMenuOptionView.swift */; };
-		D90C6867274F0FA10064527D /* SideMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C6866274F0FA10064527D /* SideMenuViewModel.swift */; };
-		D90C6869274F0FE30064527D /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C6868274F0FE30064527D /* SideMenuView.swift */; };
 		D90D0C3C27A60AFF00D9538F /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D0C3B27A60AFF00D9538F /* CalendarView.swift */; };
 		D90D0C4127A60C1400D9538F /* DateValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D0C4027A60C1400D9538F /* DateValue.swift */; };
 		D90D0C4527A60C4A00D9538F /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D0C4427A60C4A00D9538F /* Task.swift */; };
@@ -40,6 +35,8 @@
 		D98B465026FBEDEE0003D5EF /* OptimumSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98B464F26FBEDEE0003D5EF /* OptimumSwiftUITests.swift */; };
 		D98B465A26FBEDEE0003D5EF /* OptimumSwiftUIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98B465926FBEDEE0003D5EF /* OptimumSwiftUIUITests.swift */; };
 		D98B465C26FBEDEE0003D5EF /* OptimumSwiftUIUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98B465B26FBEDEE0003D5EF /* OptimumSwiftUIUITestsLaunchTests.swift */; };
+		D99B3086281CB5A700387154 /* ValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99B3085281CB5A700387154 /* ValidationService.swift */; };
+		D99B3088281CD02700387154 /* ValidationServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99B3087281CD02700387154 /* ValidationServiceTest.swift */; };
 		D9ACAFB82745D08300780B8A /* LoginAndSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ACAFB72745D08300780B8A /* LoginAndSignup.swift */; };
 		D9ACAFBA2745D74000780B8A /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ACAFB92745D74000780B8A /* OnboardingView.swift */; };
 		D9BC910A279CEDB40076DD7C /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BC9109279CEDB40076DD7C /* UserInfoView.swift */; };
@@ -49,11 +46,11 @@
 		D9BC911527A4E7700076DD7C /* MainSideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BC911427A4E76F0076DD7C /* MainSideMenu.swift */; };
 		D9C3ED3927CAD33400C24D9B /* PunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C3ED3827CAD33400C24D9B /* PunchView.swift */; };
 		D9C3ED3B27CADC4700C24D9B /* PunchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C3ED3A27CADC4700C24D9B /* PunchViewModel.swift */; };
-		D9CA608B2700057E00EC664C /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CA608A2700057E00EC664C /* SwiftUIView.swift */; };
 		D9CA608D27011AB500EC664C /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CA608C27011AB500EC664C /* LocalNotificationManager.swift */; };
 		D9CA609027011B9E00EC664C /* critalAlarm.wav in Resources */ = {isa = PBXBuildFile; fileRef = D9CA608E27011B9E00EC664C /* critalAlarm.wav */; };
 		D9CA609127011B9E00EC664C /* iphone_alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D9CA608F27011B9E00EC664C /* iphone_alarm.mp3 */; };
 		D9E8D777271244E200F9C0CE /* HamiltonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E8D776271244E200F9C0CE /* HamiltonView.swift */; };
+		D9F99547283095C400F22D94 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F99546283095C400F22D94 /* Utilities.swift */; };
 		D9FC3632273A1847009E84B2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9FC3631273A1847009E84B2 /* GoogleService-Info.plist */; };
 		F22E6D4AB28BBF62E83AA4AC /* Pods_OptimumSwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79999F6E7EA8BE305F6BB2F2 /* Pods_OptimumSwiftUI.framework */; };
 /* End PBXBuildFile section */
@@ -92,10 +89,6 @@
 		0DF8D4384C2A9816B87D19D5 /* Pods-OptimumSwiftUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OptimumSwiftUI.debug.xcconfig"; path = "Target Support Files/Pods-OptimumSwiftUI/Pods-OptimumSwiftUI.debug.xcconfig"; sourceTree = "<group>"; };
 		6FEB04AF243541EAB17488CB /* Pods-OptimumSwiftUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OptimumSwiftUI.release.xcconfig"; path = "Target Support Files/Pods-OptimumSwiftUI/Pods-OptimumSwiftUI.release.xcconfig"; sourceTree = "<group>"; };
 		79999F6E7EA8BE305F6BB2F2 /* Pods_OptimumSwiftUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_OptimumSwiftUI.framework; path = "../../../../../../../../../Users/jonzojimenez/Library/Developer/Xcode/DerivedData/OptimumSwiftUI-avdmcwykmbvywfblhyzgttjeicdj/Build/Products/Debug-iphoneos/Pods_OptimumSwiftUI.framework"; sourceTree = SDKROOT; };
-		D90C6860274F0EFA0064527D /* SideMenuHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuHeaderView.swift; sourceTree = "<group>"; };
-		D90C6862274F0F310064527D /* SideMenuOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuOptionView.swift; sourceTree = "<group>"; };
-		D90C6866274F0FA10064527D /* SideMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuViewModel.swift; sourceTree = "<group>"; };
-		D90C6868274F0FE30064527D /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
 		D90D0C3B27A60AFF00D9538F /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		D90D0C4027A60C1400D9538F /* DateValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateValue.swift; sourceTree = "<group>"; };
 		D90D0C4427A60C4A00D9538F /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
@@ -130,6 +123,8 @@
 		D98B465526FBEDEE0003D5EF /* OptimumSwiftUIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OptimumSwiftUIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D98B465926FBEDEE0003D5EF /* OptimumSwiftUIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptimumSwiftUIUITests.swift; sourceTree = "<group>"; };
 		D98B465B26FBEDEE0003D5EF /* OptimumSwiftUIUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptimumSwiftUIUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D99B3085281CB5A700387154 /* ValidationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationService.swift; sourceTree = "<group>"; };
+		D99B3087281CD02700387154 /* ValidationServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationServiceTest.swift; sourceTree = "<group>"; };
 		D9ACAFB72745D08300780B8A /* LoginAndSignup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAndSignup.swift; sourceTree = "<group>"; };
 		D9ACAFB92745D74000780B8A /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		D9BC9109279CEDB40076DD7C /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
@@ -138,11 +133,11 @@
 		D9BC911427A4E76F0076DD7C /* MainSideMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSideMenu.swift; sourceTree = "<group>"; };
 		D9C3ED3827CAD33400C24D9B /* PunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchView.swift; sourceTree = "<group>"; };
 		D9C3ED3A27CADC4700C24D9B /* PunchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchViewModel.swift; sourceTree = "<group>"; };
-		D9CA608A2700057E00EC664C /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		D9CA608C27011AB500EC664C /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
 		D9CA608E27011B9E00EC664C /* critalAlarm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = critalAlarm.wav; sourceTree = "<group>"; };
 		D9CA608F27011B9E00EC664C /* iphone_alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = iphone_alarm.mp3; sourceTree = "<group>"; };
 		D9E8D776271244E200F9C0CE /* HamiltonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HamiltonView.swift; sourceTree = "<group>"; };
+		D9F99546283095C400F22D94 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		D9FC3631273A1847009E84B2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -154,7 +149,6 @@
 				D90E33D627CB2C3500D79C59 /* AuthenticationServices.framework in Frameworks */,
 				F22E6D4AB28BBF62E83AA4AC /* Pods_OptimumSwiftUI.framework in Frameworks */,
 				D9BC910D279D02060076DD7C /* iPhoneNumberField in Frameworks */,
-				20C3C5F81B6F4397CA0CA002 /* Pods_OptimumSwiftUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,17 +265,13 @@
 				D9CA608F27011B9E00EC664C /* iphone_alarm.mp3 */,
 				D98B464026FBEDEC0003D5EF /* ContentView.swift */,
 				D98B463E26FBEDEC0003D5EF /* OptimumSwiftUIApp.swift */,
-				D90C6866274F0FA10064527D /* SideMenuViewModel.swift */,
-				D90C6868274F0FE30064527D /* SideMenuView.swift */,
-				D90C6860274F0EFA0064527D /* SideMenuHeaderView.swift */,
-				D90C6862274F0F310064527D /* SideMenuOptionView.swift */,
 				D9ACAFB72745D08300780B8A /* LoginAndSignup.swift */,
 				D9BC9106279CED410076DD7C /* CreateUserViews */,
 				D9ACAFB92745D74000780B8A /* OnboardingView.swift */,
+				D9F99546283095C400F22D94 /* Utilities.swift */,
 				D982A909270FB1AA00ADE73E /* FreeFlowView.swift */,
 				D9E8D776271244E200F9C0CE /* HamiltonView.swift */,
 				D9CA608C27011AB500EC664C /* LocalNotificationManager.swift */,
-				D9CA608A2700057E00EC664C /* SwiftUIView.swift */,
 				D98B464226FBEDEE0003D5EF /* Assets.xcassets */,
 				D9FC3631273A1847009E84B2 /* GoogleService-Info.plist */,
 				D98B464426FBEDEE0003D5EF /* Preview Content */,
@@ -301,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				D98B464F26FBEDEE0003D5EF /* OptimumSwiftUITests.swift */,
+				D99B3087281CD02700387154 /* ValidationServiceTest.swift */,
 			);
 			path = OptimumSwiftUITests;
 			sourceTree = "<group>";
@@ -327,6 +318,7 @@
 				D955610727FA7D6E008C52EA /* AnnouncementsRowView.swift */,
 				D90D0C7027B4A66600D9538F /* NewShiftView.swift */,
 				D9C3ED3827CAD33400C24D9B /* PunchView.swift */,
+				D99B3085281CB5A700387154 /* ValidationService.swift */,
 				D90D0C6727AA2BDE00D9538F /* ViewModel */,
 				D90D0C3D27A60B0A00D9538F /* Calendar */,
 				D90D0C4327A60C2C00D9538F /* Model */,
@@ -404,7 +396,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1320;
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1330;
 				TargetAttributes = {
 					D98B463A26FBEDEC0003D5EF = {
 						CreatedOnToolsVersion = 13.0;
@@ -523,24 +515,22 @@
 				D90D0C7327B868E100D9538F /* Shifts.swift in Sources */,
 				D98B463F26FBEDEC0003D5EF /* OptimumSwiftUIApp.swift in Sources */,
 				D9E8D777271244E200F9C0CE /* HamiltonView.swift in Sources */,
-				D90C6863274F0F310064527D /* SideMenuOptionView.swift in Sources */,
 				D90D0C4927A60DD400D9538F /* DetailView.swift in Sources */,
 				D90D0C4727A60DA300D9538F /* CustomDatePicker.swift in Sources */,
+				D99B3086281CB5A700387154 /* ValidationService.swift in Sources */,
 				D982A90A270FB1AB00ADE73E /* FreeFlowView.swift in Sources */,
 				D90D0C6D27B0B39D00D9538F /* ProfileView.swift in Sources */,
+				D9F99547283095C400F22D94 /* Utilities.swift in Sources */,
 				D9BC911127A38A880076DD7C /* HomeViewController.swift in Sources */,
 				D9ACAFB82745D08300780B8A /* LoginAndSignup.swift in Sources */,
 				D90D0C4127A60C1400D9538F /* DateValue.swift in Sources */,
 				D97FA7B827CC2713008E0F6F /* OnBoardingView.swift in Sources */,
-				D90C6869274F0FE30064527D /* SideMenuView.swift in Sources */,
 				D9BC911527A4E7700076DD7C /* MainSideMenu.swift in Sources */,
 				D955610227E6854A008C52EA /* Announcement.swift in Sources */,
 				D90D0C6B27ACC1E200D9538F /* FirebaseManager.swift in Sources */,
-				D90C6861274F0EFA0064527D /* SideMenuHeaderView.swift in Sources */,
 				D90D0C4527A60C4A00D9538F /* Task.swift in Sources */,
 				D9BC910F27A384860076DD7C /* SignInView.swift in Sources */,
 				D9563D0027C1A7EE0011115F /* ColorIndicator.swift in Sources */,
-				D90C6867274F0FA10064527D /* SideMenuViewModel.swift in Sources */,
 				D9C3ED3927CAD33400C24D9B /* PunchView.swift in Sources */,
 				D955610827FA7D6E008C52EA /* AnnouncementsRowView.swift in Sources */,
 				D955610627F7E500008C52EA /* NewAnnouncementView.swift in Sources */,
@@ -552,7 +542,6 @@
 				D90D0C7127B4A66600D9538F /* NewShiftView.swift in Sources */,
 				D9C3ED3B27CADC4700C24D9B /* PunchViewModel.swift in Sources */,
 				D9CA608D27011AB500EC664C /* LocalNotificationManager.swift in Sources */,
-				D9CA608B2700057E00EC664C /* SwiftUIView.swift in Sources */,
 				D90D0C6527AA29D700D9538F /* User.swift in Sources */,
 				D95560FE27E639B6008C52EA /* CalendarViewForUser.swift in Sources */,
 			);
@@ -562,6 +551,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D99B3088281CD02700387154 /* ValidationServiceTest.swift in Sources */,
 				D98B465026FBEDEE0003D5EF /* OptimumSwiftUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -807,7 +797,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 344GDMWXYT;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					HEADER_SEARCH_PATHS,
+					"=",
+					"\"${SRCROOT}/Pods/Firebase/CoreOnly/Sources\"",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -832,7 +827,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 344GDMWXYT;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -12,69 +12,13 @@ import EventKit
 import EventKitUI
 import Foundation
 struct NewShiftView: View {
-    @State var numberOfEmp = "0"
-    @State var employeeName = "Jonzo"
-    @State var Shifts = ["OM 1", "EAL 1", "Instructor", "EAL 2", "OM 2", "Dispatch", "Education", "AIR1", "COVID Tester", "PR Standby", "Douglas School", "Decatur COVID Tester", "Venetian Testing", "Impact Wrestling", "MVS", "Accounting1", "MVS - Southern Nevada", "MVS - Rural", "MVS - Reno Area", "DDWTD s3", "Travel", "Office Hours", "Carson City School Testi", "SNHD Homebound", "Bookkeeper", "SNHD Strike Team", "Office Administrator", "Elko County School Testi", "CG Testing"
-    ]
-    @State var selectedShift: String = "OM 1"
-    @State var qualifications = [
-        "None",
-        "Admin",
-        "AEMT",
-        "AOC",
-        "CCT Paramedic",
-        "EMT",
-        "GOC",
-        "Nurse",
-        "Paramedic",
-        "CFRN",
-        "CCRN",
-        "CEN",
-        "Instructor",
-        "MD",
-        "EMT Intern",
-        "Paramedic Intern",
-        "CCT Intern",
-        "Dispatcher",
-        "COVID Tester",
-        "RT",
-        "Vaccinator",
-        "Site Lead",
-        "PR",
-        "Data Entry"
-    ]
-    @State var selectedCostCenter = "none"
-    @State var costCenterDic = [
-        "None None",
-        "ADMINI - ADMIN",
-        "EDUCAT - Education",
-        "EDUCATION - EDUCATION",
-        "FLTOPS - Flight Ops",
-        "GROUND - GROUND",
-        "STAFFI - Staffing",
-        "SPECEV - Special Events",
-        "MOBVAX - Mobile Vaccinations",
-        "VENETI - Venetian",
-        "SNHDVX - SNHD Vaccinations"
-    ]
     
-    @State var endTime = Date()
+    @State private var newShift = Shifts(comment: "Make sure to show up to work on Time", shiftName: "OM 1")
     @State var endHourMin: String = "20:30"
-    // StartTime
-    @State var StartTime = Date()
     @State var startHourMin = "10:30"
     
-    @State var commentss = "Make sure to show up to work on Time"
-    func dateToString(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd"
-        //dateFormatter.timeZone = TimeZone.current
-        //dateFormatter.locale = Locale.current
-        return dateFormatter.string(from: date) // replace Date String
-    }
     // start time enter by textfield
     // end time enter by textfield
-    @State var qualificationDic = [String: String]()
     @State var selectedQualifcation = ["None"]
     @State var selectedAmount = [1]
     let eventStore = EKEventStore()
@@ -82,11 +26,6 @@ struct NewShiftView: View {
     let db = Firestore.firestore()
     @State private var nextDay = false
     @State private var repeatingEvent = false
-    let formatter: NumberFormatter = {
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .decimal
-            return formatter
-        }()
     // and than I can have duration but only as informational
     var body: some View {
         // this is what I can do I can let the
@@ -103,21 +42,17 @@ struct NewShiftView: View {
                     
                     HStack {
                         HStack {
-                            //TextField("Employee ID", text: $employeeName)
                             Menu {
-                                ForEach(Shifts, id: \.self) { qual in
+                                ForEach(Utilities.masterShifts, id: \.self) { qual in
                                     Button(qual) {
-                                        self.selectedShift = qual
+                                        self.newShift.shiftName = qual
                                     }
                                 }
                             } label: {
-                                TextField("", text: $selectedShift)
+                                TextField("", text: $newShift.shiftName)
                             }
-                            
-                            
                         }
-                        .padding(8)
-                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.black))
+                        .blackBorder()
                     }
                 }
                 .padding()
@@ -128,18 +63,14 @@ struct NewShiftView: View {
                         Button("Add") {
                             selectedQualifcation.append("None")
                             selectedAmount.append(1)
-                            
-                            
                         }
                         Button("Remove") {
                             let i = selectedQualifcation.count
                             selectedQualifcation.removeLast()
-                            //qualificationDic.removeValue(forKey: "\(i) empty")
                         }
                         Spacer()
                         Text("Number")
                             .fontWeight(.semibold)
-                        //.padding(.trailing, 25)
                         Spacer()
                         Spacer()
                         Spacer()
@@ -147,9 +78,8 @@ struct NewShiftView: View {
                     ForEach(selectedQualifcation.indices, id: \.self) { index in
                         HStack {
                             HStack {
-                                //TextField("Employee ID", text: $employeeName)
                                 Menu {
-                                    ForEach(qualifications, id: \.self) { qual in
+                                    ForEach(Utilities.qulifications, id: \.self) { qual in
                                         Button(qual) {
                                             self.selectedQualifcation[index] = qual
                                         }
@@ -159,38 +89,19 @@ struct NewShiftView: View {
                                 }
                                 
                             }
-                            .padding(8)
-                            .overlay(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.black))
+                            .blackBorder()
                             HStack {
                                 TextField("#", value: $selectedAmount[index], format: .number)
                                     .multilineTextAlignment(.center)
                             }
                             .frame(width: getRect().width/4)
                             .background()
-                            .padding(8)
-                            .overlay(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.black))
+                            .blackBorder()
                             VStack {
-                                Button {
-                                    print("he")
-                                    selectedAmount[index] += 1
-                                } label: {
-                                    Image(systemName: "chevron.up")
-                                        .foregroundColor(.green)
-                                        .font(Font.title3.weight(.bold))
-                                }
+                                upArrowButton(i: index)
                                 Spacer()
-                                Button {
-                                    selectedAmount[index] -= 1
-                                    print("he")
-                                } label: {
-                                    Image(systemName: "chevron.down")
-                                        .foregroundColor(.red)
-                                        .font(Font.title3.weight(.bold))
-                                }
-                                
-                                
+                                downArrowButton(i: index)
                             }
-                            //.padding(.horizontal)
                         }
                     }
                     
@@ -201,28 +112,12 @@ struct NewShiftView: View {
                 Divider()
                 VStack(alignment: .leading, spacing: 2) {
                     HStack {
-                        //Text("")
-                        //                        TextField("Employee ID", text: $employeeId, onEditingChanged: { edit in
-                        //                            self.isEditing = edit
-                        //                        })
-                        //Form {
-                        DatePicker("", selection: $StartTime, displayedComponents: [.date])
-                                .datePickerStyle(.graphical)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 30)
-                                        .stroke(Color.blue, lineWidth: 3)
-                                )
-                                
-                                
-                        //}
-                        
-                        //.datePickerStyle(.compact)
-                            
-                        //.colorMultiply(.red)
-                        //.applyTextColor(.white)
-                        //.datePickerStyle(.automatic)
-                        //.datePickerStyle(.compact)
-                        //.drawingGroup()
+                        DatePicker("", selection: $newShift.startTime, displayedComponents: [.date])
+                            .datePickerStyle(.graphical)
+                            .background(
+                                RoundedRectangle(cornerRadius: 30)
+                                    .stroke(Color.blue, lineWidth: 3)
+                            )
                     }
                 }
                 .padding(.leading)
@@ -237,7 +132,6 @@ struct NewShiftView: View {
                         Text("Start")
                             .fontWeight(.semibold)
                         Spacer()
-                        //Spacer()
                         Text("End")
                             .fontWeight(.semibold)
                         Spacer()
@@ -246,18 +140,13 @@ struct NewShiftView: View {
                     .padding(.trailing, 4)
                     
                     HStack {
-                        //Text("\(dateToString(date: StartTime))")
-                        //Spacer(minLength: 40)
                         Toggle("Next Day", isOn: $nextDay)
                         HStack {
                             Image(systemName: "clock")
                                 .foregroundColor(.green)
                             TextField("8:00", text: $startHourMin)
-                            
-                            //.clipped()
                         }
-                        .padding(8)
-                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.black))
+                        .blackBorder()
                         
                         Divider()
                             .foregroundColor(.red)
@@ -268,20 +157,10 @@ struct NewShiftView: View {
                             
                             //.clipped()
                         }
-                        .padding(8)
-                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.black))
+                        .blackBorder()
                     }
-                    .padding(8)
-                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.black))
+                    .blackBorder()
                 }
-//                HStack {
-//                    Text("3/26")
-//                    Text(" - ")
-//                    Text("3/27")
-//                    Text("0 Hour Shift")
-//                }
-//                .padding(8)
-//                .overlay(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.black))
                 .padding(.leading)
                 .padding(.trailing)
                 HStack {
@@ -289,10 +168,8 @@ struct NewShiftView: View {
                     Spacer()
                 }
                 .padding(.leading, 10)
-                TextEditor(text: $commentss)
-                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.black))
-                    .padding(.leading, 10)
-                    .padding(.trailing, 10)
+                TextEditor(text: $newShift.comment)
+                    .blackBorder()
                 
                 
                 // bellow this I will show an information cell that only shows the start and end date
@@ -306,13 +183,31 @@ struct NewShiftView: View {
                     .foregroundColor(.blue)
                     .onTapGesture {
                         print("you have pressed save")
-                        print(qualifications)
-                        
                         SaveButtonPressed()
                     }
             }
         }
-        
+    }
+    
+    func upArrowButton(i: Int) -> some View {
+        Button {
+            print("he")
+            selectedAmount[i] += 1
+        } label: {
+            Image(systemName: "chevron.up")
+                .foregroundColor(.green)
+                .font(Font.title3.weight(.bold))
+        }
+    }
+    func downArrowButton(i: Int) -> some View {
+        Button {
+            selectedAmount[i] -= 1
+            print("he")
+        } label: {
+            Image(systemName: "chevron.down")
+                .foregroundColor(.red)
+                .font(Font.title3.weight(.bold))
+        }
     }
     
     func SaveButtonPressed() {
@@ -320,21 +215,22 @@ struct NewShiftView: View {
         var numberOfShifts = 0
         for j in 0..<selectedQualifcation.count {
             for i in 0..<selectedAmount[j] {
-                qualificationDic[("\(numberOfShifts) empty")] = selectedQualifcation[j]
+                newShift.jobShifts[("\(numberOfShifts) empty")] = selectedQualifcation[j]
+                print(newShift.jobShifts)
                 numberOfShifts += 1
             }
         }
         
         let startHour = startHourMin.components(separatedBy: ":")[0]
         let startMin = startHourMin.components(separatedBy: ":")[1]
-        StartTime = Calendar.current.date(bySettingHour: Int(startHour) ?? 0, minute: Int(startMin) ?? 0, second: 0, of: StartTime)!
-
+        newShift.startTime = Calendar.current.date(bySettingHour: Int(startHour) ?? 0, minute: Int(startMin) ?? 0, second: 0, of: newShift.startTime)!
+        
         let endHour = endHourMin.components(separatedBy: ":")[0]
         let endMin = endHourMin.components(separatedBy: ":")[1]
-        endTime = Calendar.current.date(bySettingHour: Int(endHour) ?? 0, minute: Int(endMin) ?? 0, second: 0, of: StartTime)!
+        newShift.endTime = Calendar.current.date(bySettingHour: Int(endHour) ?? 0, minute: Int(endMin) ?? 0, second: 0, of: newShift.startTime)!
         let uuid = NSUUID().uuidString
         if nextDay {
-            endTime = Calendar.current.date(byAdding: .day, value: 1, to: endTime)!
+            newShift.endTime = Calendar.current.date(byAdding: .day, value: 1, to: newShift.endTime)!
         }
         
         // I would just need to create a for loop for
@@ -348,20 +244,20 @@ struct NewShiftView: View {
         
         // this would be better to do not set the ID when I create it
         // but when I retrive it I should get the document id: and set the id to
-        let newShift = ["comment": commentss,
-                       "shiftName": selectedShift,
-                       "startTime": StartTime,
-                        "endTime": endTime,
+        let shift = ["comment": newShift.comment,
+                        "shiftName": newShift.shiftName,
+                        "startTime": newShift.startTime,
+                        "endTime": newShift.endTime,
                         "id": uuid,
-                       "jobShifts": qualificationDic] as [String : Any]
-        db.collection("shifts").addDocument(data: newShift) { error in
+                        "jobShifts": newShift.jobShifts] as [String : Any]
+        db.collection("shifts").addDocument(data: shift) { error in
             if let err = error {
                 print("there was an error")
             } else {
                 print("new shift has been created")
             }
         }
-
+        
         presentationMode.wrappedValue.dismiss()
         
     }

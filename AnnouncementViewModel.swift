@@ -9,6 +9,9 @@ import Foundation
 import FirebaseFirestore
 import Firebase
 
+// I should create a protocol that fetehhesAll Annocements that way I
+// I can create differnt Anouncents view models and get the information with fake
+// data
 class AnnouncementViewModel: ObservableObject {
     @Published var announcements = [Anouncement]()
     

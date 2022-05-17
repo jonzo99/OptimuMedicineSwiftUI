@@ -19,6 +19,8 @@ struct HomeViewController: View {
     // Offset for Both Drag Gesuture and showing Menu...
     @State var offset: CGFloat = 0
     @State var lastStoredOffset: CGFloat = 0
+    
+    // I should use an initializer here so I can enject what spefic thing I want to use.
     @ObservedObject var viewModel = userViewModel()
     @ObservedObject var shiftViewModel = ShiftsViewModel()
     @ObservedObject var annoucemntViewModel = AnnouncementViewModel()

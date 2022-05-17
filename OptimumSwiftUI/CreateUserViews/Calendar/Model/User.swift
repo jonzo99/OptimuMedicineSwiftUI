@@ -13,7 +13,7 @@ struct User: Identifiable {
     var lastName: String = ""
     var firstName: String = ""
     var dateOfBirth: Date = Date()
-    var status: String = ""
+    var status: String = "Active"
     var cellPhoneService: String = ""
     var phoneNumber: String = ""
     var EmergencyContact: String = ""

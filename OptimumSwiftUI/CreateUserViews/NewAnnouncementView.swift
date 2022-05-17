@@ -17,11 +17,11 @@ struct NewAnnouncementView: View {
     // and just the
     var body: some View {
         List  {
-            InputTextField(text: "Subject", stringImage: "t", variable: $subject)
-            InputTextField(text: "Message", stringImage: "t", variable: $message)
+            InputTextField(text: "Subject", variable: $subject)
+            InputTextField(text: "Message", variable: $message)
             
             Text("Created By:\(viewModel.currentUser.firstName)")
-                .customTextField()
+                .blackBorder()
         }
         .toolbar {
             ToolbarItem {
@@ -67,7 +67,6 @@ struct customTextFieldModifier: ViewModifier {
 
 struct InputTextField: View {
     var text: String
-    var stringImage: String
     @Binding var variable: String
     var body: some View {
         
@@ -75,11 +74,9 @@ struct InputTextField: View {
             Text(text)
                 .fontWeight(.semibold)
             HStack {
-                Image(systemName: "number")
                 TextField(text, text: $variable)
-                
             }
-            .customTextField()
+            .blackBorder()
         }
     }
 }
@@ -91,7 +88,7 @@ struct NewAnnouncementView_Previews: PreviewProvider {
 }
 
 extension View {
-    func customTextField() -> some View {
+    func blackBorder() -> some View {
         self.modifier(customTextFieldModifier())
     }
 }
