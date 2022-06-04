@@ -11,31 +11,27 @@ import MapKit
 struct PunchView: View {
     @StateObject private var punchViewModel = PunchViewModel()
     @State var showAlert = false
+    let annotations = [CurrentUsersAnnotation()]
     var body: some View {
         ZStack {
             VStack {
                 Map(coordinateRegion: $punchViewModel.region, showsUserLocation: true)
-                    //.ignoresSafeArea()
+                    .ignoresSafeArea()
                     .accentColor(.pink)
                     .onAppear {
                         punchViewModel.checkIfLocationServicesIsEnabled()
                     }
-                Spacer()
                 
-                
-//                    .overlay(content: {
-//                        Spacer()
-//                        VStack {
-//                            Spacer()
-//                            Button("Punch In") {
-//                                print("pucn")
-//                            }
+//                Map(
+//                    coordinateRegion: $punchViewModel.region, annotationItems: annotations) { _ in
+//                        MapAnnotation(coordinate: MapDetails.startingLocation) {
+//                            Circle()
+//                                .strokeBorder(Color.red, lineWidth: 4)
+//                                .frame(width: 400, height: 400)
 //                        }
-//
-//                    })
+//                    }
             }
             VStack {
-                Spacer()
                 Spacer()
                 Button("PUNCH IN") {
                     print("hey")
@@ -45,8 +41,6 @@ struct PunchView: View {
                 .tint(.red)
                 .frame(maxWidth: .infinity)
                 .padding()
-                Spacer()
-                //.background(Color.red)
                 
             }
             .alert(isPresented: $showAlert, content: {
@@ -65,4 +59,7 @@ struct PunchView_Previews: PreviewProvider {
     static var previews: some View {
         PunchView()
     }
+}
+struct CurrentUsersAnnotation: Identifiable {
+    let id = UUID()
 }

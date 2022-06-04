@@ -36,7 +36,7 @@ class ShiftsViewModel: ObservableObject {
             allShifts = documents.map { (querySnapshot) -> Shifts in
                 //let shiftId = data
                 
-    
+                
                 let data = querySnapshot.data()
                 let shiftId = data["id"] as? String ?? ""
                 let comment = data["comment"] as? String ?? ""
@@ -51,7 +51,7 @@ class ShiftsViewModel: ObservableObject {
                     FirstDate = startTime
                     isFirst = false
                 }
-               
+                
                 let tempShifts = Shifts(id: shiftId, comment: comment, jobShifts: jobShifts, shiftName: shiftName, startTime: startTime, endTime: endTime)
                 
                 if self.isSameDay(date1: FirstDate, date2: startTime) {
@@ -60,9 +60,9 @@ class ShiftsViewModel: ObservableObject {
                 } else {
                     let idd = UUID().uuidString
                     tempshiftMeta = ShiftsMetaData(id: idd, shift: shiftsArr, shiftDate: FirstDate)
-//                    if shiftName == "OM 1" {
-//                        userAvailableShifts.append(tempshiftMeta)
-//                    }
+                    //                    if shiftName == "OM 1" {
+                    //                        userAvailableShifts.append(tempshiftMeta)
+                    //                    }
                     userAvailableShifts.append(tempshiftMeta)
                     shiftsArr.removeAll()
                     print("The days do not match")
@@ -81,10 +81,10 @@ class ShiftsViewModel: ObservableObject {
         }
     }
     func fetchShiftMetaData() {
-//        shifts.append(ShiftsMetaData(task: [
-//            Task(title: "OM 1", time: Date(timeIntervalSince1970: 99999333)),
-//            Task(title: "Dispatch", time: getDate5(date: "2022/01/09 14:12")!),
-//        ], taskDate: getDate5(date: "2022/01/09 23:12")!))
+        //        shifts.append(ShiftsMetaData(task: [
+        //            Task(title: "OM 1", time: Date(timeIntervalSince1970: 99999333)),
+        //            Task(title: "Dispatch", time: getDate5(date: "2022/01/09 14:12")!),
+        //        ], taskDate: getDate5(date: "2022/01/09 23:12")!))
         
         db.collection("shifts").order(by: "startTime", descending: true).getDocuments { [self] (document, error) in
             guard let documents = document?.documents else {
@@ -114,7 +114,7 @@ class ShiftsViewModel: ObservableObject {
                     FirstDate = startTime
                     isFirst = false
                 }
-               
+                
                 let tempShifts = Shifts(id: shiftId, comment: comment, jobShifts: jobShifts, shiftName: shiftName, startTime: startTime, endTime: endTime)
                 
                 if self.isSameDay(date1: FirstDate, date2: startTime) {
@@ -123,9 +123,9 @@ class ShiftsViewModel: ObservableObject {
                 } else {
                     let idd = UUID().uuidString
                     tempshiftMeta = ShiftsMetaData(id: idd, shift: shiftsArr, shiftDate: FirstDate)
-//                    if shiftName == "OM 1" {
-//                        userAvailableShifts.append(tempshiftMeta)
-//                    }
+                    //                    if shiftName == "OM 1" {
+                    //                        userAvailableShifts.append(tempshiftMeta)
+                    //                    }
                     CalendarShifts.append(tempshiftMeta)
                     shiftsArr.removeAll()
                     print("The days do not match")

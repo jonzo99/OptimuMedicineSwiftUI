@@ -36,7 +36,6 @@ struct HomeViewController: View {
             
             HStack(spacing: 0) {
                 MainSideMenu(showMenu: $showMenu, viewModel: viewModel, shiftViewModel: shiftViewModel)
-                    //.foregroundColor(.pink)
                     
                 VStack(spacing: 0) {
                     Text("Announcements")
@@ -45,44 +44,25 @@ struct HomeViewController: View {
                     
                         .padding()
                     VStack {
-                        //Color.red
-                        //  .ignoresSafeArea()
-                        
                         List(annoucemntViewModel.announcements) { annoucemnt in
-                            
                             // I can do a pull to refresh
-                            // thats if im scared of calling this service to much
-                            // that way I only call it on the pull to refresh and when they barely login
                             AnnouncementsRowView(announment: annoucemnt)
                                 .listRowBackground(Color.blue.opacity(0.3))
-                            //.listRowBackground(Color.red.opacity(0.7))
-                            //.listRowBackground(Color.red.ignoresSafeArea())
                             
                         }
                         .listStyle(.plain)
-                        //.background(Color.red)
-                        //.listStyle(InsetListStyle())
-                        //.listStyle(InsetListStyle)
                         
                         .cornerRadius(15)
                         
                     }
-                    .padding(.trailing)
-                    .padding(.leading)
-                    //.background(Color.pink)
+                    .padding([.trailing, .leading])
                     .cornerRadius(15)
-                    //.frame(maxWidth: .infinity)
                     .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height / 3)
                     Spacer()
                     VStack(spacing: 0) {
                         HStack {
                             NavigationLink {
                                 ContentView(isLoggedIn: .constant(true))
-                                    //.navigationBarTitle("")
-                                    //.navigationBarTitleDisplayMode(.inline)
-                                //                                .onAppear(){
-                                //                                    showMenu = false
-                                //                                }
                             } label: {
                                 Text("Timer")
                                     .frame(maxWidth: .infinity)
@@ -92,7 +72,6 @@ struct HomeViewController: View {
                             .padding()
                             .buttonStyle(.bordered)
                             .tint(Color.red)
-                            //Button
                             NavigationLink {
                                 CalendarView(shiftViewModel: shiftViewModel, viewModel: viewModel)
                             } label: {
@@ -110,9 +89,6 @@ struct HomeViewController: View {
                                 PunchView()
                                     .navigationBarTitle("Punch")
                                     .navigationBarTitleDisplayMode(.inline)
-                                //                                .onAppear(){
-                                //                                    showMenu = false
-                                //                                }
                             } label: {
                                 Text("Punch In")
                                     .frame(maxWidth: .infinity)
@@ -136,22 +112,8 @@ struct HomeViewController: View {
                             .tint(Color.green)
                         }
                     }
-                    //.background(Color.pink)
-//                    Text("these should be buttonsdfgdgfdgss")
-//                    Text("these should be buttonsdfgdfgdfgdfg")
-                    //Spacer()
-//                    List(viewModel.users) { usser in
-//                        VStack {
-//                            Text(usser.lastName)
-//                            Text(usser.id)
-//                        }
-//                    }
-                    //UserInfoView()
                 }
                 .frame(width: getRect().width)
-                //.background(Color.blue.ignoresSafeArea())
-                // BG when menu is showing...
-                // this is for when I click on the out side of the screen that I am able to go back to my main screen instead of only just clicking on the button
                 .overlay(
                     Rectangle()
                         .fill(

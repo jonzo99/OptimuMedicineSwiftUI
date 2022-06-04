@@ -53,7 +53,7 @@ struct UserInfoView: View {
                     Text("Cell Phone Serice:")
                         .fontWeight(.semibold)
                     Spacer()
-                    Picker("Select Phone Servi", selection: $newUser.cellPhoneService) {
+                    Picker("Select Phone Service", selection: $newUser.cellPhoneService) {
                         ForEach(Utilities.cellPhoneServices, id: \.self) {
                             Text($0)
                         }
@@ -155,14 +155,16 @@ struct UserInfoView: View {
         
         .toolbar {
             ToolbarItem {
-                Text("Save")
-                    .tint(.blue)
-                    .foregroundColor(.blue)
-                    .onTapGesture {
-                        saveAction()
-                    }
+                saveButton
             }
         }
+    }
+    
+    var saveButton: some View {
+        Button("Save") {
+            saveAction()
+        }
+        .foregroundColor(.blue)
     }
     
     func saveAction() {

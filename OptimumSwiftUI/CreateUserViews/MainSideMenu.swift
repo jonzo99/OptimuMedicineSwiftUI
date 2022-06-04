@@ -13,78 +13,20 @@ struct MainSideMenu: View {
     @Binding var showMenu: Bool
     @State var isShowingLogIn = false
     //@ObservedObject private var viewModel = userViewModel()
+    //@Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     @ObservedObject var viewModel: userViewModel
     @ObservedObject var shiftViewModel: ShiftsViewModel
     @State var isFirst = false
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            VStack(alignment: .leading, spacing: 14) {
-                Image(systemName: "person.fill")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 65, height: 65)
-                    
-                Text(viewModel.currentUser.firstName)
-                    .font(.title2.bold())
-                    
-                
-
-//                Button("Text") {
-//                    viewModel.fetchData()
-//                }
-
-                Text(viewModel.currentUser.costCenter)
-                    .font(.callout)
-                    .fontWeight(.semibold)
-                    .onTapGesture {
-                        print("hey")
-                        //viewModel.fetchCurrentUser()
-                    }
-                
-                HStack(spacing: 12) {
-                    Button {
-                        
-                    } label: {
-                        Label {
-                            Text("Accepted Job shifts")
-                        } icon: {
-                            Text("4")
-                                .fontWeight(.bold)
-                        }
-                    }
-//                    Button {
-//
-//                    } label: {
-//                        Label {
-//                            Text("Following")
-//                        } icon: {
-//                            Text("1.2M")
-//                                .fontWeight(.bold)
-//                        }
-//                    }
-                }
-                .foregroundColor(.primary)
-                
-                
-                
-            }
             
-            .padding(.horizontal)
-            .padding(.leading)
+            profileHeaderView
             
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 20) {
-                    // Tab Button
-                    Group {
-                        Divider()
-                        TabButton(title: "Profile", image: "person.fill")
-                        //Divider()
-//                        TabButton(title: "Calendar", image: "calendar")
-//                        Divider()
-//                        TabButton(title: "Punch", image: "clock")
-//                        Divider()
-//                        TabButton(title: "timer", image: "timer")
-                    }
+                    Divider()
+                    TabButton(title: "Profile", image: "person.fill")
                     if viewModel.currentUser.costCenter == "Admin" {
                         Divider()
                         TabButton(title: "New Employee", image: "logo.playstation")
@@ -97,8 +39,8 @@ struct MainSideMenu: View {
                     // this is how I can show data depending on the user
                     //if viewModel.currentUser.lastName != "Jimenez" {
                     Divider()
-                        TabButton(title: "LogOut", image: "power")
-                
+                    TabButton(title: "LogOut", image: "power")
+                    
                 }
                 .padding()
                 .padding(.leading)
@@ -133,6 +75,41 @@ struct MainSideMenu: View {
         }
         
     }
+    
+    var profileHeaderView: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Image(systemName: "person.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 65, height: 65)
+            
+            Text(viewModel.currentUser.firstName)
+                .font(.title2.bold())
+            Text(viewModel.currentUser.costCenter)
+                .font(.callout)
+                .fontWeight(.semibold)
+            
+            HStack(spacing: 12) {
+                Button {
+                    
+                } label: {
+                    Label {
+                        Text("Accepted Job shifts")
+                    } icon: {
+                        Text("4")
+                            .fontWeight(.bold)
+                    }
+                }
+            }
+            .foregroundColor(.primary)
+            
+            
+            
+        }
+        .padding([.horizontal,.leading])
+    }
+    
+    // we dont want to use if statments
     @ViewBuilder
     func TabButton(title: String, image: String) -> some View {
         if title == "LogOut" {
@@ -140,7 +117,6 @@ struct MainSideMenu: View {
                 do {
                     try Auth.auth().signOut()
                     isShowingLogIn = true
-                    //Auth.auth().signIn
                 } catch {
                     print(error)
                 }
@@ -164,9 +140,9 @@ struct MainSideMenu: View {
                 
                 if (title == "Calendar") {
                     CalendarView(shiftViewModel: shiftViewModel, viewModel: viewModel)
-//                        .onAppear(){
-//                            showMenu = false
-//                        }
+                    //                        .onAppear(){
+                    //                            showMenu = false
+                    //                        }
                 } else if (title == "All Shifts") {
                     VStack {
                         Button("fetch all shifts") {
@@ -195,9 +171,9 @@ struct MainSideMenu: View {
                         }
                         List(shiftViewModel.allShifts) { shift in
                             VStack {
-                             
+                                
                                 Text(shift.shiftName)
-                              
+                                
                                 ForEach(shift.jobShifts.sorted(by: <), id: \.key) { key, value in
                                     HStack {
                                         Text(key)
@@ -257,7 +233,7 @@ struct MainSideMenu: View {
                         .navigationTitle(title)
                 }
                 
-                    
+                
             } label: {
                 HStack(spacing: 14) {
                     Image(systemName: image)
@@ -279,7 +255,7 @@ struct MainSideMenu: View {
 struct MainSideMenu_Previews: PreviewProvider {
     static var previews: some View {
         MainSideMenu(showMenu: .constant(true), viewModel: userViewModel(), shiftViewModel: ShiftsViewModel())
-            
+        
     }
 }
 

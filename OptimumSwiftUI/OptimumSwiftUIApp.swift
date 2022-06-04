@@ -11,44 +11,9 @@ import Firebase
 @main
 
 struct OptimumSwiftUIApp: App {
-    
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    //@UIApplicationDelegateAdaptor(appDelegate.self)
-    //@AppStorage("isLoggedIin") var isLoggedIn8: Bool
-   // @AppStorage("isFirstSignIn") var isFirstSignIn: Bool = false
-    
     var body: some Scene {
         WindowGroup {
-//            if isLoggedIn == false {
-//                LoginAndSignup(isLoggedIn: $isLoggedIn)
-//                    .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
-//            } else {
-//                ContentView(isLoggedIn: $isLoggedIn)
-//                    .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
-//            }
-            
-            // this should be called OnBoardingView
-//            if isFirstSignIn == true {
-//                HomeViewController()
-//                    .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
-//            } else {
-//
-//                SignInView()
-//                    .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
-//            }
-            
-            // Can not do this just yet because I still have some logic that is tied to this
-//            if UserDefaults.standard.bool(forKey: "isFirstSignIn") == true {
-////                viewModel.fetchData()
-////                viewModel.fetchCurrentUser()
-////                UserDefaults.standard.set(false, forKey: "isFirstSignIn")
-//                SignInView()
-//                    .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
-//
-//            } else {
-//                HomeViewController()
-//                    .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
-//            }
             SignInView()
                 .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
         }
@@ -60,10 +25,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions:
                      [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-       // FirebaseApp.configure()
         FirebaseApp.configure()
-        let db = Firestore.firestore()
         
         return true
     }

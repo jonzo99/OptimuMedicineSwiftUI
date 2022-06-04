@@ -8,7 +8,7 @@
 import MapKit
 // NSObject so when can access the delegate methods
 enum MapDetails {
-    static let startingLocation = CLLocationCoordinate2D(latitude: 37.331516, longitude: -121.891054)
+    static let startingLocation = CLLocationCoordinate2D(latitude: 37.331516, longitude: -120.891054)
     static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
 }
 final class PunchViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
@@ -25,9 +25,6 @@ final class PunchViewModel: NSObject, ObservableObject, CLLocationManagerDelegat
             locationManager?.startMonitoring(for: geoGenceRegion)
         } else {
             print("SHow an alert that there location is off and they need to turn it on")
-
-            
-            var k = [[Int]]()
         }
     }
     

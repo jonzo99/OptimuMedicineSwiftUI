@@ -40,20 +40,20 @@ struct NewShiftView: View {
                         Spacer()
                     }
                     
+                    
                     HStack {
-                        HStack {
-                            Menu {
-                                ForEach(Utilities.masterShifts, id: \.self) { qual in
-                                    Button(qual) {
-                                        self.newShift.shiftName = qual
-                                    }
+                        Menu {
+                            ForEach(Utilities.masterShifts, id: \.self) { qual in
+                                Button(qual) {
+                                    self.newShift.shiftName = qual
                                 }
-                            } label: {
-                                TextField("", text: $newShift.shiftName)
                             }
+                        } label: {
+                            TextField("", text: $newShift.shiftName)
                         }
-                        .blackBorder()
                     }
+                    .blackBorder()
+                    
                 }
                 .padding()
                 VStack(alignment: .leading, spacing: 2){
@@ -87,7 +87,7 @@ struct NewShiftView: View {
                                 } label: {
                                     TextField("None", text: $selectedQualifcation[index])
                                 }
-                                
+                                 
                             }
                             .blackBorder()
                             HStack {
@@ -120,8 +120,7 @@ struct NewShiftView: View {
                             )
                     }
                 }
-                .padding(.leading)
-                .padding(.trailing)
+                .padding([.leading, .trailing])
                 Divider()
                 VStack(alignment: .leading, spacing: 2) {
                     HStack {
@@ -161,8 +160,7 @@ struct NewShiftView: View {
                     }
                     .blackBorder()
                 }
-                .padding(.leading)
-                .padding(.trailing)
+                .padding([.leading, .trailing])
                 HStack {
                     Text("Comments")
                     Spacer()
@@ -170,25 +168,22 @@ struct NewShiftView: View {
                 .padding(.leading, 10)
                 TextEditor(text: $newShift.comment)
                     .blackBorder()
-                
-                
-                // bellow this I will show an information cell that only shows the start and end date
-                //  with the hour and min also I will have a switch that says nextday that represents teh  next day
+
                 
             }
         }
         .toolbar {
             ToolbarItem {
-                Text("Save")
-                    .foregroundColor(.blue)
-                    .onTapGesture {
-                        print("you have pressed save")
-                        SaveButtonPressed()
-                    }
+                saveButton
             }
         }
     }
-    
+    var saveButton: some View {
+        Button("Save") {
+            SaveButtonPressed()
+        }
+        .foregroundColor(.blue)
+    }
     func upArrowButton(i: Int) -> some View {
         Button {
             print("he")

@@ -25,17 +25,20 @@ struct NewAnnouncementView: View {
         }
         .toolbar {
             ToolbarItem {
-                Text("Save")
-                    .tint(.blue)
-                    .foregroundColor(.blue)
-                    .onTapGesture {
-                        createNewAnnoucement()
-                        presentationMode.wrappedValue.dismiss()
-                    }
+                saveButton
             }
         }
     }
     
+    
+    var saveButton: some View {
+        Button("Save") {
+            createNewAnnoucement()
+            presentationMode.wrappedValue.dismiss()
+        }
+        .tint(.blue)
+        .foregroundColor(.blue)
+    }
     
     func createNewAnnoucement() {
         
@@ -46,6 +49,7 @@ struct NewAnnouncementView: View {
                       "message": message,
                       "createdBy": viewModel.currentUser.firstName,
                       "createdDate": Date()] as [String : Any]
+        
         db.collection("announcement").document().setData(newAnn) { error in
             if let err = error {
                 print("there was an error", err)
