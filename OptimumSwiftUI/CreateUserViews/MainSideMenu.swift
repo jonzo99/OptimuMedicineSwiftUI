@@ -12,9 +12,6 @@ import Combine
 struct MainSideMenu: View {
     @Binding var showMenu: Bool
     @State var isShowingLogIn = false
-    //@ObservedObject private var viewModel = userViewModel()
-    //@Environment(\.presentationMode) var presentationMode
-    @Environment(\.dismiss) var dismiss
     @ObservedObject var viewModel: userViewModel
     @ObservedObject var shiftViewModel: ShiftsViewModel
     @State var isFirst = false
@@ -99,9 +96,6 @@ struct MainSideMenu: View {
                 }
             }
             .foregroundColor(.primary)
-            
-            
-            
         }
         .padding([.horizontal,.leading])
     }

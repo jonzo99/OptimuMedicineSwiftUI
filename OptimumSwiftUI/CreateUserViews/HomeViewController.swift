@@ -61,55 +61,16 @@ struct HomeViewController: View {
                     Spacer()
                     VStack(spacing: 0) {
                         HStack {
-                            NavigationLink {
-                                ContentView(isLoggedIn: .constant(true))
-                            } label: {
-                                Text("Timer")
-                                    .frame(maxWidth: .infinity)
-                                    .padding()
-                            }
+                            HomeNavButtons(buttonText: "Timer", tintColor: .red, content: ContentView(isLoggedIn: .constant(true)))
                             
-                            .padding()
-                            .buttonStyle(.bordered)
-                            .tint(Color.red)
-                            NavigationLink {
-                                CalendarView(shiftViewModel: shiftViewModel, viewModel: viewModel)
-                            } label: {
-                                Text("All Shifts")
-                                    .frame(maxWidth: .infinity)
-                                    .padding()
-                            }
-                            
-                            .padding()
-                            .buttonStyle(.bordered)
-                            .tint(Color.green)
+                            HomeNavButtons(buttonText: "All Shifts", tintColor: .green, content: CalendarView(shiftViewModel: shiftViewModel, viewModel: viewModel))
                         }
                         HStack{
-                            NavigationLink {
-                                PunchView()
-                                    .navigationBarTitle("Punch")
-                                    .navigationBarTitleDisplayMode(.inline)
-                            } label: {
-                                Text("Punch In")
-                                    .frame(maxWidth: .infinity)
-                                    .padding()
-                            }
-                            
-                            .padding()
-                            .buttonStyle(.bordered)
-                            .tint(Color.red)
-                            //Button
-                            NavigationLink {
-                                CalendarViewForUser(shiftViewModel: shiftViewModel, viewModel: viewModel)
-                            } label: {
-                                Text("My Shifts")
-                                    .frame(maxWidth: .infinity)
-                                    .padding()
-                            }
-                            
-                            .padding()
-                            .buttonStyle(.bordered)
-                            .tint(Color.green)
+                            HomeNavButtons(buttonText: "Punch", tintColor: .red, content: PunchView()
+                                .navigationBarTitle("Punch")
+                                .navigationBarTitleDisplayMode(.inline)
+                            )
+                            HomeNavButtons(buttonText: "My Shifts", tintColor: .green, content: CalendarViewForUser(shiftViewModel: shiftViewModel, viewModel: viewModel))
                         }
                     }
                 }
@@ -224,6 +185,25 @@ struct HomeViewController: View {
         }
         //storing the last offset
         lastStoredOffset = offset
+    }
+}
+
+struct HomeNavButtons<Content: View>: View {
+    let buttonText: String
+    let tintColor: Color
+    let content: Content
+    var body: some View {
+        NavigationLink {
+            content
+        } label: {
+            Text(buttonText)
+                .frame(maxWidth: .infinity)
+                .padding()
+        }
+        
+        .padding()
+        .buttonStyle(.bordered)
+        .tint(tintColor)
     }
 }
 
