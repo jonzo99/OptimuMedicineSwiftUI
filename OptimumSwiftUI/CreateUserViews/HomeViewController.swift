@@ -12,8 +12,6 @@ import UIKit
 /// this is the youtube toturial that showed me how to do it
 /// note to myself I need to start linking where I find the code that helped me solved this situation so I can go back and loook at them and they can help me outss
 struct HomeViewController: View {
-    @State var title = "Home"
-    @State private var isShowing = false
     @State var showMenu: Bool = false
     
     // Offset for Both Drag Gesuture and showing Menu...
@@ -26,7 +24,6 @@ struct HomeViewController: View {
     @ObservedObject var annoucemntViewModel = AnnouncementViewModel()
     // Gesture Offset...
     @GestureState var gestureOffset: CGFloat = 0
-    @State var currentUserEmail = ""
     //@AppStorage("isFirstSignIn") var isFirstSignIn: Bool
     var body: some View {
         let sideBarWidth = getRect().width - 90
@@ -120,7 +117,7 @@ struct HomeViewController: View {
                     })
                 }
                 ToolbarItem(placement: .principal) {
-                    Text(title)
+                    Text("Home")
                         .bold()
                         .accessibilityAddTraits(.isHeader)
                 }

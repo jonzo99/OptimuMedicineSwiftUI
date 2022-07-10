@@ -8,7 +8,11 @@ import SwiftUI
 
 @available(iOS 15.0, *)
 struct FreeFlowView: View {
+    // create Local Storage
+    // so I can store and always display
+    // the values of the timer.
     
+    // needs to be local because they go offline
     func getTotalSecondsLeft() -> Int {
         let numPsiTextField = Double(psiTextField) ?? 0
         let numRateTextField = Double(rateTextField) ?? 0
@@ -20,32 +24,16 @@ struct FreeFlowView: View {
             return Int(round(totalTimeInSeconds))
         }
     }
-    func secondsToHoursMinutesSeconds(seconds: Int) -> (Int, Int, Int) {
-        return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
-    }
-    func makeTimeString(hours: Int, minutes: Int, seconds : Int) ->  String {
-        var timeString = ""
-        timeString += String(format: "%02d", hours)
-        timeString += ":"
-        timeString += String(format: "%02d", minutes)
-        timeString += ":"
-        timeString += String(format: "%02d", seconds)
-        return timeString
-    }
-    
     
     @ObservedObject var notificationManager = LocalNotificationManager()
     @State var userNotificationCenter = UNUserNotificationCenter.current()
-    @State private var selectedTankSize = 0.16
-    @State var psiTextField = ""
-    @State private var rateTextField = ""
+    @AppStorage("FreeSelectedTankSize") var selectedTankSize = 0.16
+    @AppStorage("FreepsiTextField") var psiTextField = ""
+    @AppStorage("FreerateTextField") var rateTextField = ""
     @State private var timerText = "00:00:00"
-    @State private var timeText  = "00:00:00"
+    @AppStorage("FreeTimeLeft") var timeText  = "00:00:00"
     @State private var stopStartText = "START"
-    @AppStorage("timerCounting") var timerCounting = false
-    @State var hrs = 0
-    @State var min = 0
-    @State var sec = 0
+    @AppStorage("timerCountingFree") var timerCounting = false
     @State var hrs2 = 0
     @State var min2 = 0
     @State var sec2 = 0
@@ -59,10 +47,6 @@ struct FreeFlowView: View {
     
     @State private var showAlert: Bool = false
     
-    enum Field {
-        case psiTextField
-        case rateTextField
-    }
     @FocusState private var focusedField: Field?
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -77,84 +61,14 @@ struct FreeFlowView: View {
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center) */
             Spacer()
-            HStack {
-                Text("Tank size:")
-                    .modifier(PrimaryLabel())
-                Spacer()
-                VStack {
-                    Picker("tanksize", selection: $selectedTankSize) {
-                        Text("D").tag(0.16)
-                        Text("E").tag(0.28)
-                        Text("M").tag(1.56)
-                        Text("K").tag(3.14)
-                        
-                    }.pickerStyle(SegmentedPickerStyle())
-                }
-                .frame(width: 200)
-                .multilineTextAlignment(.center)
-            }
-            .padding(.bottom)
-            .padding(.leading,20)
-            .padding(.trailing,20)
+            TankSizePicker(selectedTankSize: $selectedTankSize)
+            
+            timerTextField(leftLabel: "Tank Psi: ", placeholder: "tank psi", text: $psiTextField, focused: $focusedField, nextFocusedValue: .psiTextField)
+            
+            timerTextField(leftLabel: "Rate:         ", placeholder: "rate", text: $rateTextField, focused: $focusedField, nextFocusedValue: .rateTextField)
             
             
-            HStack {
-                Text("Tank Psi: ")
-                    .modifier(PrimaryLabel())
-                Spacer()
-                TextField("tank psi", text: $psiTextField, onEditingChanged: { changed in
-                    if (changed == true) {
-                        psiTextField = ""
-                    }
-                })
-                    .focused($focusedField, equals: .psiTextField)
-                    .frame(width: 200)
-                    .multilineTextAlignment(.center)
-                    .modifier(PrimaryLabel())
-                    .keyboardType(.numbersAndPunctuation)
-                    .textFieldStyle(OvalTextFieldStyle())
-                    .submitLabel(.next)
-            }
-            .padding(.bottom)
-            .padding(.leading,20)
-            .padding(.trailing,20)
-            
-            HStack {
-                Text("Rate:         ")
-                    .modifier(PrimaryLabel())
-                Spacer()
-                TextField("rate", text: $rateTextField, onEditingChanged: { changed in
-                    print("oneEdititng chaged: \(changed)")
-                    if (changed == true) {
-                        rateTextField = ""
-                    }
-                })
-                    .focused($focusedField, equals: .rateTextField)
-                    .frame(width: 200)
-                    .multilineTextAlignment(.center)
-                    .modifier(PrimaryLabel())
-                    .keyboardType(.numbersAndPunctuation)
-                    .textFieldStyle(OvalTextFieldStyle())
-                    .submitLabel(.return)
-            }
-            .padding(.bottom)
-            .padding(.leading,20)
-            .padding(.trailing,20)
-            
-            
-            HStack {
-                Text("Time Left:      ")
-                    .modifier(PrimaryLabel())
-                Spacer()
-                Text(timeText)
-                    .frame(width: 200)
-                    .multilineTextAlignment(.center)
-                    .modifier(PrimaryLabel())
-                    .keyboardType(.numbersAndPunctuation)
-            }
-            .padding(.leading,20)
-            .padding(.trailing,20)
-            .padding(.bottom)
+            CaluclatedTime(displayTimeText: $timeText)
             
             //Spacer()
             Text(timerText)
@@ -169,7 +83,7 @@ struct FreeFlowView: View {
                     countDowns = 0
                     timerCounting = false
                     //self.timer.invalidate()
-                    self.timerText = self.makeTimeString(hours: 0, minutes: 0, seconds: 0)
+                    self.timerText = OxegenTimeHelper.makeTimeString(hours: 0, minutes: 0, seconds: 0)
                     stopStartText = "START"
                     //self.startStopBtn.setTitle("START", for: .normal)
                     //self.startStopBtn.setTitleColor(UIColor.green, for: .normal)
@@ -180,7 +94,7 @@ struct FreeFlowView: View {
                     //psiTextField = 0.0
                     psiTextField = ""
                     rateTextField = ""
-                    timeText = self.makeTimeString(hours: 0, minutes: 0, seconds: 0)
+                    timeText = OxegenTimeHelper.makeTimeString(hours: 0, minutes: 0, seconds: 0)
                     hideKeyboard()
                 }) {
                     Text("RESET")
@@ -199,8 +113,8 @@ struct FreeFlowView: View {
                     if (timerCounting == false) {
                         countDowns = total
                     }
-                    let time = secondsToHoursMinutesSeconds(seconds: total)
-                    let timeString = makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
+                    let time = OxegenTimeHelper.secondsToHoursMinutesSeconds(seconds: total)
+                    let timeString = OxegenTimeHelper.makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
                     timeText = timeString
                     hideKeyboard()
                 }) {
@@ -230,7 +144,6 @@ struct FreeFlowView: View {
                         if countDowns >= 600 {
                             let minuteLeft = countDowns - 599
                             print(countDowns)
-                            /*sendNotification(timeInterval: Double(minuteLeft), title: "10 Minutes Left", body: "HAMILTON: there is 10 minutes left", sound: "critalAlarm.wav") */
                             notificationManager.sendLocalNotification(timeInterval: Double(minuteLeft), title: "10 mins Left", body: "FREE FLOW there is 10 mins left", sound: "critalAlarm.wav")
                         }
                         if countDowns >= 60 {
@@ -283,9 +196,9 @@ struct FreeFlowView: View {
                          print("")*/
                         let components = calendar.dateComponents([.hour, .year, .minute, .second], from: date)
                         /*print("all comp", components)*/
-                        hrs = calendar.component(.hour, from: date)
-                        min = calendar.component(.minute, from: date)
-                        sec = calendar.component(.second, from: date)
+                        let hrs = calendar.component(.hour, from: date)
+                        let min = calendar.component(.minute, from: date)
+                        let sec = calendar.component(.second, from: date)
                         
                         totalTimeInSec = (min * 60) + (hrs * 3600) + sec
                         isInForeground = false
@@ -415,8 +328,8 @@ struct FreeFlowView: View {
                 if (timerCounting == false) {
                     countDowns = total
                 }
-                let time = secondsToHoursMinutesSeconds(seconds: total)
-                let timeString = makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
+                let time = OxegenTimeHelper.secondsToHoursMinutesSeconds(seconds: total)
+                let timeString = OxegenTimeHelper.makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
                 timeText = timeString
             }
         }
@@ -514,8 +427,8 @@ struct FreeFlowView: View {
                 timerCounting = false
             }
             // if i want to add a message when it hits a certain amount of seconds i should make phone vibrate show notification
-            let time = secondsToHoursMinutesSeconds(seconds: countDowns)
-            let timeString = makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
+            let time = OxegenTimeHelper.secondsToHoursMinutesSeconds(seconds: countDowns)
+            let timeString = OxegenTimeHelper.makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
             timerText = timeString
         }
     }

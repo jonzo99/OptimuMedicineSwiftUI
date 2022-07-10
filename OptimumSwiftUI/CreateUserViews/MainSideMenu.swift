@@ -30,7 +30,7 @@ struct MainSideMenu: View {
                         Divider()
                         sideMenuButtons(title: "New Shift", image: "loupe", content: NewShiftView().onAppear{ showMenu = false})
                         Divider()
-                        sideMenuButtons(title: "New Announcement", image: "calendar", content: NewShiftView().onAppear{ showMenu = false})
+                        sideMenuButtons(title: "New Announcement", image: "calendar", content: NewAnnouncementView(viewModel: viewModel).onAppear{ showMenu = false})
                     }
                     Divider()
                     TabButton(title: "LogOut", image: "power")

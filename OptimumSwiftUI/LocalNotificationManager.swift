@@ -44,3 +44,19 @@ class LocalNotificationManager: ObservableObject {
     
 }
 
+class OxegenTimeHelper {
+    static func secondsToHoursMinutesSeconds(seconds: Int) -> (Int, Int, Int) {
+        (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
+    }
+    // I dont think I should make these static functions
+    // But I would need to do more researh
+    static func makeTimeString(hours: Int, minutes: Int, seconds: Int) -> String {
+        var timeString = ""
+        timeString += String(format: "%02d", hours)
+        timeString += ":"
+        timeString += String(format: "%02d", minutes)
+        timeString += ":"
+        timeString += String(format: "%02d", seconds)
+        return timeString
+    }
+}

@@ -86,6 +86,9 @@ struct SignInView: View {
                     Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
                         if let error = error {
                             print(error)
+                            isFirstSignIn  = true
+                            showContentView = true
+                            isLoggedIn = true
                         } else {
                             isFirstSignIn  = true
                             showContentView = true

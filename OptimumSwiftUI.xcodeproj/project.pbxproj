@@ -20,6 +20,7 @@
 		D90D0C7327B868E100D9538F /* Shifts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D0C7227B868E000D9538F /* Shifts.swift */; };
 		D90D0C7527B87C7900D9538F /* ShiftsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D0C7427B87C7700D9538F /* ShiftsViewModel.swift */; };
 		D90E33D627CB2C3500D79C59 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D90D0C4F27A8D28900D9538F /* AuthenticationServices.framework */; };
+		D930481B286E767A00DDE600 /* TimerHelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D930481A286E767A00DDE600 /* TimerHelperFunctions.swift */; };
 		D95560FE27E639B6008C52EA /* CalendarViewForUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95560FD27E639B6008C52EA /* CalendarViewForUser.swift */; };
 		D955610227E6854A008C52EA /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D955610127E6854A008C52EA /* Announcement.swift */; };
 		D955610427F7DF01008C52EA /* AnnouncementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D955610327F7DF00008C52EA /* AnnouncementViewModel.swift */; };
@@ -105,6 +106,7 @@
 		D90D0C7027B4A66600D9538F /* NewShiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewShiftView.swift; sourceTree = "<group>"; };
 		D90D0C7227B868E000D9538F /* Shifts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shifts.swift; sourceTree = "<group>"; };
 		D90D0C7427B87C7700D9538F /* ShiftsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftsViewModel.swift; sourceTree = "<group>"; };
+		D930481A286E767A00DDE600 /* TimerHelperFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerHelperFunctions.swift; sourceTree = "<group>"; };
 		D95560FD27E639B6008C52EA /* CalendarViewForUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewForUser.swift; sourceTree = "<group>"; };
 		D955610127E6854A008C52EA /* Announcement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Announcement.swift; sourceTree = "<group>"; };
 		D955610327F7DF00008C52EA /* AnnouncementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementViewModel.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				D9ACAFB92745D74000780B8A /* OnboardingView.swift */,
 				D9F99546283095C400F22D94 /* Utilities.swift */,
 				D982A909270FB1AA00ADE73E /* FreeFlowView.swift */,
+				D930481A286E767A00DDE600 /* TimerHelperFunctions.swift */,
 				D9E8D776271244E200F9C0CE /* HamiltonView.swift */,
 				D9CA608C27011AB500EC664C /* LocalNotificationManager.swift */,
 				D98B464226FBEDEE0003D5EF /* Assets.xcassets */,
@@ -516,6 +519,7 @@
 				D98B463F26FBEDEC0003D5EF /* OptimumSwiftUIApp.swift in Sources */,
 				D9E8D777271244E200F9C0CE /* HamiltonView.swift in Sources */,
 				D90D0C4927A60DD400D9538F /* DetailView.swift in Sources */,
+				D930481B286E767A00DDE600 /* TimerHelperFunctions.swift in Sources */,
 				D90D0C4727A60DA300D9538F /* CustomDatePicker.swift in Sources */,
 				D99B3086281CB5A700387154 /* ValidationService.swift in Sources */,
 				D982A90A270FB1AB00ADE73E /* FreeFlowView.swift in Sources */,
