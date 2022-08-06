@@ -17,45 +17,75 @@ struct ContentView: View {
     // UITabBar.appearance().backgroundColor = UIColor.gray
     //UINavigationBar.appearance().backgroundColor = .lightGray
     //}
-    @Environment(\.scenePhase) var scenePhase
-    @AppStorage("timePassedInBack") var timePassedInBack: Int = 0
-    @Binding var isLoggedIn: Bool
-    
+    @AppStorage("timerCountingHamilton") var timerCounting = false
+    @AppStorage("timerCountingFree") var freeTimerCounting = false
+    @StateObject var oxegenTimerHelper = OxegenTimeHelper()
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     var body: some View {
         ZStack {
-            
             TabView {
                 HamiltonView()
+                    .environmentObject(oxegenTimerHelper)
                     .tabItem{
                         Image(systemName: "square.fill")
                         Text("HAMILTON")
                     }
                     .navigationBarTitle("Hamilton")
-                
                 FreeFlowView()
+                    .environmentObject(oxegenTimerHelper)
                     .tabItem {
                         Image(systemName: "square.fill")
                         Text("Free Flow")
                     }
                     .navigationBarTitle("Hamilton")
-                    
+            }
+        }
+        .onAppear() {
+            let timePassedInBackground = Int(Date() - oxegenTimerHelper.timeExitedScreen) + 1
+            if timerCounting {
+                
+                oxegenTimerHelper.hamCountDown = oxegenTimerHelper.hamCountDown - timePassedInBackground
             }
             
+            if freeTimerCounting {
+                oxegenTimerHelper.freeCountDown = oxegenTimerHelper.freeCountDown - timePassedInBackground
+            }
+        }
+        .onDisappear() {
+            oxegenTimerHelper.timeExitedScreen = Date()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
+            print("when the user swipes out of the app.")
+        }
+        .onReceive(timer) { time in
+            
+            if timerCounting {
+                if (oxegenTimerHelper.hamCountDown > 0) {
+                    oxegenTimerHelper.hamCountDown -= 1
+                }
+                if (oxegenTimerHelper.hamCountDown <= 0) {
+                    timerCounting = false
+                }
+                // if i want to add a message when it hits a certain amount of seconds i should make phone vibrate show notification
+                let time = oxegenTimerHelper.secondsToHoursMinutesSeconds(seconds: oxegenTimerHelper.hamCountDown)
+                let timeString = oxegenTimerHelper.makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
+                oxegenTimerHelper.hamTimerText = timeString
+            }
+            
+            if freeTimerCounting {
+                if (oxegenTimerHelper.freeCountDown > 0) {
+                    oxegenTimerHelper.freeCountDown -= 1
+                }
+                if (oxegenTimerHelper.freeCountDown <= 0) {
+                    freeTimerCounting = false
+                }
+                // if i want to add a message when it hits a certain amount of seconds i should make phone vibrate show notification
+                let time = oxegenTimerHelper.secondsToHoursMinutesSeconds(seconds: oxegenTimerHelper.freeCountDown)
+                let timeString = oxegenTimerHelper.makeTimeString(hours: time.0, minutes: time.1, seconds: time.2)
+                oxegenTimerHelper.freeTimerText = timeString
+            }
         }
     }
-    /*.onChange(of: scenePhase) { newPhase in
-     if newPhase == .inactive {
-     print("FREEFLOW IS INACTIVE")
-     //sActive = false
-     } else if newPhase == .active {
-     print("FREEFLOW IS ACTIVE")
-     
-     
-     } else if newPhase == .background {
-     print("FREEFLOW IS IN BACKGROUND")
-     }
-     }*/
-    
 }
 
 
@@ -78,6 +108,6 @@ struct OvalTextFieldStyle: TextFieldStyle {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(isLoggedIn: .constant(true))
+        ContentView()
     }
 }

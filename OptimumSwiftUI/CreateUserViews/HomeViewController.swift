@@ -58,7 +58,7 @@ struct HomeViewController: View {
                     Spacer()
                     VStack(spacing: 0) {
                         HStack {
-                            HomeNavButtons(buttonText: "Timer", tintColor: .red, content: ContentView(isLoggedIn: .constant(true)))
+                            HomeNavButtons(buttonText: "Timer", tintColor: .red, content: ContentView())
                             
                             HomeNavButtons(buttonText: "All Shifts", tintColor: .green, content: CalendarView(shiftViewModel: shiftViewModel, viewModel: viewModel))
                         }

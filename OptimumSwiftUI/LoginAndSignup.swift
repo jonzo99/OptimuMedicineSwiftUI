@@ -12,13 +12,12 @@ struct LoginAndSignup: View {
     
     @AppStorage("signed_in") var currentUserSignedIn: Bool = false
     @State var showingSigninView = false
-    @State var isLoggedIn = false
     //@Binding var isLoggedIn: Bool
     //@State var sign = SignInView(isLoggedIn: $isLoggedIn)
     
     var body: some View {
         if(currentUserSignedIn == true) {
-            ContentView(isLoggedIn: $isLoggedIn)
+            ContentView()
         } else {
             NavigationView {
                 ZStack {
@@ -51,7 +50,7 @@ struct LoginAndSignup: View {
 //                                .background(Color.gray)
 //                        }
                         
-                        NavigationLink(destination: SignUpView(isLoggedIn: $isLoggedIn)) {
+                        NavigationLink(destination: SignUpView()) {
                             
                             Text("Sign Up")
                                 .foregroundColor(.white)
@@ -85,7 +84,6 @@ struct SignUpView: View {
         case password1
     }
     @FocusState private var focusedField: Fieldd?
-    @Binding var isLoggedIn: Bool
     
     var body: some View {
         ZStack {
@@ -205,7 +203,7 @@ struct SignUpView: View {
             }
         }
         .fullScreenCover(isPresented: $showContentView) {
-            ContentView(isLoggedIn: $isLoggedIn)
+            ContentView()
         }
         
         .onSubmit {
