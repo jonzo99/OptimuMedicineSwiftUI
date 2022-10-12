@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D90B0DDD28F7807D00FDC85C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D90B0DDC28F7807D00FDC85C /* FirebaseAuth */; };
+		D90B0DDF28F7807D00FDC85C /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D90B0DDE28F7807D00FDC85C /* FirebaseFirestore */; };
 		D90D0C3C27A60AFF00D9538F /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D0C3B27A60AFF00D9538F /* CalendarView.swift */; };
 		D90D0C4127A60C1400D9538F /* DateValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D0C4027A60C1400D9538F /* DateValue.swift */; };
 		D90D0C4527A60C4A00D9538F /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D0C4427A60C4A00D9538F /* Task.swift */; };
@@ -53,7 +55,6 @@
 		D9E8D777271244E200F9C0CE /* HamiltonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E8D776271244E200F9C0CE /* HamiltonView.swift */; };
 		D9F99547283095C400F22D94 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F99546283095C400F22D94 /* Utilities.swift */; };
 		D9FC3632273A1847009E84B2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9FC3631273A1847009E84B2 /* GoogleService-Info.plist */; };
-		F22E6D4AB28BBF62E83AA4AC /* Pods_OptimumSwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79999F6E7EA8BE305F6BB2F2 /* Pods_OptimumSwiftUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,9 +88,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0DF8D4384C2A9816B87D19D5 /* Pods-OptimumSwiftUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OptimumSwiftUI.debug.xcconfig"; path = "Target Support Files/Pods-OptimumSwiftUI/Pods-OptimumSwiftUI.debug.xcconfig"; sourceTree = "<group>"; };
-		6FEB04AF243541EAB17488CB /* Pods-OptimumSwiftUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OptimumSwiftUI.release.xcconfig"; path = "Target Support Files/Pods-OptimumSwiftUI/Pods-OptimumSwiftUI.release.xcconfig"; sourceTree = "<group>"; };
-		79999F6E7EA8BE305F6BB2F2 /* Pods_OptimumSwiftUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_OptimumSwiftUI.framework; path = "../../../../../../../../../Users/jonzojimenez/Library/Developer/Xcode/DerivedData/OptimumSwiftUI-avdmcwykmbvywfblhyzgttjeicdj/Build/Products/Debug-iphoneos/Pods_OptimumSwiftUI.framework"; sourceTree = SDKROOT; };
 		D90D0C3B27A60AFF00D9538F /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		D90D0C4027A60C1400D9538F /* DateValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateValue.swift; sourceTree = "<group>"; };
 		D90D0C4427A60C4A00D9538F /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
@@ -149,7 +147,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D90E33D627CB2C3500D79C59 /* AuthenticationServices.framework in Frameworks */,
-				F22E6D4AB28BBF62E83AA4AC /* Pods_OptimumSwiftUI.framework in Frameworks */,
+				D90B0DDF28F7807D00FDC85C /* FirebaseFirestore in Frameworks */,
+				D90B0DDD28F7807D00FDC85C /* FirebaseAuth in Frameworks */,
 				D9BC910D279D02060076DD7C /* iPhoneNumberField in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -174,19 +173,9 @@
 		A7FE6378DA7D94C37A72B619 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				79999F6E7EA8BE305F6BB2F2 /* Pods_OptimumSwiftUI.framework */,
 				D90D0C4F27A8D28900D9538F /* AuthenticationServices.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		C21CAC308F3CB85210BCFE96 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				0DF8D4384C2A9816B87D19D5 /* Pods-OptimumSwiftUI.debug.xcconfig */,
-				6FEB04AF243541EAB17488CB /* Pods-OptimumSwiftUI.release.xcconfig */,
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		D90D0C3D27A60B0A00D9538F /* Calendar */ = {
@@ -245,7 +234,6 @@
 				D98B465826FBEDEE0003D5EF /* OptimumSwiftUIUITests */,
 				D90D0C5127A8D28900D9538F /* OptimumSwiftUI_UAT */,
 				D98B463C26FBEDEC0003D5EF /* Products */,
-				C21CAC308F3CB85210BCFE96 /* Pods */,
 				A7FE6378DA7D94C37A72B619 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -336,11 +324,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D98B465F26FBEDEE0003D5EF /* Build configuration list for PBXNativeTarget "OptimumSwiftUI" */;
 			buildPhases = (
-				DE9676B33DFB20B97688ACD3 /* [CP] Check Pods Manifest.lock */,
 				D98B463726FBEDEC0003D5EF /* Sources */,
 				D98B463826FBEDEC0003D5EF /* Frameworks */,
 				D98B463926FBEDEC0003D5EF /* Resources */,
-				00C358CE6C7C236191C23CF2 /* [CP] Embed Pods Frameworks */,
 				D90D0C5E27A8D28900D9538F /* Embed App Extensions */,
 			);
 			buildRules = (
@@ -350,6 +336,8 @@
 			name = OptimumSwiftUI;
 			packageProductDependencies = (
 				D9BC910C279D02060076DD7C /* iPhoneNumberField */,
+				D90B0DDC28F7807D00FDC85C /* FirebaseAuth */,
+				D90B0DDE28F7807D00FDC85C /* FirebaseFirestore */,
 			);
 			productName = OptimumSwiftUI;
 			productReference = D98B463B26FBEDEC0003D5EF /* OptimumSwiftUI.app */;
@@ -425,6 +413,7 @@
 			mainGroup = D98B463226FBEDEC0003D5EF;
 			packageReferences = (
 				D9BC910B279D02060076DD7C /* XCRemoteSwiftPackageReference "iPhoneNumberField" */,
+				D90B0DDB28F7807D00FDC85C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = D98B463C26FBEDEC0003D5EF /* Products */;
 			projectDirPath = "";
@@ -465,48 +454,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		00C358CE6C7C236191C23CF2 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-OptimumSwiftUI/Pods-OptimumSwiftUI-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-OptimumSwiftUI/Pods-OptimumSwiftUI-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OptimumSwiftUI/Pods-OptimumSwiftUI-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DE9676B33DFB20B97688ACD3 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-OptimumSwiftUI-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D98B463726FBEDEC0003D5EF /* Sources */ = {
@@ -716,16 +663,15 @@
 		};
 		D98B466026FBEDEE0003D5EF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0DF8D4384C2A9816B87D19D5 /* Pods-OptimumSwiftUI.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jonzo Jimenez (8UM67QMULG)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 03;
 				DEVELOPMENT_ASSET_PATHS = "\"OptimumSwiftUI/Preview Content\"";
-				DEVELOPMENT_TEAM = L6RJ755VZU;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OptimumSwiftUI/Info.plist;
@@ -755,14 +701,13 @@
 		};
 		D98B466126FBEDEE0003D5EF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6FEB04AF243541EAB17488CB /* Pods-OptimumSwiftUI.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jonzo Jimenez (8UM67QMULG)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 03;
 				DEVELOPMENT_ASSET_PATHS = "\"OptimumSwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = L6RJ755VZU;
 				ENABLE_PREVIEWS = YES;
@@ -935,6 +880,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D90B0DDB28F7807D00FDC85C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 		D9BC910B279D02060076DD7C /* XCRemoteSwiftPackageReference "iPhoneNumberField" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MojtabaHs/iPhoneNumberField.git";
@@ -946,6 +899,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D90B0DDC28F7807D00FDC85C /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D90B0DDB28F7807D00FDC85C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		D90B0DDE28F7807D00FDC85C /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D90B0DDB28F7807D00FDC85C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
 		D9BC910C279D02060076DD7C /* iPhoneNumberField */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D9BC910B279D02060076DD7C /* XCRemoteSwiftPackageReference "iPhoneNumberField" */;
